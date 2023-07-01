@@ -5,7 +5,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Entity
 @Table(name="Products")
@@ -31,10 +30,16 @@ public class Product {
     private String weight;
     private String dimensions;
     @Column(nullable = false)
-    private String category;
-    private String subcategory;
-
+    @Enumerated(EnumType.STRING)
+    private Category category;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SubCategory subcategory;
     private String variant;
+    private String imageFilePath;
+
+    public enum Category{Electronics, Clothing, Stationary}
+    public enum SubCategory{Mobile, Laptop, Earphones, Shirt}
 
     public Product() {
     }
@@ -127,19 +132,19 @@ public class Product {
         this.dimensions = dimensions;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public String getSubcategory() {
+    public SubCategory getSubcategory() {
         return subcategory;
     }
 
-    public void setSubcategory(String subcategory) {
+    public void setSubcategory(SubCategory subcategory) {
         this.subcategory = subcategory;
     }
 
@@ -149,5 +154,13 @@ public class Product {
 
     public void setVariant(String variant) {
         this.variant = variant;
+    }
+
+    public String getImageFilePath() {
+        return imageFilePath;
+    }
+
+    public void setImageFilePath(String imageFilePath) {
+        this.imageFilePath = imageFilePath;
     }
 }

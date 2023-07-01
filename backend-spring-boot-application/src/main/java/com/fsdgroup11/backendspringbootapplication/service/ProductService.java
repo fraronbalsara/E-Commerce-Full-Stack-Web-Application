@@ -9,7 +9,7 @@ public interface ProductService {
     public void updateProduct(Product product);
     public List<Product> getAllProducts();
     public Product getOneProduct(int product_id);
-    public List<Product> getAllByCategory(String category);
-    public List<Product> getAllBySubcategory(String subcategory);
+    public List<Product> getAllByCategory(Product.Category category);
+    public List<Product> getAllBySubcategory(Product.SubCategory subcategory);
     public void deleteProduct(int product_id);
 }

@@ -29,12 +29,12 @@ public class ProductServiceImplementation implements ProductService{
     }
 
     @Override
-    public List<Product> getAllByCategory(String category){
+    public List<Product> getAllByCategory(Product.Category category){
         return productRepository.findAllByCategory(category);
     }
 
     @Override
-    public List<Product> getAllBySubcategory(String subcategory){
+    public List<Product> getAllBySubcategory(Product.SubCategory subcategory){
         return productRepository.findAllBySubcategory(subcategory);
     }
 
