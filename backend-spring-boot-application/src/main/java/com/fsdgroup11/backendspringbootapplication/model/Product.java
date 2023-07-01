@@ -31,7 +31,9 @@ public class Product {
     private String weight;
     private String dimensions;
     @Column(nullable = false)
-    private List<String> categories;
+    private String category;
+    private String subcategory;
+
     private String variant;
 
     public Product() {
@@ -125,12 +127,20 @@ public class Product {
         this.dimensions = dimensions;
     }
 
-    public List<String> getCategories() {
-        return categories;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getSubcategory() {
+        return subcategory;
+    }
+
+    public void setSubcategory(String subcategory) {
+        this.subcategory = subcategory;
     }
 
     public String getVariant() {
