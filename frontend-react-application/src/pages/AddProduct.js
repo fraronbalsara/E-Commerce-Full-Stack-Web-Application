@@ -1,12 +1,16 @@
 import React from "react";
+import '../App.css'
 
 function AddProduct(){
     return(
         <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
             <div id="background-div" class="col-lg-6 text-left border border-primary rounded-4 border-2">
-                <div class="text-center px-5 pt-4 pb-2"><h2>Add New Product</h2></div>
+                <div class="text-center">
+                    <img class="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo"/>
+                </div>
+                <div class="text-center"><h2>Add New Product</h2></div>
                 <form>
-                    <div class="form-group row px-5 py-2">
+                    <div class="form-group row mt-2 px-5 py-2">
                         <label for="sku" class="col-sm-3 col-form-label">Sku</label>
                         <div class="col-sm-9">
                         <input type="text" class="form-control" id="sku" pattern="[a-zA-Z0-9]+" title="No spaces or special characters allowed." required></input>
@@ -87,7 +91,7 @@ function AddProduct(){
                         </div>
                     </div>
                     <div id="error" class="text-center px-5 py-2" hidden>!!! Inavlid Details !!!</div>
-                    <div class="text-center px-5 pt-2 pb-4"><button class="btn btn-primary" type="submit">Submit</button></div>
+                    <div class="text-center px-5 pt-2 pb-4"><button class="btn" type="submit">Submit</button></div>
                 </form>
             </div>
         </div>
