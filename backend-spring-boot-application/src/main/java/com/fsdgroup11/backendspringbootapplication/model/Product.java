@@ -12,19 +12,16 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int product_id;
-    @Column(unique = true, nullable = false)
-    private String sku;
     @Column(nullable = false)
     private String name;
     private String short_summary;
     private String description;
     @Column(nullable = false)
-    private String price;
+    private float price;
     @CreationTimestamp
     @Column(nullable = false)
     private Timestamp date_created;
     @UpdateTimestamp
-    @Column(nullable = false)
     private Timestamp date_modified;
     private int stock;
     private String weight;
@@ -38,8 +35,8 @@ public class Product {
     private String variant;
     private String imageFilePath;
 
-    public enum Category{Electronics, Clothing, Stationary}
-    public enum SubCategory{Mobile, Laptop, Earphones, Shirt}
+    public enum Category{Electronics, Clothing, Health, Stationary, Other}
+    public enum SubCategory{Mobile, Laptop, Earphones, Shirts, Trousers, Sunglasses, Probiotics, Cosmetics, Books, Paper, Ink, Other}
 
     public Product() {
     }
@@ -50,14 +47,6 @@ public class Product {
 
     public void setProduct_id(int product_id) {
         this.product_id = product_id;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
     }
 
     public String getName() {
@@ -84,12 +73,12 @@ public class Product {
         this.description = description;
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return price;
     }
 
     public void setPrice(float price) {
-        this.price = String.valueOf(price);
+        this.price = price;
     }
 
     public Timestamp getDate_created() {

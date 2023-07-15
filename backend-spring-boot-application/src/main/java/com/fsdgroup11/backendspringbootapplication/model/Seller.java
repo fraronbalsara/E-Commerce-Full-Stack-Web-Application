@@ -6,16 +6,18 @@ import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="Users")
-public class User {
+@Table(name="Sellers")
+public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
-    @Column(unique = true, nullable = false)
-    private String oauth;
+    private int seller_id;
+    @Column(nullable = false)
+    private String password;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -34,23 +36,26 @@ public class User {
     @Column(unique = true, nullable = false)
     private String mobile;
 
-    public User() {
+    public Seller() {
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getSeller_id() {
+        return seller_id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setSeller_id(int seller_id) {
+        this.seller_id = seller_id;
     }
 
-    public String getOauth() {
-        return oauth;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOauth(String oauth) {
-        this.oauth = oauth;
+    public void setPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        messageDigest.update(password.getBytes());
+        String hashed_password = new String(messageDigest.digest());
+        this.password = hashed_password;
     }
 
     public String getName() {

@@ -24,7 +24,7 @@ public class ProductController {
     @PutMapping("/update-product/{product_id}")
     public String update(@RequestBody Product product, @PathVariable int product_id){
         productService.updateProduct(product);
-        return "Product was updated Successfully.";
+        return "Product was updated successfully.";
     }
 
     @GetMapping("/list-products")

@@ -30,6 +30,20 @@ h2 {
   pointer-events: none;
 }
 
+.navbar {
+  background-color: #046380 !important;
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.nav-item {
+  width: 150px;
+  border-color: white;
+  border-style: groove;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
