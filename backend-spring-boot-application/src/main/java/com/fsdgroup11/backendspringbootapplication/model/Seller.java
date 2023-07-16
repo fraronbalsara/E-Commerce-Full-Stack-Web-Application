@@ -17,8 +17,6 @@ public class Seller {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int seller_id;
     @Column(nullable = false)
-    private String password;
-    @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String address;
@@ -45,17 +43,6 @@ public class Seller {
 
     public void setSeller_id(int seller_id) {
         this.seller_id = seller_id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        messageDigest.update(password.getBytes());
-        String hashed_password = new String(messageDigest.digest());
-        this.password = hashed_password;
     }
 
     public String getName() {

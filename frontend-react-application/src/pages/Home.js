@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Home = (props) => {
 
     const[products, setProducts] = useState([]);
     const[value, setValue] = useState();
-    const cats = ["Electronics", "Clothing", "Health", "Stationary", "Other"] 
-    const subcats = []
+    const cats = ["Electronics", "Clothing", "Health", "Stationary", "Other"];
     
+    function logout(){
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("type");
+        window.location.replace("/");
+    }
 
     function categoryfunc(category){
         setValue(category)
@@ -34,6 +38,32 @@ const Home = (props) => {
     } 
 
     useEffect(()=>{
+        
+        if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "seller"){
+            document.getElementById("customerButton").style.display = "none";
+            document.getElementById("sellerLoginListItem").style.display = "none";
+            document.getElementById("sellerSignupListItem").style.display = "none";
+            document.getElementById("addProductListItem").style.display = "block";
+            document.getElementById("sellerLogoutListItem").style.display = "block";
+        }
+        else if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "customer"){
+            document.getElementById("customerLoginListItem").style.display = "none";
+            document.getElementById("customerSignupListItem").style.display = "none";
+            document.getElementById("customerLogoutListItem").style.display = "block";
+            document.getElementById("sellerButton").style.display = "none";
+        }
+        else{
+            document.getElementById("addProductListItem").style.display = "none";
+            document.getElementById("customerButton").style.display = "block";
+            document.getElementById("customerLoginListItem").style.display = "block";
+            document.getElementById("customerSignupListItem").style.display = "block";
+            document.getElementById("customerLogoutListItem").style.display = "none";
+            document.getElementById("sellerButton").style.display = "block";
+            document.getElementById("sellerLoginListItem").style.display = "block";
+            document.getElementById("sellerSignupListItem").style.display = "block";
+            document.getElementById("sellerLogoutListItem").style.display = "none";
+            
+        }
         if(value===undefined || value==="All"){
             fetch("http://localhost:8080/product/list-products")
                 .then(res=>res.json())
@@ -75,16 +105,16 @@ const Home = (props) => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li className='text-center'>
-                                        <a className='dropdown-item' onClick={()=>categoryfunc("Electronics")}>All</a>
+                                        <Link className='dropdown-item' onClick={()=>categoryfunc("Electronics")}>All</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a className="dropdown-item" onClick={()=>subCategoryfunc("Mobile")}>Mobile</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Mobile")}>Mobile</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a className="dropdown-item" onClick={()=>subCategoryfunc("Laptop")}>Laptop</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Laptop")}>Laptop</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a className="dropdown-item" onClick={()=>subCategoryfunc("Earphones")}>Earphones</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Earphones")}>Earphones</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -94,17 +124,17 @@ const Home = (props) => {
                                     Clothing
                                 </Link>
                                 <ul className="dropdown-menu">
-                                <li className='text-center'>
-                                        <a className="dropdown-item" onClick={()=>categoryfunc("Clothing")}>All</a>
+                                    <li className='text-center'>
+                                        <Link className="dropdown-item" onClick={()=>categoryfunc("Clothing")}>All</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a onClick={()=>subCategoryfunc("Shirts")}>Shirts</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Shirts")}>Shirts</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a onClick={()=>subCategoryfunc("Trousers")}>Trousers</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Trousers")}>Trousers</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a onClick={()=>subCategoryfunc("Sunglasses")}>Sunglasses</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Sunglasses")}>Sunglasses</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -115,13 +145,13 @@ const Home = (props) => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li className='text-center'>
-                                        <a onClick={()=>categoryfunc("Health")}>All</a>
+                                        <Link className="dropdown-item" onClick={()=>categoryfunc("Health")}>All</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a onClick={()=>subCategoryfunc("Probiotics")}>Probiotics</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Probiotics")}>Probiotics</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a onClick={()=>subCategoryfunc("Cosmetics")}>Cosmetics</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Cosmetics")}>Cosmetics</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -132,28 +162,67 @@ const Home = (props) => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li className='text-center'>
-                                        <a onClick={()=>categoryfunc("Stationary")}>All</a>
+                                        <Link className="dropdown-item" onClick={()=>categoryfunc("Stationary")}>All</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a onClick={()=>subCategoryfunc("Books")}>Books</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Books")}>Books</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a onClick={()=>subCategoryfunc("Paper")}>Paper</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Paper")}>Paper</Link>
                                     </li>
                                     <li className='text-center'>
-                                        <a onClick={()=>subCategoryfunc("Ink")}>Ink</a>
+                                        <Link className="dropdown-item" onClick={()=>subCategoryfunc("Ink")}>Ink</Link>
                                     </li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
-                                <a onClick={()=>categoryfunc("Other")} className="nav-link">
+                                <Link onClick={()=>categoryfunc("Other")} className="nav-link">
                                     Other
-                                </a>
+                                </Link>
                             </li>
                             <li className="nav-item dropdown">
-                                <a onClick={()=>displayAll("All")} className="nav-link">
+                                <Link onClick={()=>displayAll("All")} className="nav-link">
                                     All
-                                </a>
+                                </Link>
+                            </li>
+                        </ul>
+                        <ul className='navbar-nav'>
+                            <li className="nav-item dropdown" id="customerButton">
+                                <Link className="nav-link dropdown-toggle" role="button"
+                                    data-bs-toggle="dropdown" arai-expanded="false">
+                                    Customer
+                                </Link>
+                                <ul className="dropdown-menu">
+                                    <li className='text-center' id='customerLoginListItem'>
+                                        <Link className="dropdown-item" to={"CustomerLogin"}>Customer Login</Link>
+                                    </li>
+                                    <li className='text-center' id='customerSignupListItem'>
+                                        <Link className='dropdown-item' to={"/CustomerSignup"}>Customer Signup</Link>
+                                    </li>
+                                    <li className='text-center' id='customerLogoutListItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' onClick={logout}>Logout</Link>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown" id="sellerButton">
+                                <Link className="nav-link dropdown-toggle" role="button"
+                                    data-bs-toggle="dropdown" arai-expanded="false">
+                                    Seller
+                                </Link>
+                                <ul className="dropdown-menu">
+                                    <li className='text-center' id='sellerLoginListItem'>
+                                        <Link className="dropdown-item" to={"SellerLogin"}>Seller Login</Link>
+                                    </li>
+                                    <li className='text-center' id='sellerSignupListItem'>
+                                        <Link className='dropdown-item' to={"/SellerSignup"}>Seller Signup</Link>
+                                    </li>
+                                    <li className='text-center' id='addProductListItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' to={"/AddProduct"}>Add Product</Link>
+                                    </li>
+                                    <li className='text-center' id='sellerLogoutListItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' onClick={logout}>Logout</Link>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -164,7 +233,7 @@ const Home = (props) => {
                 products.map(product=>(
                     <div className='row px-3 py-4 mb-1 mx-1' style={{borderStyle: "solid", borderColor: "#046380"}}>
                         <div className='col-4'>
-                            <img className='img-fluid' style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black"}}></img>
+                            <img className='img-fluid' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black"}}></img>
                         </div>
                         <div className='col mt-1'>
                             <h6>ID:            {product.product_id}</h6>

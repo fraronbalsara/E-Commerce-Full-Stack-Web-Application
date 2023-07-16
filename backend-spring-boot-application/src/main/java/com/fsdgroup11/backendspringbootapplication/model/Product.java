@@ -15,6 +15,7 @@ public class Product {
     @Column(nullable = false)
     private String name;
     private String short_summary;
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     @Column(nullable = false)
     private float price;

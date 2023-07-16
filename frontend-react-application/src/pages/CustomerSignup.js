@@ -30,6 +30,7 @@ function CustomerSignup(){
                     .then((response2)=>{
                         if(response2.status===200){
                             alert("Customer signup successful.");
+                            window.location.replace("/CustomerLogin");
                         }
                         else{
                             alert("Fatal error occured.")
@@ -91,7 +92,6 @@ function CustomerSignup(){
                         <textarea type="text" class="form-control" id="address" value={address} onChange={(e)=>setAddress(e.target.value)}></textarea>
                         </div>
                     </div>
-                    <div id="error" class="text-center px-5 py-2" hidden>!!! Inavlid Details !!!</div>
                     <div class="text-center px-5 pt-2 pb-4"><button class="btn" type="submit">Register</button></div>
                 </form>
             </div>

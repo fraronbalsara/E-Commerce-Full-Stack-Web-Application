@@ -14,6 +14,7 @@ function SellerSignup(){
         event.preventDefault();
         if(password === password2){
             const reqBody = {name, address, email, mobile}
+            console.log(reqBody);
             fetch("http://localhost:8080/seller/add-seller",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -29,7 +30,8 @@ function SellerSignup(){
                     })
                     .then((response2)=>{
                         if(response2.status===200){
-                            alert("Customer signup successful.");
+                            alert("Seller signup successful.");
+                            window.location.replace("/SellerLogin");
                         }
                         else{
                             alert("Fatal error occured.")
@@ -38,7 +40,7 @@ function SellerSignup(){
                 }
                 else if(response.status===500){
                     console.log(response);
-                    alert("Customer signup unsucessful.");
+                    alert("Seller signup unsucessful.");
                 }
             });
         }
@@ -91,7 +93,6 @@ function SellerSignup(){
                         <textarea type="text" class="form-control" id="address" value={address} onChange={(e)=>setAddress(e.target.value)}></textarea>
                         </div>
                     </div>
-                    <div id="error" class="text-center px-5 py-2" hidden>!!! Inavlid Details !!!</div>
                     <div class="text-center px-5 pt-2 pb-4"><button class="btn" type="submit">Register</button></div>
                 </form>
             </div>

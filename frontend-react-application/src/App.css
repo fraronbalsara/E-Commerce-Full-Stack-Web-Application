@@ -39,9 +39,13 @@ h2 {
 }
 
 .nav-item {
-  width: 150px;
+  width: 120px;
   border-color: white;
   border-style: groove;
+}
+
+.dropdown-item {
+  color: #046380 !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {

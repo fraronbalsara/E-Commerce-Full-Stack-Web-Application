@@ -170,7 +170,6 @@ function AddProduct(){
                             <input type="file" class="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg" onChange={(e) => setImageFilePath(e.target.files[0])}></input>
                         </div>
                     </div>
-                    <div id="error" class="text-center px-5 py-2" hidden>!!! Inavlid Details !!!</div>
                     <div class="text-center px-5 pt-2 pb-4"><button class="btn" type="submit">Submit</button></div>
                 </form>
             </div>
