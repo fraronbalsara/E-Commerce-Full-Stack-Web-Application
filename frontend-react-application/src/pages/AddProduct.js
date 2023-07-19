@@ -25,7 +25,7 @@ function AddProduct(){
 
     const addProduct = async (event) => {
         event.preventDefault();
-        const reqBody = {name, short_summary, description, price, stock, weight, dimensions, variant, imageFilePath, category, subcategory};
+        const reqBody = {name, short_summary, description, price, stock, weight, dimensions, variant, category, subcategory};
         fetch("http://localhost:8080/product/add-product",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -123,7 +123,7 @@ function AddProduct(){
                     <div class="form-group row px-5 py-2">
                         <label for="stock" class="col-sm-3 col-form-label">Stock</label>
                         <div class="col-sm-9">
-                            <input type="number" class="form-control" id="stock" min="0" max="10000000" value={stock} onChange={(e) => setStock(parseInt(e.target.value))}></input>
+                            <input type="number" class="form-control" id="stock" min="0" max="10000000" required value={stock} onChange={(e) => setStock(parseInt(e.target.value))}></input>
                         </div>
                     </div>
                     <div class="form-group row px-5 py-2">

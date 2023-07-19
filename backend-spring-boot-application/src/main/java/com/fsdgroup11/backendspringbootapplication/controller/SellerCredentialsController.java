@@ -34,18 +34,19 @@ public class SellerCredentialsController {
         return sellerCredentialsService.getByEmail(email);
     }
 
-    @PostMapping("/seller-login/{email}")
-    public ResponseEntity sellerLogin(@RequestBody String password, @PathVariable String email) throws NoSuchAlgorithmException {
-        SellerCredentials sellerCredentials = new SellerCredentials();
-        sellerCredentials = sellerCredentialsService.getByEmail(email);
-        String database_password = sellerCredentials.getPassword();
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        messageDigest.update(password.getBytes());
-        String hashed_password = new String(messageDigest.digest());
-        if(hashed_password.equals(database_password)){
-            return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/seller-login")
+    public ResponseEntity sellerLogin(@RequestBody SellerCredentials sellerCredentials) {
+        SellerCredentials databaseSellerCredentials = sellerCredentialsService.getByEmail(sellerCredentials.getEmail());
+        if(databaseSellerCredentials != null) {
+            String database_password = databaseSellerCredentials.getPassword();
+            String password = sellerCredentials.getPassword();
+            if (password.equals(database_password)) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
         }
-        else {
+        else{
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }

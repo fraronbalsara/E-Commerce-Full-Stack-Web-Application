@@ -24,6 +24,7 @@ public class Product {
     private Timestamp date_created;
     @UpdateTimestamp
     private Timestamp date_modified;
+    @Column(nullable = false)
     private int stock;
     private String weight;
     private String dimensions;

@@ -85,7 +85,7 @@ const Home = (props) => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg justify-content-center mb-4">
+            <nav className="navbar navbar-expand-lg justify-content-center mb-4 border rounded-5">
                 <div className="container">
                     <button
                         className="navbar-toggler"
@@ -231,9 +231,9 @@ const Home = (props) => {
 
             {
                 products.map(product=>(
-                    <div className='row px-3 py-4 mb-1 mx-1' style={{borderStyle: "solid", borderColor: "#046380"}}>
+                    <div className='row px-3 py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
                         <div className='col-4'>
-                            <img className='img-fluid' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black"}}></img>
+                            <img className='img-fluid' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
                         </div>
                         <div className='col mt-1'>
                             <h6>ID:            {product.product_id}</h6>

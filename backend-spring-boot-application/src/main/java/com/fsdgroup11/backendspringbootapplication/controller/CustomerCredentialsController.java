@@ -34,21 +34,19 @@ public class CustomerCredentialsController {
         return customerCredentialsService.getByEmail(email);
     }
 
-    @PostMapping("/customer-login/{email}")
-    public ResponseEntity customerLogin(@RequestBody String password, @PathVariable String email) throws NoSuchAlgorithmException {
-        CustomerCredentials customerCredentials = new CustomerCredentials();
-        customerCredentials = customerCredentialsService.getByEmail(email);
-        String database_password = customerCredentials.getPassword();
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        messageDigest.update(password.getBytes());
-        String hashed_password = new String(messageDigest.digest());
-	System.out.println(password);
-	System.out.println(hashed_password);
-	System.out.println(database_password);
-        if(hashed_password.equals(database_password)){
-            return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/customer-login")
+    public ResponseEntity customerLogin(@RequestBody CustomerCredentials customerCredentials) {
+        CustomerCredentials databaseCustomerCredentials = customerCredentialsService.getByEmail(customerCredentials.getEmail());
+        if(databaseCustomerCredentials != null) {
+            String database_password = databaseCustomerCredentials.getPassword();
+            String password = customerCredentials.getPassword();
+            if (password.equals(database_password)) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
         }
-        else {
+        else{
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }

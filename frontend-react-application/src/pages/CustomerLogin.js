@@ -9,13 +9,12 @@ function CustomerLogin(){
     
     const authenticate = async (event) => {
         event.preventDefault();
-        const reqBody = password;
-        console.log("Authentication check: ", reqBody);
-        let url = "http://localhost:8080/customer_credentials/customer-login/" + email;
+        const reqBody = {email, password};
+        let url = "http://localhost:8080/customer_credentials/customer-login";
         fetch(url,{
             method:"POST",
-            headers:{"Content-Type":"text/plain"},
-            body:password
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(reqBody)
             }).then((response)=>{
                 if(response.status===200){
                     alert("Login Successful");

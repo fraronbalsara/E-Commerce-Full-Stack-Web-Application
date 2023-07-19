@@ -14,17 +14,23 @@ react-router-dom 6.14.1
 # Launch/Run Instructions
 
 ### `create database emart_database;`
-Run the following command in MySQL to create a local database for our application. SpringBoot Models will later setup the tables for us on running it.
+Ensure MySQL is running on default port 3306. Run the above command in MySQL to create a local database for our application. Spring Boot Models will later setup the tables for us on running the application.
+OR
+### `C:\ProgramData\MySQL\MySQL Server 8.0\Data`
+Place the emart_database folder provided in the repository in the location mentioned above. Replace `MySQL Server 8.0` with your version of MySQL. Also Keep in mind `ProgramData` is a hidden file and you will need to make hidden files visible. Check out the section on how to view [hidden files](https://www.wired.com/story/how-to-find-hidden-files-windows-macos-android-ios/).
+
+### `spring.datasource.password=root`
+Replace `root` in the above line with your database password for the root user in `C:\Users\bfrar\OneDrive\Desktop\E-Commerce Full Stack Web Application\backend-spring-boot-application\src\main\resources\application.properties`.
 
 ### `mvn spring-boot:run`
-Runs Spring Boot at [http://localhost:8080]
+Navigate to E-Commerce Full Stack Web Application\backend-spring-boot-application and run the above command to start Spring Boot application at [http://localhost:8080]
 Swagger Documentation for database schema, table layouts and all API calls is available at [http://localhost:8080/swagger-ui/index.html] after running the SpringBoot application.
 
 ### `npm start`
-Runs the react app in development mode at [http://localhost:3000]. If it does not launch automatically in a new browser window, you can open a new browser window and access it at [http://localhost:3000].
+Navigate to E-Commerce Full Stack Web Application\frontend-react-application and run the above command to start the react app in development mode at [http://localhost:3000]. If it does not launch automatically in a new browser window, you can open a new browser window and access it at [http://localhost:3000].
 
 ### `npm test`
-Launches the test runner in the interactive watch mode. Check out the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Navigate to E-Commerce Full Stack Web Application\frontend-react-application and run the above command to launch the test runner in the interactive watch mode. Check out the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
-Builds the app for production to the `build` folder. It will correctly bundle the React app in production mode and optimize the build for the best performance.
+Navigate to E-Commerce Full Stack Web Application\frontend-react-application and run the above command to build the app for production to the `build` folder. It will correctly bundle the React app in production mode and optimize the build for the best performance.

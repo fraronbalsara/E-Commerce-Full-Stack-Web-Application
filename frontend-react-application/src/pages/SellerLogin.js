@@ -9,11 +9,12 @@ function SellerLogin(){
     
     const authenticate = async (event) => {
         event.preventDefault();
-        let url = "http://localhost:8080/seller_credentials/seller-login/" + email;
+        const reqBody = {email, password};
+        let url = "http://localhost:8080/seller_credentials/seller-login";
         fetch(url,{
             method:"POST",
-            headers:{"Content-Type":"text/plain"},
-            body:password
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(reqBody)
             }).then((response)=>{
                 if(response.status===200){
                     alert("Login Successful");
