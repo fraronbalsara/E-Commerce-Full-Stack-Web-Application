@@ -1,6 +1,7 @@
 package com.fsdgroup11.backendspringbootapplication.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -36,6 +37,9 @@ public class Product {
     private SubCategory subcategory;
     private String variant;
     private String imageFilePath;
+    @Email(message = "Invalid email")
+    @Column(nullable = false)
+    private String sellerEmail;
 
     public enum Category{Electronics, Clothing, Health, Stationary, Other}
     public enum SubCategory{Mobile, Laptop, Earphones, Shirts, Trousers, Sunglasses, Probiotics, Cosmetics, Books, Paper, Ink, Other}
@@ -153,5 +157,13 @@ public class Product {
 
     public void setImageFilePath(String imageFilePath) {
         this.imageFilePath = imageFilePath;
+    }
+
+    public String getSellerEmail() {
+        return sellerEmail;
+    }
+
+    public void setSellerEmail(String sellerEmail) {
+        this.sellerEmail = sellerEmail;
     }
 }

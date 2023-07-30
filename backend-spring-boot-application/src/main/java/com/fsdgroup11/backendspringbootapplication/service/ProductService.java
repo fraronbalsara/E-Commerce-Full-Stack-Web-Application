@@ -11,5 +11,6 @@ public interface ProductService {
     public Product getOneProduct(int product_id);
     public List<Product> getAllByCategory(Product.Category category);
     public List<Product> getAllBySubcategory(Product.SubCategory subcategory);
+    public List<Product> getAllBySellerEmail(String sellerEmail);
     public void deleteProduct(int product_id);
 }

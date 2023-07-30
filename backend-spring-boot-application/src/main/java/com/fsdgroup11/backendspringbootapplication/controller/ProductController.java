@@ -32,6 +32,11 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/list-product/{product_id}")
+    public Product listOne(@PathVariable int product_id){
+        return productService.getOneProduct(product_id);
+    }
+
     @GetMapping("/list-products-by-category/{category}")
     public List<Product> listAllByCategory(@PathVariable Product.Category category) {
         return productService.getAllByCategory(category);
@@ -42,9 +47,9 @@ public class ProductController {
         return productService.getAllBySubcategory(subcategory);
     }
 
-    @GetMapping("/list-product/{product_id}")
-    public Product listOne(@PathVariable int product_id){
-        return productService.getOneProduct(product_id);
+    @GetMapping("list-products-by-sellerEmail/{sellerEmail}")
+    public List<Product> listAllBySellerEmail(@PathVariable String sellerEmail){
+        return productService.getAllBySellerEmail(sellerEmail);
     }
 
     @DeleteMapping("/delete-product/{product_id}")

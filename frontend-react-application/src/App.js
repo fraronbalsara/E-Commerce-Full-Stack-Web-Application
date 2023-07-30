@@ -6,7 +6,8 @@ import CustomerSignup from './pages/CustomerSignup';
 import SellerSignup from './pages/SellerSignup';
 import CustomerLogin from './pages/CustomerLogin';
 import SellerLogin from './pages/SellerLogin';
-
+import MyProducts from './pages/MyProducts';
+import ModifyProduct from './pages/ModifyProduct';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -18,6 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>}></Route>
             <Route path="/AddProduct" element={<AddProduct/>}></Route>
+            <Route path="/MyProducts" element={<MyProducts/>}></Route>
+            <Route path="/MyProducts/ModifyProduct/:id" element={<ModifyProduct/>}></Route>
             <Route path="/CustomerSignup" element={<CustomerSignup/>}></Route>
             <Route path="/SellerSignup" element={<SellerSignup/>}></Route>
             <Route path="/CustomerLogin" element={<CustomerLogin/>}></Route>

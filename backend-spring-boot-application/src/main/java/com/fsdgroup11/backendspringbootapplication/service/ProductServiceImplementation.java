@@ -29,6 +29,11 @@ public class ProductServiceImplementation implements ProductService{
     }
 
     @Override
+    public Product getOneProduct(int product_id){
+        return productRepository.findById(product_id).get();
+    }
+
+    @Override
     public List<Product> getAllByCategory(Product.Category category){
         return productRepository.findAllByCategory(category);
     }
@@ -39,8 +44,8 @@ public class ProductServiceImplementation implements ProductService{
     }
 
     @Override
-    public Product getOneProduct(int product_id){
-        return productRepository.findById(product_id).get();
+    public List<Product> getAllBySellerEmail(String sellerEmail){
+        return productRepository.findAllBySellerEmail(sellerEmail);
     }
 
     @Override

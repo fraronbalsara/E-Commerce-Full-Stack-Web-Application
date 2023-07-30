@@ -44,6 +44,7 @@ const Home = (props) => {
             document.getElementById("sellerLoginListItem").style.display = "none";
             document.getElementById("sellerSignupListItem").style.display = "none";
             document.getElementById("addProductListItem").style.display = "block";
+            document.getElementById("myProductsListItem").style.display = "block";
             document.getElementById("sellerLogoutListItem").style.display = "block";
         }
         else if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "customer"){
@@ -53,7 +54,6 @@ const Home = (props) => {
             document.getElementById("sellerButton").style.display = "none";
         }
         else{
-            document.getElementById("addProductListItem").style.display = "none";
             document.getElementById("customerButton").style.display = "block";
             document.getElementById("customerLoginListItem").style.display = "block";
             document.getElementById("customerSignupListItem").style.display = "block";
@@ -62,7 +62,8 @@ const Home = (props) => {
             document.getElementById("sellerLoginListItem").style.display = "block";
             document.getElementById("sellerSignupListItem").style.display = "block";
             document.getElementById("sellerLogoutListItem").style.display = "none";
-            
+            document.getElementById("addProductListItem").style.display = "none";
+            document.getElementById("myProductsListItem").style.display = "none";
         }
         if(value===undefined || value==="All"){
             fetch("http://localhost:8080/product/list-products")
@@ -194,7 +195,7 @@ const Home = (props) => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li className='text-center' id='customerLoginListItem'>
-                                        <Link className="dropdown-item" to={"CustomerLogin"}>Customer Login</Link>
+                                        <Link className="dropdown-item" to={"/CustomerLogin"}>Customer Login</Link>
                                     </li>
                                     <li className='text-center' id='customerSignupListItem'>
                                         <Link className='dropdown-item' to={"/CustomerSignup"}>Customer Signup</Link>
@@ -211,13 +212,16 @@ const Home = (props) => {
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li className='text-center' id='sellerLoginListItem'>
-                                        <Link className="dropdown-item" to={"SellerLogin"}>Seller Login</Link>
+                                        <Link className="dropdown-item" to={"/SellerLogin"}>Seller Login</Link>
                                     </li>
                                     <li className='text-center' id='sellerSignupListItem'>
                                         <Link className='dropdown-item' to={"/SellerSignup"}>Seller Signup</Link>
                                     </li>
                                     <li className='text-center' id='addProductListItem' style={{display: "none"}}>
                                         <Link className='dropdown-item' to={"/AddProduct"}>Add Product</Link>
+                                    </li>
+                                    <li className='text-center' id='myProductsListItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' to={"/MyProducts"}>My Products</Link>
                                     </li>
                                     <li className='text-center' id='sellerLogoutListItem' style={{display: "none"}}>
                                         <Link className='dropdown-item' onClick={logout}>Logout</Link>
@@ -233,7 +237,7 @@ const Home = (props) => {
                 products.map(product=>(
                     <div className='row px-3 py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
                         <div className='col-4'>
-                            <img className='img-fluid' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
+                            <img className='img-fluid border rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
                         </div>
                         <div className='col mt-1'>
                             <h6>ID:            {product.product_id}</h6>

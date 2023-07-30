@@ -10,9 +10,10 @@ function AddProduct(){
     const [weight, setWeight] = useState('');
     const [dimensions, setDimensions] = useState('');
     const [variant, setVariant] = useState('');
-    const [imageFilePath, setImageFilePath] = useState('');
+    const [imageFilePath, setImageFilePath] = useState('/ProductImages/defaultProductImage.jpg');
     const [category, setCategory] = useState('Electronics');
     const [subcategory, setSubcategory] = useState('Mobile');
+    const [sellerEmail, setSellerEmail] =useState(sessionStorage.getItem('email'));
 
     let options = null;
     let categorySelected = null;
@@ -25,7 +26,9 @@ function AddProduct(){
 
     const addProduct = async (event) => {
         event.preventDefault();
-        const reqBody = {name, short_summary, description, price, stock, weight, dimensions, variant, category, subcategory};
+        console.log(imageFilePath);
+        const reqBody = {name, short_summary, description, price, stock, weight, dimensions, variant, category, subcategory, sellerEmail, imageFilePath};
+        console.log(reqBody);
         fetch("http://localhost:8080/product/add-product",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -33,13 +36,14 @@ function AddProduct(){
             }).then((response)=>{
                 if(response.status===200){
                     alert("Product added successfully");
+                    window.location.replace("/");
                 }
                 else{
                     console.log(response);
                     alert("Failed to add product.");
                 }
             });
-        if(imageFilePath){
+        if(imageFilePath.name){
             const formData = new FormData();
             formData.append('myFile', imageFilePath, imageFilePath.name);
             console.log(imageFilePath);
