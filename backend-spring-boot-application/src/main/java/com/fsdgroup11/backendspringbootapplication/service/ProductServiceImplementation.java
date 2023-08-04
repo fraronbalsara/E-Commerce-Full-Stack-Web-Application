@@ -52,4 +52,9 @@ public class ProductServiceImplementation implements ProductService{
     public void deleteProduct(int product_id){
         productRepository.deleteById(product_id);
     }
+
+    @Override
+    public void deleteBySellerEmail(String sellerEmail) {
+        productRepository.deleteBySellerEmail(sellerEmail);
+    }
 }

@@ -33,20 +33,20 @@ function CustomerLogin(){
     }
 
     return(
-        <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
-            <div id="background-div" class="col-lg-5 text-center border rounded-4 border-2">
-                <img class="img-fluid mt-4" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo"/>
-                <h2 class="mt-2 mb-3"> Customer Login</h2>
+        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
+            <div id="background-div" className="col-lg-5 text-center border rounded-4 border-2">
+                <img className="img-fluid mt-4" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo"/>
+                <h2 className="mt-2 mb-3">Customer Login</h2>
                 <form onSubmit={authenticate}>
-                    <div class="form-class mx-4">
-                        <input class="form-control" type="email" id="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} required></input>
+                    <div className="form-class mx-4">
+                        <input className="form-control" type="email" id="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} required></input>
                     </div>
                     <br></br>
-                    <div class="form-class mx-4">
-                        <input class="form-control" type="password" id="password" minLength="8" maxLength="20" placeholder="Password" autoComplete="off" value={password} onChange={(e)=>setPassword(e.target.value)} required></input>
+                    <div className="form-class mx-4">
+                        <input className="form-control" type="password" id="password" minLength="8" maxLength="20" placeholder="Password" autoComplete="off" value={password} onChange={(e)=>setPassword(e.target.value)} required></input>
                     </div>
                     <br></br>
-                    <button class="btn mt-4 mb-4" type="submit">Login</button>
+                    <button className="btn mt-4 mb-4" type="submit">Login</button>
                 </form>
             </div>
         </div>

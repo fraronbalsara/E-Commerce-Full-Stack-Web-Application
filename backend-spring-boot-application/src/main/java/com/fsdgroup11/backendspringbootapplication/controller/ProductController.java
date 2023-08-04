@@ -3,6 +3,7 @@ package com.fsdgroup11.backendspringbootapplication.controller;
 import com.fsdgroup11.backendspringbootapplication.model.Product;
 import com.fsdgroup11.backendspringbootapplication.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,5 +57,12 @@ public class ProductController {
     public String deleteProduct(@PathVariable int product_id){
         productService.deleteProduct(product_id);
         return "Product was deleted successfully.";
+    }
+
+    @Transactional
+    @DeleteMapping("/delete-products/{sellerEmail}")
+    public String deleteProductsBySellerEmail(@PathVariable String sellerEmail){
+        productService.deleteBySellerEmail(sellerEmail);
+        return "Products were deleted successfully.";
     }
 }

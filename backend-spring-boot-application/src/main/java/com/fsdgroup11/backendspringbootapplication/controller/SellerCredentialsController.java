@@ -5,10 +5,8 @@ import com.fsdgroup11.backendspringbootapplication.service.SellerCredentialsServ
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping("/seller_credentials")
@@ -49,5 +47,12 @@ public class SellerCredentialsController {
         else{
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+
+    @Transactional
+    @DeleteMapping("/delete-seller_credentials/{email}")
+    public String deleteCustomer(@PathVariable String email){
+        sellerCredentialsService.deleteByEmail(email);
+        return "Seller credentials were deleted successfully.";
     }
 }

@@ -38,9 +38,17 @@ const Home = (props) => {
     } 
 
     useEffect(()=>{
-        
-        if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "seller"){
+        if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "admin"){
+            document.getElementById("listUsersListItem").style.display = "block";
+            document.getElementById("adminLogoutListItem").style.display = "block";
+            document.getElementById("addNewAdminListItem").style.display = "block";
+            document.getElementById("adminLoginListItem").style.display = "none";
+            document.getElementById("sellerButton").style.display = "none";
             document.getElementById("customerButton").style.display = "none";
+        }
+        else if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "seller"){
+            document.getElementById("customerButton").style.display = "none";
+            document.getElementById("adminButton").style.display = "none";
             document.getElementById("sellerLoginListItem").style.display = "none";
             document.getElementById("sellerSignupListItem").style.display = "none";
             document.getElementById("addProductListItem").style.display = "block";
@@ -48,10 +56,11 @@ const Home = (props) => {
             document.getElementById("sellerLogoutListItem").style.display = "block";
         }
         else if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "customer"){
+            document.getElementById("sellerButton").style.display = "none";
+            document.getElementById("adminButton").style.display = "none";
             document.getElementById("customerLoginListItem").style.display = "none";
             document.getElementById("customerSignupListItem").style.display = "none";
             document.getElementById("customerLogoutListItem").style.display = "block";
-            document.getElementById("sellerButton").style.display = "none";
         }
         else{
             document.getElementById("customerButton").style.display = "block";
@@ -64,6 +73,10 @@ const Home = (props) => {
             document.getElementById("sellerLogoutListItem").style.display = "none";
             document.getElementById("addProductListItem").style.display = "none";
             document.getElementById("myProductsListItem").style.display = "none";
+            document.getElementById("adminLogoutListItem").style.display = "none";
+            document.getElementById("listUsersListItem").style.display = "none";
+            document.getElementById("addNewAdminListItem").style.display = "none";
+            document.getElementById("adminLoginListItem").style.display = "block";
         }
         if(value===undefined || value==="All"){
             fetch("http://localhost:8080/product/list-products")
@@ -86,7 +99,7 @@ const Home = (props) => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg justify-content-center mb-4 border rounded-5">
+            <nav className="navbar navbar-expand-sm justify-content-center mb-4 border rounded-5">
                 <div className="container">
                     <button
                         className="navbar-toggler"
@@ -96,12 +109,12 @@ const Home = (props) => {
                     >
                         <span className="navbar-toggler-icon" />
                     </button>
-                    <div className="collapse navbar-collapse justify-content-around" id="navbarNav">
+                    <div className="collapse navbar-collapse justify-content-around" id="navbarNav" style={{height: "50px"}}>
                         <ul className="navbar-nav">
 
                             <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" role="button"
-                                    data-bs-toggle="dropdown" arai-expanded="false">
+                                <Link className="dropdown-toggle btn mx-1 my-1" role="button"
+                                    data-bs-toggle="dropdown" arai-expanded="false" style={{color: "#046380", backgroundColor: "white", width: "115px"}}>
                                     Electronics
                                 </Link>
                                 <ul className="dropdown-menu">
@@ -120,8 +133,8 @@ const Home = (props) => {
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" role="button"
-                                    data-bs-toggle="dropdown" arai-expanded="false">
+                                <Link className="dropdown-toggle btn mx-1 my-1" role="button"
+                                    data-bs-toggle="dropdown" arai-expanded="false" style={{color: "#046380", backgroundColor: "white", width: "115px"}}>
                                     Clothing
                                 </Link>
                                 <ul className="dropdown-menu">
@@ -140,8 +153,8 @@ const Home = (props) => {
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" role="button"
-                                    data-bs-toggle="dropdown" arai-expanded="false">
+                                <Link className="dropdown-toggle btn mx-1 my-1" role="button"
+                                    data-bs-toggle="dropdown" arai-expanded="false" style={{color: "#046380", backgroundColor: "white", width: "115px"}}>
                                     Health
                                 </Link>
                                 <ul className="dropdown-menu">
@@ -157,8 +170,8 @@ const Home = (props) => {
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" role="button"
-                                    data-bs-toggle="dropdown" arai-expanded="false">
+                                <Link className="dropdown-toggle btn mx-1 my-1" role="button"
+                                    data-bs-toggle="dropdown" arai-expanded="false" style={{color: "#046380", backgroundColor: "white", width: "115px"}}>
                                     Stationary
                                 </Link>
                                 <ul className="dropdown-menu">
@@ -177,19 +190,19 @@ const Home = (props) => {
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
-                                <Link onClick={()=>categoryfunc("Other")} className="nav-link">
+                                <Link onClick={()=>categoryfunc("Other")} className="btn mx-1 my-1" style={{color: "#046380", backgroundColor: "white", width: "115px"}}>
                                     Other
                                 </Link>
                             </li>
                             <li className="nav-item dropdown">
-                                <Link onClick={()=>displayAll("All")} className="nav-link">
+                                <Link onClick={()=>displayAll("All")} className="btn mx-1 my-1" style={{color: "#046380", backgroundColor: "white", width: "115px"}}>
                                     All
                                 </Link>
                             </li>
                         </ul>
                         <ul className='navbar-nav'>
                             <li className="nav-item dropdown" id="customerButton">
-                                <Link className="nav-link dropdown-toggle" role="button"
+                                <Link className="nav-link dropdown-toggle mx-1 my-1" role="button"
                                     data-bs-toggle="dropdown" arai-expanded="false">
                                     Customer
                                 </Link>
@@ -206,7 +219,7 @@ const Home = (props) => {
                                 </ul>
                             </li>
                             <li className="nav-item dropdown" id="sellerButton">
-                                <Link className="nav-link dropdown-toggle" role="button"
+                                <Link className="nav-link dropdown-toggle mx-1 my-1" role="button"
                                     data-bs-toggle="dropdown" arai-expanded="false">
                                     Seller
                                 </Link>
@@ -224,6 +237,26 @@ const Home = (props) => {
                                         <Link className='dropdown-item' to={"/MyProducts"}>My Products</Link>
                                     </li>
                                     <li className='text-center' id='sellerLogoutListItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' onClick={logout}>Logout</Link>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li className="nav-item dropdown" id="adminButton">
+                                <Link className="nav-link dropdown-toggle mx-1 my-1" role="button"
+                                    data-bs-toggle="dropdown" arai-expanded="false">
+                                    Admin
+                                </Link>
+                                <ul className="dropdown-menu">
+                                    <li className='text-center' id='adminLoginListItem'>
+                                        <Link className="dropdown-item" to={"/AdminLogin"}>Admin Login</Link>
+                                    </li>
+                                    <li className='text-center' id='listUsersListItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' to={"/ListUsers"}>List Users</Link>
+                                    </li>
+                                    <li className='text-center' id='addNewAdminListItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' to={"/AddNewAdmin"}>Add New Admin</Link>
+                                    </li>
+                                    <li className='text-center' id='adminLogoutListItem' style={{display: "none"}}>
                                         <Link className='dropdown-item' onClick={logout}>Logout</Link>
                                     </li>
                                 </ul>
@@ -251,6 +284,7 @@ const Home = (props) => {
                             <h6>Category:      {product.category}</h6>
                             <h6>Sub-category:  {product.subcategory}</h6>
                             <h6>Variant:       {product.variant}</h6>
+                            <h6>Seller Email:  {product.sellerEmail}</h6>
                         </div>
                     </div>
                 ))

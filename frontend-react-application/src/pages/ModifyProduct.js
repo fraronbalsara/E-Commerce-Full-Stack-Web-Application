@@ -60,65 +60,65 @@ function ModifyProduct(props){
 
     
     return(
-        <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
-            <div id="background-div" class="col-lg-6 text-left border border-primary rounded-4 border-2">
-                <div class="text-center">
-                    <img class="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo" />
+        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
+            <div id="background-div" className="col-lg-6 text-left border border-primary rounded-4 border-2">
+                <div className="text-center">
+                    <img className="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo" />
                 </div>
-                <div class="text-center"><h2>Modify Product</h2></div>
+                <div className="text-center"><h2>Modify Product</h2></div>
                 <form onSubmit={modifyProduct}>
-                    <div class="form-group row mt-2 px-5 py-2">
-                        <label for="productName" class="col-sm-3 col-form-label">Product Name</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="productName" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" title="No numbers or special characters allowed." required defaultValue={product.name} onChange={(e) => name = e.target.value}></input>
+                    <div className="form-group row mt-2 px-5 py-2">
+                        <label for="productName" className="col-sm-3 col-form-label">Product Name</label>
+                        <div className="col-sm-9">
+                            <input type="text" className="form-control" id="productName" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" title="No numbers or special characters allowed." required defaultValue={product.name} onChange={(e) => name = e.target.value}></input>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="shortSummary" class="col-sm-3 col-form-label">Short Summary</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="shortSummary" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.short_summary} onChange={(e) => short_summary = e.target.value}></input>
+                    <div className="form-group row px-5 py-2">
+                        <label for="shortSummary" className="col-sm-3 col-form-label">Short Summary</label>
+                        <div className="col-sm-9">
+                            <input type="text" className="form-control" id="shortSummary" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.short_summary} onChange={(e) => short_summary = e.target.value}></input>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="description" class="col-sm-3 col-form-label">Description</label>
-                        <div class="col-sm-9">
-                            <textarea type="text" class="form-control" id="description" defaultValue={product.description} onChange={(e) => description = e.target.value}></textarea>
+                    <div className="form-group row px-5 py-2">
+                        <label for="description" className="col-sm-3 col-form-label">Description</label>
+                        <div className="col-sm-9">
+                            <textarea type="text" className="form-control" id="description" defaultValue={product.description} onChange={(e) => description = e.target.value}></textarea>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="price" class="col-sm-3 col-form-label">Price</label>
-                        <div class="col-sm-9">
-                            <input type="number" class="form-control" id="price" min="0" max="10000000" step=".01" required defaultValue={product.price} onChange={(e) => price = parseFloat(e.target.value)}></input>
+                    <div className="form-group row px-5 py-2">
+                        <label for="price" className="col-sm-3 col-form-label">Price</label>
+                        <div className="col-sm-9">
+                            <input type="number" className="form-control" id="price" min="0" max="10000000" step=".01" required defaultValue={product.price} onChange={(e) => price = parseFloat(e.target.value)}></input>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="stock" class="col-sm-3 col-form-label">Stock</label>
-                        <div class="col-sm-9">
-                            <input type="number" class="form-control" id="stock" min="0" max="10000000" required defaultValue={product.stock} onChange={(e) => stock = parseInt(e.target.value)}></input>
+                    <div className="form-group row px-5 py-2">
+                        <label for="stock" className="col-sm-3 col-form-label">Stock</label>
+                        <div className="col-sm-9">
+                            <input type="number" className="form-control" id="stock" min="0" max="10000000" required defaultValue={product.stock} onChange={(e) => stock = parseInt(e.target.value)}></input>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="weight" class="col-sm-3 col-form-label">Weight</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="weight" pattern="[a-zA-Z0-9.\s]*$" title="No special characters allowed." defaultValue={product.weight} onChange={(e) => weight = e.target.value}></input>
+                    <div className="form-group row px-5 py-2">
+                        <label for="weight" className="col-sm-3 col-form-label">Weight</label>
+                        <div className="col-sm-9">
+                            <input type="text" className="form-control" id="weight" pattern="[a-zA-Z0-9.\s]*$" title="No special characters allowed." defaultValue={product.weight} onChange={(e) => weight = e.target.value}></input>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="dimensions" class="col-sm-3 col-form-label">Dimensions</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="dimensions" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.dimensions} onChange={(e) => dimensions = e.target.value}></input>
+                    <div className="form-group row px-5 py-2">
+                        <label for="dimensions" className="col-sm-3 col-form-label">Dimensions</label>
+                        <div className="col-sm-9">
+                            <input type="text" className="form-control" id="dimensions" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.dimensions} onChange={(e) => dimensions = e.target.value}></input>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="variant" class="col-sm-3 col-form-label">Variant</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="variant" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.variant} onChange={(e) => variant = e.target.value}></input>
+                    <div className="form-group row px-5 py-2">
+                        <label for="variant" className="col-sm-3 col-form-label">Variant</label>
+                        <div className="col-sm-9">
+                            <input type="text" className="form-control" id="variant" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.variant} onChange={(e) => variant = e.target.value}></input>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="category" class="col-sm-3 col-form-label">Category</label>
-                        <div class="col-sm-9">
-                            <select class="form-select" id="category" disabled value={product.category}>
+                    <div className="form-group row px-5 py-2">
+                        <label for="category" className="col-sm-3 col-form-label">Category</label>
+                        <div className="col-sm-9">
+                            <select className="form-select" id="category" disabled value={product.category}>
                                 <option>Electronics</option>
                                 <option>Clothing</option>
                                 <option>Health</option>
@@ -127,10 +127,10 @@ function ModifyProduct(props){
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="subCategory" class="col-sm-3 col-form-label">Sub-Category</label>
-                        <div class="col-sm-9">
-                            <select class="form-select" id="subCategory" disabled value={product.subcategory}>
+                    <div className="form-group row px-5 py-2">
+                        <label for="subCategory" className="col-sm-3 col-form-label">Sub-Category</label>
+                        <div className="col-sm-9">
+                            <select className="form-select" id="subCategory" disabled value={product.subcategory}>
                                 <option>Mobile</option>
                                 <option>Laptop</option>
                                 <option>Earphones</option>
@@ -146,13 +146,13 @@ function ModifyProduct(props){
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row px-5 py-2">
-                        <label for="imageFile" class="col-sm-3 col-form-label">Product Image</label>
-                        <div class="col-sm-9">
-                            <input type="file" class="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg" onChange={(e) => imageFilePath = e.target.files[0]}></input>
+                    <div className="form-group row px-5 py-2">
+                        <label for="imageFile" className="col-sm-3 col-form-label">Product Image</label>
+                        <div className="col-sm-9">
+                            <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg" onChange={(e) => imageFilePath = e.target.files[0]}></input>
                         </div>
                     </div>
-                    <div class="text-center px-5 pt-2 pb-4"><button class="btn" type="submit">Submit</button></div>
+                    <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit">Submit</button></div>
                 </form>
             </div>
         </div>

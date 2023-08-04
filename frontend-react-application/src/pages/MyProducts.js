@@ -57,7 +57,7 @@ const MyProducts = (props) => {
             </nav>
             {
                 products.map(product=>(
-                    <div className='row py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
+                    <div className='container row py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
                         <div className='col-4 text-center'>
                             <img className='img-fluid border rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
                             <div>
@@ -77,6 +77,7 @@ const MyProducts = (props) => {
                             <h6>Category:      {product.category}</h6>
                             <h6>Sub-category:  {product.subcategory}</h6>
                             <h6>Variant:       {product.variant}</h6>
+                            <h6>Seller Email:  {product.sellerEmail}</h6>
                         </div>
                     </div>
                 ))

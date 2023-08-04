@@ -21,4 +21,8 @@ public class SellerCredentialsServiceImplementation implements SellerCredentials
     public SellerCredentials getByEmail(String email) {
         return sellerCredentialsRepository.findByEmail(email);
     }
+    @Override
+    public void deleteByEmail(String email) {
+        sellerCredentialsRepository.deleteByEmail(email);
+    }
 }

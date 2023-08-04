@@ -21,4 +21,8 @@ public class CustomerCredentialsServiceImplementation implements CustomerCredent
     public CustomerCredentials getByEmail(String email) {
         return customerCredentialsRepository.findByEmail(email);
     }
+    @Override
+    public void deleteByEmail(String email) {
+        customerCredentialsRepository.deleteByEmail(email);
+    }
 }

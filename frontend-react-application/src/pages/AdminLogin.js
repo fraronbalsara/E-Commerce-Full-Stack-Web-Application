@@ -2,7 +2,7 @@ import React from "react";
 import '../App.css'
 import { useState } from "react";
 
-function SellerLogin(){
+function AdminLogin(){
 
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -10,7 +10,7 @@ function SellerLogin(){
     const authenticate = async (event) => {
         event.preventDefault();
         const reqBody = {email, password};
-        let url = "http://localhost:8080/seller_credentials/seller-login";
+        let url = "http://localhost:8080/admin_credentials/admin-login";
         fetch(url,{
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -19,7 +19,7 @@ function SellerLogin(){
                 if(response.status===200){
                     alert("Login Successful");
                     sessionStorage.setItem("email",email);
-                    sessionStorage.setItem("type","seller");
+                    sessionStorage.setItem("type","admin");
                     window.location.replace("/");
                 }
                 else if(response.status===406){
@@ -36,7 +36,7 @@ function SellerLogin(){
         <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
             <div id="background-div" className="col-lg-5 text-center border rounded-4 border-2">
                 <img className="img-fluid mt-4" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo"/>
-                <h2 className="mt-2 mb-3">Seller Login</h2>
+                <h2 className="mt-2 mb-3">Admin Login</h2>
                 <form onSubmit={authenticate}>
                     <div className="form-class mx-4">
                         <input className="form-control" type="email" id="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} required></input>
@@ -52,4 +52,4 @@ function SellerLogin(){
         </div>
     );
 }
-export default SellerLogin;
+export default AdminLogin;

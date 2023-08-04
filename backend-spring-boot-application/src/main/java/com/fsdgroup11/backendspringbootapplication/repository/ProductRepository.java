@@ -11,4 +11,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByCategory(Product.Category category);
     List<Product> findAllBySubcategory(Product.SubCategory subcategory);
     List<Product> findAllBySellerEmail(String sellerEmail);
+    void deleteBySellerEmail(String sellerEmail);
 }
