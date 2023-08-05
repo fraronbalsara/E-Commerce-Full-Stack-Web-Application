@@ -23,14 +23,14 @@ Place the emart_database folder provided in the repository in the location menti
 Replace `root` in the above line with your database password for the root user in `C:\Users\bfrar\OneDrive\Desktop\E-Commerce Full Stack Web Application\backend-spring-boot-application\src\main\resources\application.properties`.
 
 ### `mvn spring-boot:run`
-Navigate to E-Commerce Full Stack Web Application\backend-spring-boot-application and run the above command to start Spring Boot application at [http://localhost:8080]
+Navigate to `E-Commerce Full Stack Web Application\backend-spring-boot-application` and run the above command to start Spring Boot application at [http://localhost:8080]
 Swagger Documentation for database schema, table layouts and all API calls is available at [http://localhost:8080/swagger-ui/index.html] after running the SpringBoot application.
 
 ### `npm start`
-Navigate to E-Commerce Full Stack Web Application\frontend-react-application and run the above command to start the react app in development mode at [http://localhost:3000]. If it does not launch automatically in a new browser window, you can open a new browser window and access it at [http://localhost:3000].
+Navigate to `E-Commerce Full Stack Web Application\frontend-react-application` and run the above command to start the react app in development mode at [http://localhost:3000]. If it does not launch automatically in a new browser window, you can open a new browser window and access it at [http://localhost:3000].
 
 ### `npm test`
-Navigate to E-Commerce Full Stack Web Application\frontend-react-application and run the above command to launch the test runner in the interactive watch mode. Check out the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Navigate to `E-Commerce Full Stack Web Application\frontend-react-application` and run the above command to launch the test runner in the interactive watch mode. Check out the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
-Navigate to E-Commerce Full Stack Web Application\frontend-react-application and run the above command to build the app for production to the `build` folder. It will correctly bundle the React app in production mode and optimize the build for the best performance.
+Navigate to `E-Commerce Full Stack Web Application\frontend-react-application` and run the above command to build the app for production to the `build` folder. It will correctly bundle the React app in production mode and optimize the build for the best performance.
