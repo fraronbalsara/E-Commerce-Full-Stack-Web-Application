@@ -3,6 +3,7 @@ package com.fsdgroup11.backendspringbootapplication.controller;
 import com.fsdgroup11.backendspringbootapplication.model.Cart;
 import com.fsdgroup11.backendspringbootapplication.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,5 +29,12 @@ public class CartController {
     @GetMapping("/get-cart/{email}")
     public Cart getCart(@PathVariable String email){
         return cartService.getByEmail(email);
+    }
+
+    @Transactional
+    @DeleteMapping("/delete-cart/{email}")
+    public String deleteCartByEmail(@PathVariable String email){
+        cartService.deleteByEmail(email);
+        return "Cart deleted successfully.";
     }
 }

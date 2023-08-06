@@ -2,6 +2,8 @@ package com.fsdgroup11.backendspringbootapplication.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 
@@ -14,8 +16,6 @@ public class Cart{
     @Email(message = "Invalid email")
     @Column(unique = true, nullable = false, updatable = false)
     private String email;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Product> products;
 
     public Cart() {
     }
@@ -34,13 +34,5 @@ public class Cart{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 }

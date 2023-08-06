@@ -6,4 +6,5 @@ public interface CartService {
     public void addCart(Cart cart);
     public void updateCart(Cart cart);
     public Cart getByEmail(String email);
+    public void deleteByEmail(String email);
 }

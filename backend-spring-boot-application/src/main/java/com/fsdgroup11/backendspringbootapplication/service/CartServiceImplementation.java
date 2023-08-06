@@ -25,4 +25,9 @@ public class CartServiceImplementation implements CartService{
     public Cart getByEmail(String email) {
         return cartRepository.findByEmail(email);
     }
+
+    @Override
+    public void deleteByEmail(String email) {
+        cartRepository.deleteByEmail(email);
+    }
 }
