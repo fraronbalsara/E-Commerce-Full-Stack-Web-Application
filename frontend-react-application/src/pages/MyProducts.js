@@ -62,7 +62,7 @@ const MyProducts = (props) => {
                         <div className='col-4 text-center'>
                             <img className='img-fluid border rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
                             <div>
-                                <Link className='btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} to={{pathname: "/Seller/MyProducts/ModifyProduct/" + product.product_id, state: {Products: products}}}>Modify</Link>
+                                <Link className='btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} to={{pathname: "/Seller/MyProducts/ModifyProduct/" + product.product_id}}>Modify</Link>
                                 <button className='btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} onClick={()=>deleteFunc(product.product_id)}>Delete</button>
                             </div>
                         </div>

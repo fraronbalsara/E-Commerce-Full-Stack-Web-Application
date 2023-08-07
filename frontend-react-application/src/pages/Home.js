@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = (props) => {
@@ -8,7 +8,7 @@ const Home = (props) => {
     const cats = ["Electronics", "Clothing", "Health", "Stationary", "Other"];
 
     const [cart, setCart] = useState([]);
-    
+
     function logout(){
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("type");
@@ -17,28 +17,133 @@ const Home = (props) => {
 
     function categoryfunc(category){
         setValue(category)
-        let url = "http://localhost:8080/product/list-products-by-category/" + category
+        let url = "http://localhost:8080/product/list-products-by-category/" + category;
         fetch(url)
             .then(res=>res.json())
             .then((result)=>{setProducts(result);})
     
     }
+
     function subCategoryfunc(subCategory){
         setValue(subCategory)
-        let url = "http://localhost:8080/product/list-products-by-subcategory/" + subCategory
-        fetch(url)
-            .then(res=>res.json())
-            .then((result)=>{setProducts(result);})
+        let url = "http://localhost:8080/product/list-products-by-subcategory/" + subCategory;
+            fetch(url)
+                .then(res=>res.json())
+                .then((result)=>{setProducts(result);})
     }
 
     function displayAll(all){
         setValue(all)
         fetch("http://localhost:8080/product/list-products")
-            .then(res=>res.json())
-            .then((result)=>{setProducts(result);})
-    } 
+                .then(res=>res.json())
+                .then((result)=>{setProducts(result);})
+    }
 
-    useEffect(()=>{
+    function add(product){
+        let quantity = prompt("Enter quantity (Min: 1; Max: 5):");
+        if(quantity >= 1 && quantity <=5){
+            let subTotal = product.price * quantity;
+            let email = sessionStorage.getItem("email");
+            const reqBody = {email, quantity, subTotal, product};
+            console.log(reqBody)
+            let url = "http://localhost:8080/cartItem/add-cartItem";
+            fetch(url,{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(reqBody)
+                }).then((response)=>{
+                    if(response.status===200){
+			            fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
+                            .then(res=>res.json())
+                            .then((result)=>{setCart(result);})
+                            .catch((err)=>{
+                                    console.log(err);
+                            })
+                        alert("Product added to cart.");
+                    }
+                    else{
+                        console.log(response);
+                        alert("Failed to update cart item.");
+                    }
+                }).catch((err)=>{
+                    console.log(err);
+                })
+        }
+        else if(quantity === null){
+            ;
+        }
+        else{
+            alert("Min Quantity: 1; Max Quantity: 5")
+            console.log(quantity);
+        }
+    }
+
+    function remove(product){
+        if(window.confirm("Are you sure you want to remove this from your cart?")){
+            cart.forEach(function(cartItem){
+                if(cartItem.product.product_id === product.product_id){
+                    let url = "http://localhost:8080/cartItem/delete-cartItem/" + cartItem.cartItem_id;
+                    fetch(url, {method: 'DELETE'})
+                        .then((response)=>{
+                            if(response.status===200){
+                                fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
+                                        .then(res=>res.json())
+                                        .then((result)=>{setCart(result);})
+                                        .catch((err)=>{
+                                                console.log(err);
+                                        })
+                                    alert("Product was removed from cart.");
+                            }
+                            else{
+                                console.log(response);
+                            }
+                            })
+                        .catch((err)=>{
+                            alert("Error! Failed to remove.");
+                            console.log(err);
+                        })
+                }
+            })
+        }
+    }
+
+    function modify(product){
+        let quantity = prompt("Enter quantity (Min: 1; Max: 5):");
+        if(quantity >= 1 && quantity <=5){
+            cart.forEach(function(cartItem){
+                if(cartItem.product.product_id === product.product_id){
+                    let subTotal = product.price * quantity;
+                    let email = sessionStorage.getItem("email");
+                    let cartItem_id = cartItem.cartItem_id;
+                    const reqBody = {cartItem_id, email, quantity, subTotal, product};
+                    let url = "http://localhost:8080/cartItem/update-cartItem/" + cartItem_id;
+                    fetch(url,{
+                        method:"PUT",
+                        headers:{"Content-Type":"application/json"},
+                        body:JSON.stringify(reqBody)
+                        }).then((response)=>{
+                            if(response.status===200){
+				                fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
+                			    .then(res=>res.json())
+                                .then((result)=>{setCart(result);})
+                                .catch((err)=>{
+                                        console.log(err);
+                                })
+                                alert("Product was updated in cart.");
+                            }
+                            else{
+                                console.log(response);
+                                alert("Failed to update cart item.");
+                            }
+                        }).catch((err)=>{
+                            console.log(err);
+                        })
+                }
+            })
+        }
+    }
+
+    useLayoutEffect(()=>{
         if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "admin"){
             document.getElementById("listUsersListItem").style.display = "block";
             document.getElementById("adminLogoutListItem").style.display = "block";
@@ -64,8 +169,28 @@ const Home = (props) => {
             document.getElementById("customerLogoutListItem").style.display = "block";
             document.getElementById("cartButton").style.display = "block";
             products.forEach(function(product){
-                document.getElementById("add_" + product.product_id).style.display = "block";
+		let flag = false;
+		cart.forEach(function(cartItem){
+			if(product.product_id === cartItem.product.product_id){
+				flag = true;
+			}
+		})
+		if(!flag){
+                	document.getElementById("add_" + product.product_id).style.display = "inline";
+			document.getElementById("remove_" + product.product_id).style.display = "none";
+			document.getElementById("modify_" + product.product_id).style.display = "none";
+		}
+		else{
+			document.getElementById("add_" + product.product_id).style.display = "none";
+                	document.getElementById("remove_" + product.product_id).style.display = "inline";
+			document.getElementById("modify_" + product.product_id).style.display = "inline";
+		}
             })
+        }
+    },[products, cart])
+
+    useEffect(()=>{
+        if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "customer"){
             fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
                 .then(res=>res.json())
                 .then((result)=>{setCart(result);})
@@ -74,8 +199,8 @@ const Home = (props) => {
                 })
         }
         console.log(cart);
-        
-        if(value===undefined || value==="All"){
+
+	if(value===undefined || value==="All"){
             fetch("http://localhost:8080/product/list-products")
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
@@ -92,9 +217,7 @@ const Home = (props) => {
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
         }
-    },[products])
-
-
+    },[])
 
     return (
         <div>
@@ -274,12 +397,13 @@ const Home = (props) => {
 
             {
                 products.map(product=>(
-                    <div className='container row px-3 pt-4 py-3 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
-                        <div className='col-4'>
+                    <div className='container row px-3 pt-4 py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
+                        <div className='col-4 text-center'>
                             <img className='img-fluid border rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
-                            <div className='text-center'>
-                                <button className='btn mt-3 mx-3' id={'add_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} >Add to Cart</button><br></br>
-                                <button className='btn mt-3 mx-3' id={'remove_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} >Remove from Cart</button>
+                            <div>
+                                <button className='btn mt-3 mx-3' id={'add_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} onClick={()=>add(product)} >Add to Cart</button>
+                                <button className='btn mt-3 mx-3' id={'modify_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} onClick={()=>modify(product)} >Modify</button>
+				<button className='btn mt-3 mx-3' id={'remove_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}}  onClick={()=>remove(product)} >Remove</button>
                             </div>               
                         </div>
                         <div className='col mt-1'>

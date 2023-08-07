@@ -5,7 +5,7 @@ import '../App.css'
 function ModifyProduct(props){
     {/*extracting product_id from path*/}
     let id = useLocation().pathname;
-    id = id.split("/")[3]
+    id = id.split("/")[4]
     const product_id = parseInt(id);
 
     const [product, setProduct] = useState('');

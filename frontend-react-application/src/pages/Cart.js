@@ -19,7 +19,7 @@ const Cart = (props) => {
     console.log(cart);
 
     function remove(id){
-        if(window.confirm("Are you sure you want to delete this from your cart?")){
+        if(window.confirm("Are you sure you want to remove this from your cart?")){
             let url = "http://localhost:8080/cartItem/delete-cartItem/" + id;
             fetch(url, {method: 'DELETE'})
                 .then(()=>{
@@ -36,23 +36,23 @@ const Cart = (props) => {
         let quantity = prompt("Enter quantity (Min: 1; Max: 5):");
         if(quantity >= 1 && quantity <=5){
             let subTotal = price * quantity;
-        const reqBody = {cartItem_id, email, quantity, subTotal, product};
-        let url = "http://localhost:8080/cartItem/update-cartItem/" + cartItem_id;
-        fetch(url,{
-            method:"PUT",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify(reqBody)
-            }).then((response)=>{
-                if(response.status===200){
-                    window.location.reload();
-                }
-                else{
-                    console.log(response);
-                    alert("Failed to update cart item.");
-                }
-            }).catch((err)=>{
-                console.log(err);
-            })
+            const reqBody = {cartItem_id, email, quantity, subTotal, product};
+            let url = "http://localhost:8080/cartItem/update-cartItem/" + cartItem_id;
+            fetch(url,{
+                method:"PUT",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify(reqBody)
+                }).then((response)=>{
+                    if(response.status===200){
+                        window.location.reload();
+                    }
+                    else{
+                        console.log(response);
+                        alert("Failed to update cart item.");
+                    }
+                }).catch((err)=>{
+                    console.log(err);
+                })
         }
         else if(quantity === null){
             ;
