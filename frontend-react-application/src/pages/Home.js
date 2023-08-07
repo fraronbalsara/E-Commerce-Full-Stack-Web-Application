@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = (props) => {
@@ -6,6 +6,8 @@ const Home = (props) => {
     const[products, setProducts] = useState([]);
     const[value, setValue] = useState();
     const cats = ["Electronics", "Clothing", "Health", "Stationary", "Other"];
+
+    const [cart, setCart] = useState([]);
     
     function logout(){
         sessionStorage.removeItem("email");
@@ -19,7 +21,6 @@ const Home = (props) => {
         fetch(url)
             .then(res=>res.json())
             .then((result)=>{setProducts(result);})
-        console.log(value);
     
     }
     function subCategoryfunc(subCategory){
@@ -61,23 +62,19 @@ const Home = (props) => {
             document.getElementById("customerLoginListItem").style.display = "none";
             document.getElementById("customerSignupListItem").style.display = "none";
             document.getElementById("customerLogoutListItem").style.display = "block";
+            document.getElementById("cartButton").style.display = "block";
+            products.forEach(function(product){
+                document.getElementById("add_" + product.product_id).style.display = "block";
+            })
+            fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
+                .then(res=>res.json())
+                .then((result)=>{setCart(result);})
+                .catch((err)=>{
+                    console.log(err);
+                })
         }
-        else{
-            document.getElementById("customerButton").style.display = "block";
-            document.getElementById("customerLoginListItem").style.display = "block";
-            document.getElementById("customerSignupListItem").style.display = "block";
-            document.getElementById("customerLogoutListItem").style.display = "none";
-            document.getElementById("sellerButton").style.display = "block";
-            document.getElementById("sellerLoginListItem").style.display = "block";
-            document.getElementById("sellerSignupListItem").style.display = "block";
-            document.getElementById("sellerLogoutListItem").style.display = "none";
-            document.getElementById("addProductListItem").style.display = "none";
-            document.getElementById("myProductsListItem").style.display = "none";
-            document.getElementById("adminLogoutListItem").style.display = "none";
-            document.getElementById("listUsersListItem").style.display = "none";
-            document.getElementById("addNewAdminListItem").style.display = "none";
-            document.getElementById("adminLoginListItem").style.display = "block";
-        }
+        console.log(cart);
+        
         if(value===undefined || value==="All"){
             fetch("http://localhost:8080/product/list-products")
                 .then(res=>res.json())
@@ -95,7 +92,9 @@ const Home = (props) => {
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
         }
-    },[])
+    },[products])
+
+
 
     return (
         <div>
@@ -200,7 +199,7 @@ const Home = (props) => {
                                 </Link>
                             </li>
                         </ul>
-                        <ul className='navbar-nav'>
+                        <ul className='navbar-nav ms-auto'>
                             <li className="nav-item dropdown" id="customerButton">
                                 <Link className="nav-link dropdown-toggle mx-1 my-1" role="button"
                                     data-bs-toggle="dropdown" arai-expanded="false">
@@ -231,10 +230,10 @@ const Home = (props) => {
                                         <Link className='dropdown-item' to={"/SellerSignup"}>Seller Signup</Link>
                                     </li>
                                     <li className='text-center' id='addProductListItem' style={{display: "none"}}>
-                                        <Link className='dropdown-item' to={"/AddProduct"}>Add Product</Link>
+                                        <Link className='dropdown-item' to={"/Seller/AddProduct"}>Add Product</Link>
                                     </li>
                                     <li className='text-center' id='myProductsListItem' style={{display: "none"}}>
-                                        <Link className='dropdown-item' to={"/MyProducts"}>My Products</Link>
+                                        <Link className='dropdown-item' to={"/Seller/MyProducts"}>My Products</Link>
                                     </li>
                                     <li className='text-center' id='sellerLogoutListItem' style={{display: "none"}}>
                                         <Link className='dropdown-item' onClick={logout}>Logout</Link>
@@ -251,15 +250,22 @@ const Home = (props) => {
                                         <Link className="dropdown-item" to={"/AdminLogin"}>Admin Login</Link>
                                     </li>
                                     <li className='text-center' id='listUsersListItem' style={{display: "none"}}>
-                                        <Link className='dropdown-item' to={"/ListUsers"}>List Users</Link>
+                                        <Link className='dropdown-item' to={"/Admin/ListUsers"}>List Users</Link>
                                     </li>
                                     <li className='text-center' id='addNewAdminListItem' style={{display: "none"}}>
-                                        <Link className='dropdown-item' to={"/AddNewAdmin"}>Add New Admin</Link>
+                                        <Link className='dropdown-item' to={"/Admin/AddNewAdmin"}>Add New Admin</Link>
                                     </li>
                                     <li className='text-center' id='adminLogoutListItem' style={{display: "none"}}>
                                         <Link className='dropdown-item' onClick={logout}>Logout</Link>
                                     </li>
                                 </ul>
+                            </li>
+                        </ul>
+                        <ul className='navbar-nav'>
+                            <li className="nav-item" id="cartButton" style={{display: "none"}}>
+                                <Link className="btn mx-1 my-1" role="button" to={"/Customer/Cart"}>
+                                    <img src="/cart-icon.png" style={{height: "35px", width: "35px"}}></img>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -268,16 +274,20 @@ const Home = (props) => {
 
             {
                 products.map(product=>(
-                    <div className='row px-3 py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
+                    <div className='container row px-3 pt-4 py-3 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
                         <div className='col-4'>
                             <img className='img-fluid border rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
+                            <div className='text-center'>
+                                <button className='btn mt-3 mx-3' id={'add_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} >Add to Cart</button><br></br>
+                                <button className='btn mt-3 mx-3' id={'remove_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} >Remove from Cart</button>
+                            </div>               
                         </div>
                         <div className='col mt-1'>
                             <h6>ID:            {product.product_id}</h6>
                             <h6>Name:          {product.name}</h6>
                             <h6>Short Summary: {product.short_summary}</h6>
                             <h6>Description:   {product.description}</h6>
-                            <h6>Price:         {product.price}</h6>
+                            <h6>Price:  &#8377;{product.price}</h6>
                             <h6>Stock:         {product.stock}</h6>
                             <h6>Weight:        {product.weight}</h6>
                             <h6>Dimensions:    {product.dimensions}</h6>

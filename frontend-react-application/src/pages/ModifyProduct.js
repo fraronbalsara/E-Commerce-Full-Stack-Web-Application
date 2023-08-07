@@ -47,7 +47,7 @@ function ModifyProduct(props){
             }).then((response)=>{
                 if(response.status===200){
                     alert("Product modified successfully");
-                    window.location.replace("/MyProducts");
+                    window.location.replace("/Seller/MyProducts");
                 }
                 else{
                     console.log(response);

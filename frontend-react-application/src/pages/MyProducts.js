@@ -22,6 +22,7 @@ const MyProducts = (props) => {
                     window.location.reload();
                 })
                 .catch((err)=>{
+                    alert("Error! Failed to delete product.")
                     console.log(err);
                 })
         }
@@ -61,8 +62,8 @@ const MyProducts = (props) => {
                         <div className='col-4 text-center'>
                             <img className='img-fluid border rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
                             <div>
-                                <Link className='btn btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} to={{pathname: "/MyProducts/ModifyProduct/" + product.product_id, state: {Products: products}}}>Modify</Link>
-                                <button className='btn btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} onClick={()=>deleteFunc(product.product_id)}>Delete</button>
+                                <Link className='btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} to={{pathname: "/Seller/MyProducts/ModifyProduct/" + product.product_id, state: {Products: products}}}>Modify</Link>
+                                <button className='btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} onClick={()=>deleteFunc(product.product_id)}>Delete</button>
                             </div>
                         </div>
                         <div className='col mt-1'>
@@ -70,7 +71,7 @@ const MyProducts = (props) => {
                             <h6>Name:          {product.name}</h6>
                             <h6>Short Summary: {product.short_summary}</h6>
                             <h6>Description:   {product.description}</h6>
-                            <h6>Price:         {product.price}</h6>
+                            <h6>Price:  &#8377;{product.price}</h6>
                             <h6>Stock:         {product.stock}</h6>
                             <h6>Weight:        {product.weight}</h6>
                             <h6>Dimensions:    {product.dimensions}</h6>
