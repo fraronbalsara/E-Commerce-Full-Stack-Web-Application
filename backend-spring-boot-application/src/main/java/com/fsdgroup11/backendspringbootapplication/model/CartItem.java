@@ -16,12 +16,12 @@ public class CartItem {
     private String email;
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn
+    @JoinColumn(nullable = false)
     private Product product;
     @Column(nullable = false)
     private int quantity;
     @Column(nullable = false)
-    private int subTotal;
+    private float subTotal;
 
     public CartItem() {
     }
@@ -58,11 +58,11 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public int getSubTotal() {
+    public float getSubTotal() {
         return subTotal;
     }
 
-    public void setSubTotal(int subTotal) {
+    public void setSubTotal(float subTotal) {
         this.subTotal = subTotal;
     }
 }

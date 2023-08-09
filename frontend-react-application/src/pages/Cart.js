@@ -16,8 +16,6 @@ const Cart = (props) => {
             .then((result)=>{setCart(result);})
     },[])
 
-    console.log(cart);
-
     function remove(id){
         if(window.confirm("Are you sure you want to remove this from your cart?")){
             let url = "http://localhost:8080/cartItem/delete-cartItem/" + id;
@@ -60,6 +58,15 @@ const Cart = (props) => {
         else{
             alert("Min Quantity: 1; Max Quantity: 5")
             console.log(quantity);
+        }
+    }
+
+    function checkout(){
+        if(total>0){
+            window.location.assign("/Customer/Checkout");
+        }
+        else{
+            alert("Cart is empty.")
         }
     }
 
@@ -126,7 +133,7 @@ const Cart = (props) => {
                     </tbody>
                 </table>
 
-                <button className='btn mt-3'>Proceed with checkout</button>
+                <button className='btn mt-3' onClick={checkout}>Proceed with checkout</button>
             </div>
         </div>
     );

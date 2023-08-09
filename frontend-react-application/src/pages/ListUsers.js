@@ -105,7 +105,7 @@ const ListUsers = (props) => {
                             <h6>Account Last Modified: {customer.date_modified}</h6>
                         </div>
                         <div>
-                            <button className='btn btn mt-3 mx-3' style={{color: "black", backgroundColor: "red"}} onClick={()=>deleteCustomerFunc(customer.customer_id, customer.email)}>Delete</button>
+                            <button className='btn btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} onClick={()=>deleteCustomerFunc(customer.customer_id, customer.email)}>Delete</button>
                         </div>
                     </div>
                 ))
@@ -124,7 +124,7 @@ const ListUsers = (props) => {
                             <h6>Account Last Modified: {seller.date_modified}</h6>
                         </div>
                         <div>
-                            <button className='btn btn mt-3 mx-3' style={{color: "black", backgroundColor: "red"}} onClick={()=>deleteSellerFunc(seller.seller_id, seller.email)}>Delete</button>
+                            <button className='btn btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} onClick={()=>deleteSellerFunc(seller.seller_id, seller.email)}>Delete</button>
                         </div>
                     </div>
                 ))

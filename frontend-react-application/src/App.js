@@ -12,6 +12,7 @@ import AddProduct from './pages/AddProduct';
 import MyProducts from './pages/MyProducts';
 import ModifyProduct from './pages/ModifyProduct';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/Seller/MyProducts" element={<MyProducts/>}></Route>
             <Route path="/Seller/MyProducts/ModifyProduct/:id" element={<ModifyProduct/>}></Route>
             <Route path="/Customer/Cart" element={<Cart/>}></Route>
+	    <Route path="/Customer/Checkout" element={<Checkout/>}></Route>
           </Routes>
           </div>
         </div>

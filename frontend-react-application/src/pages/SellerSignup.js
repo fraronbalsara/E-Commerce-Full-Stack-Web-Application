@@ -90,7 +90,7 @@ function SellerSignup(){
                     <div className="form-group row px-5 py-2">
                         <label for="address" className="col-sm-3 col-form-label">Address</label>
                         <div className="col-sm-9">
-                        <textarea type="text" className="form-control" id="address" value={address} onChange={(e)=>setAddress(e.target.value)}></textarea>
+                        <textarea type="text" className="form-control" id="address" maxLength="200" value={address} onChange={(e)=>setAddress(e.target.value)} required></textarea>
                         </div>
                     </div>
                     <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit">Register</button></div>
