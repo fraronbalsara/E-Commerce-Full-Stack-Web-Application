@@ -171,7 +171,7 @@ function AddProduct(){
                     <div className="form-group row px-5 py-2">
                         <label for="imageFile" className="col-sm-3 col-form-label">Product Image</label>
                         <div className="col-sm-9">
-                            <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg" onChange={(e) => setImageFilePath(e.target.files[0])}></input>
+                            <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg"></input>
                         </div>
                     </div>
                     <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit">Submit</button></div>

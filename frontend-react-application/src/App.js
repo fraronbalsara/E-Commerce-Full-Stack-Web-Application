@@ -8,11 +8,13 @@ import CustomerLogin from './pages/CustomerLogin';
 import AdminLogin from './pages/AdminLogin';
 import AddNewAdmin from './pages/AddNewAdmin';
 import ListUsers from './pages/ListUsers';
+import AllOrders from './pages/AllOrders';
 import AddProduct from './pages/AddProduct';
 import MyProducts from './pages/MyProducts';
 import ModifyProduct from './pages/ModifyProduct';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import MyOrders from './pages/MyOrders';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -30,11 +32,13 @@ function App() {
             <Route path="/AdminLogin" element={<AdminLogin/>}></Route>
             <Route path="/Admin/AddNewAdmin" element={<AddNewAdmin/>}></Route>
             <Route path="/Admin/ListUsers" element={<ListUsers/>}></Route>
+            <Route path="/Admin/AllOrders" element={<AllOrders/>}></Route>
             <Route path="/Seller/AddProduct" element={<AddProduct/>}></Route>
             <Route path="/Seller/MyProducts" element={<MyProducts/>}></Route>
             <Route path="/Seller/MyProducts/ModifyProduct/:id" element={<ModifyProduct/>}></Route>
             <Route path="/Customer/Cart" element={<Cart/>}></Route>
-	    <Route path="/Customer/Checkout" element={<Checkout/>}></Route>
+	          <Route path="/Customer/Checkout" element={<Checkout/>}></Route>
+            <Route path="/Customer/MyOrders" element={<MyOrders/>}></Route>
           </Routes>
           </div>
         </div>

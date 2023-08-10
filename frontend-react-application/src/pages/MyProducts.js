@@ -11,6 +11,7 @@ const MyProducts = (props) => {
         fetch(url)
             .then(res=>res.json())
             .then((result)=>{setProducts(result);})
+            .catch((err)=>{console.log(err);})
     },[])
 
     function deleteFunc(product_id){

@@ -21,7 +21,9 @@ const Home = (props) => {
         fetch(url)
             .then(res=>res.json())
             .then((result)=>{setProducts(result);})
-    
+            .catch((err)=>{
+                console.log(err);
+            })
     }
 
     function subCategoryfunc(subCategory){
@@ -30,6 +32,9 @@ const Home = (props) => {
             fetch(url)
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
+                .catch((err)=>{
+                    console.log(err);
+                })
     }
 
     function displayAll(all){
@@ -37,6 +42,9 @@ const Home = (props) => {
         fetch("http://localhost:8080/product/list-products")
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
+                .catch((err)=>{
+                    console.log(err);
+                })
     }
 
     function add(product){
@@ -148,6 +156,7 @@ const Home = (props) => {
             document.getElementById("listUsersListItem").style.display = "block";
             document.getElementById("adminLogoutListItem").style.display = "block";
             document.getElementById("addNewAdminListItem").style.display = "block";
+            document.getElementById("listAllOrdersListItem").style.display = "block";
             document.getElementById("adminLoginListItem").style.display = "none";
             document.getElementById("sellerButton").style.display = "none";
             document.getElementById("customerButton").style.display = "none";
@@ -167,6 +176,7 @@ const Home = (props) => {
             document.getElementById("customerLoginListItem").style.display = "none";
             document.getElementById("customerSignupListItem").style.display = "none";
             document.getElementById("customerLogoutListItem").style.display = "block";
+            document.getElementById("customerMyOrdersItem").style.display = "block";
             document.getElementById("cartButton").style.display = "block";
             products.forEach(function(product){
 		let flag = false;
@@ -176,13 +186,13 @@ const Home = (props) => {
 			}
 		})
 		if(!flag){
-                	document.getElementById("add_" + product.product_id).style.display = "inline";
+            document.getElementById("add_" + product.product_id).style.display = "inline";
 			document.getElementById("remove_" + product.product_id).style.display = "none";
 			document.getElementById("modify_" + product.product_id).style.display = "none";
 		}
 		else{
 			document.getElementById("add_" + product.product_id).style.display = "none";
-                	document.getElementById("remove_" + product.product_id).style.display = "inline";
+            document.getElementById("remove_" + product.product_id).style.display = "inline";
 			document.getElementById("modify_" + product.product_id).style.display = "inline";
 		}
             })
@@ -204,18 +214,27 @@ const Home = (props) => {
             fetch("http://localhost:8080/product/list-products")
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
+                .catch((err)=>{
+                    console.log(err);
+                })
         }
         else if(cats.includes(value)){
             let url = "http://localhost:8080/product/list-products-by-category/" + value
             fetch(url)
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
+                .catch((err)=>{
+                    console.log(err);
+                })
         }
         else{
             let url = "http://localhost:8080/product/list-products-by-subcategory/" + value
             fetch(url)
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
+                .catch((err)=>{
+                    console.log(err);
+                })
         }
     },[])
 
@@ -335,6 +354,9 @@ const Home = (props) => {
                                     <li className='text-center' id='customerSignupListItem'>
                                         <Link className='dropdown-item' to={"/CustomerSignup"}>Customer Signup</Link>
                                     </li>
+                                    <li className='text-center' id='customerMyOrdersItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' to={"/Customer/MyOrders"}>My Orders</Link>
+                                    </li>
                                     <li className='text-center' id='customerLogoutListItem' style={{display: "none"}}>
                                         <Link className='dropdown-item' onClick={logout}>Logout</Link>
                                     </li>
@@ -374,6 +396,9 @@ const Home = (props) => {
                                     </li>
                                     <li className='text-center' id='listUsersListItem' style={{display: "none"}}>
                                         <Link className='dropdown-item' to={"/Admin/ListUsers"}>List Users</Link>
+                                    </li>
+                                    <li className='text-center' id='listAllOrdersListItem' style={{display: "none"}}>
+                                        <Link className='dropdown-item' to={"/Admin/AllOrders"}>List All Orders</Link>
                                     </li>
                                     <li className='text-center' id='addNewAdminListItem' style={{display: "none"}}>
                                         <Link className='dropdown-item' to={"/Admin/AddNewAdmin"}>Add New Admin</Link>

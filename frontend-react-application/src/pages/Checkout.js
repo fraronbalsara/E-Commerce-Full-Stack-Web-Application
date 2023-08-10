@@ -5,6 +5,8 @@ const Checkout = (props) => {
 
     const[cart, setCart] = useState([]);
     const[customer, setCustomer] = useState('');
+    const [address, setAddress] = useState();
+    const [paymentMode, setPaymentMode] = useState("");
 
     let totalCost = 0
     let productIds = []
@@ -38,18 +40,16 @@ const Checkout = (props) => {
             .catch((err)=>{
                 console.log(err);
             })
+        setAddress(customer.address);
         
         {/* Added this conditon to redirect the user to the homepage if the user directly tries to access 
-            checkout page without having any products in their cart */}    
+            checkout page without having any products in their cart 
         if(customer !== ''){
             if(totalCost<=0){
                 window.location.replace("/");
             }
-        }
+        }*/}  
     },[customer])
-
-    let address = customer.address;
-    let paymentMode = "";
 
     function placeOrder(){
         if(address === undefined || address.length < 20){
@@ -59,6 +59,8 @@ const Checkout = (props) => {
             let customerEmail = sessionStorage.getItem("email");
             let orderStatus = "Placed";
             let paymentStatus = "";
+            console.log(paymentMode);
+            console.log(address);
             if(paymentMode === ""){
                 alert("Please select a payment mode.");
                 return;
@@ -138,15 +140,15 @@ const Checkout = (props) => {
                         <div className="form-group row px-5 py-2">
                             <label htmlFor="originalAddress" className="col-sm-3 col-form-label">Address</label>
                             <div className="col-sm-9">
-                                <textarea type="text" className="form-control" id="originalAddress" defaultValue={customer.address} onChange={(e)=> address = e.target.value} required></textarea>
+                                <textarea type="text" className="form-control" id="originalAddress" defaultValue={customer.address} onChange={(e)=>setAddress(e.target.value)} required></textarea>
                             </div>
                         </div>
                         <div className="form-group row px-5 py-2">
                             <label className="col-sm-3 col-form-label">Payment Mode</label>
                             <div className="from-check col-sm-9">
-                                <input type='radio' className='form-check-input' id='cod' name='paymentMode' value={"CashOnDelivery"} onChange={(e)=> paymentMode = e.target.value}></input>
+                                <input type='radio' className='form-check-input' id='cod' name='paymentMode' value={"CashOnDelivery"} onChange={(e)=>setPaymentMode(e.target.value)}></input>
                                 <label className="form-check-label" htmlFor="cod">Cash On Delivery</label>&nbsp;&nbsp;
-                                <input type='radio' className='form-check-input' id='online' name='paymentMode' value={"Online"} onChange={(e)=> paymentMode = e.target.value}></input>
+                                <input type='radio' className='form-check-input' id='online' name='paymentMode' value={"Online"} onChange={(e)=>setPaymentMode(e.target.value)}></input>
                                 <label className="form-check-label" htmlFor="online">Online</label>
                             </div>
                         </div>
