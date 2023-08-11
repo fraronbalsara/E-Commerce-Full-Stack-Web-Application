@@ -33,6 +33,7 @@ public class Order {
     private int[] productPrices;
     private int[] productQuantities;
     private float[] productSubTotals;
+    private int deliveryCharge;
     private float totalCost;
     public enum OrderStatusList{Placed, Dispatched, Delivered, Cancelled}
     public enum PaymentStatusList{Pending, Completed}
@@ -151,6 +152,14 @@ public class Order {
 
     public void setProductSubTotals(float[] productSubTotals) {
         this.productSubTotals = productSubTotals;
+    }
+
+    public int getDeliveryCharge() {
+        return deliveryCharge;
+    }
+
+    public void setDeliveryCharge(int deliveryCharge) {
+        this.deliveryCharge = deliveryCharge;
     }
 
     public float getTotalCost() {

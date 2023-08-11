@@ -5,10 +5,18 @@ const Cart = (props) => {
 
     const[cart, setCart] = useState([]);
 
-    let total = 0
-    cart.map(cartItem=>(
-        total = total + cartItem.subTotal
-    ))
+    let total = 0;
+    let orderTotal = 0;
+    let deliveryCharge = 0;
+    cart.forEach(cartItem => {
+        orderTotal = orderTotal + cartItem.subTotal;
+    });
+    if(orderTotal < 500){
+        deliveryCharge = 100;
+    }
+    total = orderTotal + deliveryCharge;
+    console.log(deliveryCharge);
+    console.log(total);
 
     useEffect(()=>{
         fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
@@ -62,7 +70,7 @@ const Cart = (props) => {
     }
 
     function checkout(){
-        if(total>0){
+        if(orderTotal>0){
             window.location.assign("/Customer/Checkout");
         }
         else{
@@ -106,6 +114,7 @@ const Cart = (props) => {
                             <th className='px-4 border text-center'>Product ID</th>
                             <th className='px-4 border text-center'>Product Name</th>
                             <th className='px-4 border text-center'>Quantity</th>
+                            <th className='px-4 border text-center'>Unit Price</th>
                             <th className='px-4 border text-center'>Sub-total</th>
                             <th className='px-4 border text-center'>Action</th>
                         </tr>
@@ -118,6 +127,7 @@ const Cart = (props) => {
                                 <td className='px-4 border text-end'>{cartItem.product.product_id}</td>
                                 <td className='px-4 border'>{cartItem.product.name}</td>
                                 <td className='px-4 border text-end'>{cartItem.quantity}</td>
+                                <td className='px-4 border text-end'>&#8377;{cartItem.product.price}</td>
                                 <td className='px-4 border text-end'>&#8377;{cartItem.subTotal}</td>
                                 <td className='px-4 py-2 border text-center'>
                                     <button className='btn' onClick={()=>update(cartItem.cartItem_id, cartItem.email, cartItem.product, cartItem.product.price)}>Update</button>&nbsp;
@@ -127,8 +137,14 @@ const Cart = (props) => {
                         )) 
                     }
                         <tr>
-                            <td className='px-4 py-2 border text-center' colSpan={1}>Total</td>
-                            <td className='px-4 py-2 border text-center' colSpan={5}>&#8377;{total}</td>
+                            <td className='px-4 py-2 border text-center' colSpan={5}>Delivery Charge (Free Delivery for orders above &#8377;499 )</td>
+                            <td className='px-4 py-2 border text-end' colSpan={1}>&#8377;{deliveryCharge}</td>
+                            <td className='px-4 py-2 border text-center' colSpan={1}></td>
+                        </tr>
+                        <tr>  
+                            <td className='px-4 py-2 border text-center' colSpan={5}>Total</td>
+                            <td className='px-4 py-2 border text-end' colSpan={1}>&#8377;{total}</td>
+                            <td className='px-4 py-2 border text-center' colSpan={1}></td>
                         </tr>
                     </tbody>
                 </table>

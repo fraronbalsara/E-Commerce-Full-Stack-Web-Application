@@ -10,6 +10,8 @@ const Checkout = (props) => {
     const[razorpayTransaction, setRazorpayTransaction] = useState('');
 
     let totalCost = 0
+    let orderTotal = 0;
+    let deliveryCharge = 0;
     let productIds = []
     let productNames = []
     let productImageFilePaths = []
@@ -17,9 +19,13 @@ const Checkout = (props) => {
     let productQuantities = []
     let productSubTotals = []
     cart.forEach(myIterateFunction)
+    if(orderTotal < 500){
+        deliveryCharge = 100;
+    }
+    totalCost = orderTotal + deliveryCharge;
 
     function myIterateFunction(cartItem){
-        totalCost = totalCost + cartItem.subTotal;
+        orderTotal = orderTotal + cartItem.subTotal;
         productIds.push(cartItem.product.product_id);
         productNames.push(cartItem.product.name);
         productImageFilePaths.push(cartItem.product.imageFilePath);
@@ -67,7 +73,7 @@ const Checkout = (props) => {
             }
             else if(paymentMode === "CashOnDelivery"){              
                 paymentStatus = "Pending";
-                commonOrderPlacementFunc(customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost);
+                commonOrderPlacementFunc(customerEmail, orderStatus, paymentStatus, transaction_id);
             }
             else if(paymentMode === "Online"){
                 fetch("http://localhost:8080/order/razorpay-transaction/" + totalCost)
@@ -87,7 +93,7 @@ const Checkout = (props) => {
                     "order_id": razorpayTransaction.orderId,
                     "handler": function (response){
                         transaction_id = response.razorpay_payment_id;
-                        commonOrderPlacementFunc(customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost);
+                        commonOrderPlacementFunc(customerEmail, orderStatus, paymentStatus, transaction_id);
                     },
                     "prefill": { //Prefilling Customer Details
                         "name": customer.name,
@@ -105,8 +111,8 @@ const Checkout = (props) => {
         }
     }
 
-    function commonOrderPlacementFunc(customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost){
-        let reqBody = {customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost};
+    function commonOrderPlacementFunc(customerEmail, orderStatus, paymentStatus, transaction_id){
+        let reqBody = {customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, deliveryCharge, totalCost};
             console.log(reqBody);
             fetch("http://localhost:8080/cartItem/delete-cartItems/" + customerEmail, {method: 'DELETE'})
                 .then(()=>{

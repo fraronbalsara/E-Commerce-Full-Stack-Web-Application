@@ -187,7 +187,7 @@ const AllOrders = (props) => {
                                         </td>
                                     {
                                         order.productPrices.map(price=>(
-                                            <td className='px-4 border text-center' style={{display: "block"}}>
+                                            <td className='px-4 border text-end' style={{display: "block"}}>
                                                 &#8377;{price}
                                             </td>
                                         ))
@@ -199,15 +199,19 @@ const AllOrders = (props) => {
                                         </td>
                                     {
                                         order.productSubTotals.map(subTotal=>(
-                                            <td className='px-4 border text-center' style={{display: "block"}}>
+                                            <td className='px-4 border text-end' style={{display: "block"}}>
                                                 &#8377;{subTotal}
                                             </td>
                                         ))
                                     }
                                     </tr>
                                     <tr>
-                                        <td className='px-4 py-2 border border-2 text-center' colSpan={1}>Total</td>
-                                        <td className='px-4 py-2 border border-2 text-center' colSpan={5}>&#8377;{order.totalCost}</td>
+                                        <td className='px-4 py-2 border border-2 text-center' colSpan={3}>Delivery Charge (Free Delivery for orders above &#8377;499 )</td>
+                                        <td className='px-4 py-2 border border-2 text-end' colSpan={1}>&#8377;{order.deliveryCharge}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='px-4 py-2 border border-2 text-center' colSpan={3}>Total</td>
+                                        <td className='px-4 py-2 border border-2 text-end' colSpan={1}>&#8377;{order.totalCost}</td>
                                     </tr>
                                 </tbody>
                             </table>
