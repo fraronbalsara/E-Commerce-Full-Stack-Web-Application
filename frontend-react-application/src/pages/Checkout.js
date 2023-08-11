@@ -5,8 +5,9 @@ const Checkout = (props) => {
 
     const[cart, setCart] = useState([]);
     const[customer, setCustomer] = useState('');
-    const [address, setAddress] = useState();
-    const [paymentMode, setPaymentMode] = useState("");
+    const[address, setAddress] = useState();
+    const[paymentMode, setPaymentMode] = useState("");
+    const[razorpayTransaction, setRazorpayTransaction] = useState('');
 
     let totalCost = 0
     let productIds = []
@@ -59,19 +60,53 @@ const Checkout = (props) => {
             let customerEmail = sessionStorage.getItem("email");
             let orderStatus = "Placed";
             let paymentStatus = "";
-            console.log(paymentMode);
-            console.log(address);
+            let transaction_id = "";
             if(paymentMode === ""){
                 alert("Please select a payment mode.");
                 return;
             }
             else if(paymentMode === "CashOnDelivery"){              
                 paymentStatus = "Pending";
+                commonOrderPlacementFunc(customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost);
             }
-            else{
+            else if(paymentMode === "Online"){
+                fetch("http://localhost:8080/order/razorpay-transaction/" + totalCost)
+                    .then(res=>res.json())
+                    .then((result)=>{setRazorpayTransaction(result);})
+                    .catch((err)=>{
+                        console.log(err);
+                })
                 paymentStatus = "Completed";
+                let options = {
+                    "key": "rzp_test_ukDELYCqE2Fg1f",
+                    "amount": totalCost * 100,
+                    "currency": "INR",
+                    "name": "E-Mart",
+                    "description": "E-Mart Transaction",
+                    "image": "/emart-logo.png",
+                    "order_id": razorpayTransaction.orderId,
+                    "handler": function (response){
+                        transaction_id = response.razorpay_payment_id;
+                        commonOrderPlacementFunc(customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost);
+                    },
+                    "prefill": { //Prefilling Customer Details
+                        "name": customer.name,
+                        "email": customer.email,
+                        "contact": customer.mobile
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                let rzp1 = new window.Razorpay(options);
+                rzp1.open();
             }
-            let reqBody = {customerEmail, address, orderStatus, paymentStatus, paymentMode, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost};
+            
+        }
+    }
+
+    function commonOrderPlacementFunc(customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost){
+        let reqBody = {customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, totalCost};
             console.log(reqBody);
             fetch("http://localhost:8080/cartItem/delete-cartItems/" + customerEmail, {method: 'DELETE'})
                 .then(()=>{
@@ -91,7 +126,6 @@ const Checkout = (props) => {
                             }
                         })
                         .catch((err)=>{
-                            alert("Error Occured! Failed to place order. Please check logs.")
                             console.log(err);
                         })
                 })
@@ -99,7 +133,6 @@ const Checkout = (props) => {
                     alert("Error Occured! Failed to place order. Please check logs.")
                     console.log(err);
                 })
-        }
     }
 
     return (
@@ -145,7 +178,7 @@ const Checkout = (props) => {
                         </div>
                         <div className="form-group row px-5 py-2">
                             <label className="col-sm-3 col-form-label">Payment Mode</label>
-                            <div className="from-check col-sm-9">
+                            <div className="from-check col-sm-9 pt-1">
                                 <input type='radio' className='form-check-input' id='cod' name='paymentMode' value={"CashOnDelivery"} onChange={(e)=>setPaymentMode(e.target.value)}></input>
                                 <label className="form-check-label" htmlFor="cod">Cash On Delivery</label>&nbsp;&nbsp;
                                 <input type='radio' className='form-check-input' id='online' name='paymentMode' value={"Online"} onChange={(e)=>setPaymentMode(e.target.value)}></input>

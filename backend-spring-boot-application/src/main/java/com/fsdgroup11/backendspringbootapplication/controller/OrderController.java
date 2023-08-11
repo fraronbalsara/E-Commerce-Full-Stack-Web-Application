@@ -1,6 +1,7 @@
 package com.fsdgroup11.backendspringbootapplication.controller;
 
 import com.fsdgroup11.backendspringbootapplication.model.Order;
+import com.fsdgroup11.backendspringbootapplication.model.TransactionDetails;
 import com.fsdgroup11.backendspringbootapplication.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +46,10 @@ public class OrderController {
     public String deleteOrder(@PathVariable int order_id){
         orderService.deleteById(order_id);
         return "Order was deleted successfully.";
+    }
+
+    @GetMapping("/razorpay-transaction/{amount}")
+    public TransactionDetails createRazorpayTransaction(@PathVariable float amount){
+        return orderService.razorpayTransaction(amount);
     }
 }
