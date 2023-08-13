@@ -80,8 +80,8 @@ const Cart = (props) => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg justify-content-center mb-3 border rounded-5">
-                <div className="container row">
+            <nav className="navbar navbar-expand-md justify-content-center mb-3 border rounded-5">
+                <div className="container">
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -90,15 +90,15 @@ const Cart = (props) => {
                     >
                         <span className="navbar-toggler-icon" />
                     </button>
-                    <div className="collapse navbar-collapse col-5" id="navbarNav">
-                        <ul className="navbar-nav ms-4">
-                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px"}}>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav my-2 ms-md-2">
+                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px", width: "100px"}}>
                                 Home
                             </Link>
                         </ul>
                     </div>
-                    <div className="collapse navbar-collapse col" id="navbarNav">
-                        <ul className="navbar-nav">
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav me-md-5 pe-md-5">
                             <h1 style={{color: "white"}}>
                                 My Cart
                             </h1>
@@ -107,49 +107,52 @@ const Cart = (props) => {
                 </div>
             </nav>
             <div className='d-flex flex-column align-items-center'>
-                <table>
-                    <thead>
-                        <tr>
-                            <th className='px-4 border text-center'>Item Number</th>
-                            <th className='px-4 border text-center'>Product ID</th>
-                            <th className='px-4 border text-center'>Product Name</th>
-                            <th className='px-4 border text-center'>Quantity</th>
-                            <th className='px-4 border text-center'>Unit Price</th>
-                            <th className='px-4 border text-center'>Sub-total</th>
-                            <th className='px-4 border text-center'>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        cart.map((cartItem, index)=>(  
+                <div className='container' style={{overflowX: "auto"}}>
+                    <table>
+                        <thead>
                             <tr>
-                                <td className='px-4 border text-end'>{index + 1}</td>
-                                <td className='px-4 border text-end'>{cartItem.product.product_id}</td>
-                                <td className='px-4 border'>{cartItem.product.name}</td>
-                                <td className='px-4 border text-end'>{cartItem.quantity}</td>
-                                <td className='px-4 border text-end'>&#8377;{cartItem.product.price}</td>
-                                <td className='px-4 border text-end'>&#8377;{cartItem.subTotal}</td>
-                                <td className='px-4 py-2 border text-center'>
-                                    <button className='btn' onClick={()=>update(cartItem.cartItem_id, cartItem.email, cartItem.product, cartItem.product.price)}>Update</button>&nbsp;
-                                    <button className='btn' onClick={()=>remove(cartItem.cartItem_id)}>Remove</button>
-                                </td>
-                            </tr>               
-                        )) 
-                    }
-                        <tr>
-                            <td className='px-4 py-2 border text-center' colSpan={5}>Delivery Charge (Free Delivery for orders above &#8377;499 )</td>
-                            <td className='px-4 py-2 border text-end' colSpan={1}>&#8377;{deliveryCharge}</td>
-                            <td className='px-4 py-2 border text-center' colSpan={1}></td>
-                        </tr>
-                        <tr>  
-                            <td className='px-4 py-2 border text-center' colSpan={5}>Total</td>
-                            <td className='px-4 py-2 border text-end' colSpan={1}>&#8377;{total}</td>
-                            <td className='px-4 py-2 border text-center' colSpan={1}></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <button className='btn mt-3' onClick={checkout}>Proceed with checkout</button>
+                                <th className='px-4 border text-center'>Item Number</th>
+                                <th className='px-4 border text-center'>Product ID</th>
+                                <th className='px-4 border text-center'>Product Name</th>
+                                <th className='px-4 border text-center'>Quantity</th>
+                                <th className='px-4 border text-center'>Unit Price</th>
+                                <th className='px-4 border text-center'>Sub-total</th>
+                                <th className='px-4 border text-center'>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            cart.map((cartItem, index)=>(  
+                                <tr>
+                                    <td className='px-4 border text-end'>{index + 1}</td>
+                                    <td className='px-4 border text-end'>{cartItem.product.product_id}</td>
+                                    <td className='px-4 border'>{cartItem.product.name}</td>
+                                    <td className='px-4 border text-end'>{cartItem.quantity}</td>
+                                    <td className='px-4 border text-end'>&#8377;{cartItem.product.price}</td>
+                                    <td className='px-4 border text-end'>&#8377;{cartItem.subTotal}</td>
+                                    <td className='px-4 py-2 border text-center'>
+                                        <button className='btn mx-2 my-1' onClick={()=>update(cartItem.cartItem_id, cartItem.email, cartItem.product, cartItem.product.price)}>Update</button>
+                                        <button className='btn mx-2 my-1' onClick={()=>remove(cartItem.cartItem_id)}>Remove</button>
+                                    </td>
+                                </tr>               
+                            )) 
+                        }
+                            <tr>
+                                <td className='px-4 py-2 border text-center' colSpan={5}>Delivery Charge (Free Delivery for orders above &#8377;499 )</td>
+                                <td className='px-4 py-2 border text-end' colSpan={1}>&#8377;{deliveryCharge}</td>
+                                <td className='px-4 py-2 border text-center' colSpan={1}></td>
+                            </tr>
+                            <tr>  
+                                <td className='px-4 py-2 border text-center' colSpan={5}>Total</td>
+                                <td className='px-4 py-2 border text-end' colSpan={1}>&#8377;{total}</td>
+                                <td className='px-4 py-2 border text-center' colSpan={1}></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <button className='btn mt-3' onClick={checkout}>Proceed with checkout</button>
+                </div>
             </div>
         </div>
     );

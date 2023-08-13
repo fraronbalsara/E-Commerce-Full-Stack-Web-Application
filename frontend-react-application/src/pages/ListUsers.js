@@ -72,8 +72,8 @@ const ListUsers = (props) => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg justify-content-center mb-4 border rounded-5">
-                <div className="container row">
+            <nav className="navbar navbar-expand-md justify-content-center mb-4 border rounded-5">
+                <div className="container">
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -82,53 +82,86 @@ const ListUsers = (props) => {
                     >
                         <span className="navbar-toggler-icon" />
                     </button>
-                    <div className="collapse navbar-collapse col-5 ms-3" id="navbarNav">
-                        <ul className="navbar-nav ms-4">
-                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px"}}>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav  my-2 ms-md-2">
+                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px", width: "100px"}}>
                                 Home
                             </Link>
                         </ul>
                     </div>
+		    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav me-md-5 pe-md-5">
+                            <h1 style={{color: "white"}}>
+                                List Users
+                            </h1>
+                        </ul>
+                    </div>
                 </div>
             </nav>
-            <h2 className="text-center">Customers</h2>
-            {
-                customerDetails.map(customer=>(
-                    <div className='container py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
-                        <div className='mt-1 ms-3'>
-                            <h6>ID:                    {customer.customer_id}</h6>
-                            <h6>Name:                  {customer.name}</h6>
-                            <h6>Email:                 {customer.email}</h6>
-                            <h6>Mobile:                {customer.mobile}</h6>
-                            <h6>Address:               {customer.address}</h6>
-                            <h6>Account Created:       {customer.date_created}</h6>
-                            <h6>Account Last Modified: {customer.date_modified}</h6>
-                        </div>
-                        <div>
-                            <button className='btn btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} onClick={()=>deleteCustomerFunc(customer.customer_id, customer.email)}>Delete</button>
-                        </div>
-                    </div>
-                ))
-            }
-            <h2 className="text-center">Sellers</h2>
-            {
-                sellerDetails.map(seller=>(
-                    <div className='container py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
-                        <div className='mt-1 ms-3'>
-                            <h6>ID:                    {seller.seller_id}</h6>
-                            <h6>Name:                  {seller.name}</h6>
-                            <h6>Email:                 {seller.email}</h6>
-                            <h6>Mobile:                {seller.mobile}</h6>
-                            <h6>Address:               {seller.address}</h6>
-                            <h6>Account Created:       {seller.date_created}</h6>
-                            <h6>Account Last Modified: {seller.date_modified}</h6>
-                        </div>
-                        <div>
-                            <button className='btn btn mt-3 mx-3' style={{color: "#046380", backgroundColor: "white"}} onClick={()=>deleteSellerFunc(seller.seller_id, seller.email)}>Delete</button>
-                        </div>
-                    </div>
-                ))
-            }
+            
+            <div className='text-center' style={{overflowX: "auto"}}>
+                <h2 className="text-center ms-md-3">Customers</h2>
+                <table className='table'>
+                    <tbody>
+                        <tr>
+                            <th className='border border-2'>ID</th>
+                            <th className='border border-2'>Name</th>
+                            <th className='border border-2'>Email</th>
+                            <th className='border border-2'>Mobile</th>
+                            <th className='border border-2'>Address</th>
+                            <th className='border border-2'>Account Created</th>
+                            <th className='border border-2'>Account Last Modified</th>
+                            <th className='border border-2'>Action</th>
+                        </tr>
+                    {    	
+                    customerDetails.map(customer=>(
+                        <tr>
+                            <td className='border border-2'>{customer.customer_id}</td>
+                            <td className='border border-2'>{customer.name}</td>
+                            <td className='border border-2'>{customer.email}</td>
+                            <td className='border border-2'>{customer.mobile}</td>
+                            <td className='border border-2'>{customer.address}</td>
+                            <td className='border border-2'>{new Date(customer.date_created).toLocaleString("en-IN")}</td>
+                            <td className='border border-2'>{new Date(customer.date_modified).toLocaleString("en-IN")}</td>
+                            <td className='border border-2'><button className='btn' style={{color: "white", backgroundColor: "#046380"}} onClick={()=>deleteCustomerFunc(customer.customer_id, customer.email)}>Delete</button></td>
+                        </tr>
+                    ))
+                    }
+                    </tbody>
+                </table>
+            </div>
+            
+            <div className='text-center' style={{overflowX: "auto"}}>
+                <h2 className="text-center ms-md-3">Sellers</h2>
+                <table className='table'>
+                    <tbody>
+                        <tr>
+                            <th className='border border-2'>ID</th>
+                            <th className='border border-2'>Name</th>
+                            <th className='border border-2'>Email</th>
+                            <th className='border border-2'>Mobile</th>
+                            <th className='border border-2'>Address</th>
+                            <th className='border border-2'>Account Created</th>
+                            <th className='border border-2'>Account Last Modified</th>
+                            <th className='border border-2'>Action</th>
+                        </tr>
+                    {    	
+                    sellerDetails.map(seller=>(
+                        <tr>
+                            <td className='border border-2'>{seller.seller_id}</td>
+                            <td className='border border-2'>{seller.name}</td>
+                            <td className='border border-2'>{seller.email}</td>
+                            <td className='border border-2'>{seller.mobile}</td>
+                            <td className='border border-2'>{seller.address}</td>
+                            <td className='border border-2'>{new Date(seller.date_created).toLocaleString("en-IN")}</td>
+                            <td className='border border-2'>{new Date(seller.date_modified).toLocaleString("en-IN")}</td>
+                            <td className='border border-2'><button className='btn' style={{color: "white", backgroundColor: "#046380"}} onClick={()=>deleteSellerFunc(seller.seller_id, seller.email)}>Delete</button></td>
+                        </tr>
+                    ))
+                    }
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

@@ -15,6 +15,8 @@ import ModifyProduct from './pages/ModifyProduct';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import MyOrders from './pages/MyOrders';
+import OrderConfirmed from './pages/OrderConfirmed';
+import AccessDenied from './pages/AccessDenied';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -39,6 +41,8 @@ function App() {
             <Route path="/Customer/Cart" element={<Cart/>}></Route>
 	          <Route path="/Customer/Checkout" element={<Checkout/>}></Route>
             <Route path="/Customer/MyOrders" element={<MyOrders/>}></Route>
+            <Route path="/Customer/Checkout/OrderConfirmed" element={<OrderConfirmed/>}></Route>
+            <Route path="/AccessDenied" element={<AccessDenied/>}></Route>
           </Routes>
           </div>
         </div>

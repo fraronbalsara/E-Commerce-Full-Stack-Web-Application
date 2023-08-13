@@ -240,7 +240,7 @@ const Home = (props) => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-sm justify-content-center mb-4 border rounded-5">
+            <nav className="navbar navbar-expand-xl justify-content-center mb-4 border rounded-5">
                 <div className="container">
                     <button
                         className="navbar-toggler"
@@ -423,27 +423,81 @@ const Home = (props) => {
             {
                 products.map(product=>(
                     <div className='container row px-3 pt-4 py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
-                        <div className='col-4 text-center'>
+                        <div className='col-lg-4 text-center'>
                             <img className='img-fluid border rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
                             <div>
                                 <button className='btn mt-3 mx-3' id={'add_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} onClick={()=>add(product)} >Add to Cart</button>
                                 <button className='btn mt-3 mx-3' id={'modify_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} onClick={()=>modify(product)} >Modify</button>
-				<button className='btn mt-3 mx-3' id={'remove_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}}  onClick={()=>remove(product)} >Remove</button>
+				                <button className='btn mt-3 mx-3' id={'remove_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}}  onClick={()=>remove(product)} >Remove</button>
                             </div>               
                         </div>
                         <div className='col mt-1'>
-                            <h6>ID:            {product.product_id}</h6>
-                            <h6>Name:          {product.name}</h6>
-                            <h6>Short Summary: {product.short_summary}</h6>
-                            <h6>Description:   {product.description}</h6>
-                            <h6>Price:  &#8377;{product.price}</h6>
-                            <h6>Stock:         {product.stock}</h6>
-                            <h6>Weight:        {product.weight}</h6>
-                            <h6>Dimensions:    {product.dimensions}</h6>
-                            <h6>Category:      {product.category}</h6>
-                            <h6>Sub-category:  {product.subcategory}</h6>
-                            <h6>Variant:       {product.variant}</h6>
-                            <h6>Seller Email:  {product.sellerEmail}</h6>
+                            <div className="row px-1">
+                                <label className="col-sm-3">ID:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.product_id}</label>
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Name:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.name}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Short Summary:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.short_summary}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Description:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.description}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Price:</label>
+                                <div className="col-sm-9">
+                                    <label>&#8377;{product.price}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Weight:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.weight}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Dimensions:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.dimensions}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Category:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.category}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Sub-Category:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.subcategory}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Variant:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.variant}</label>     
+                                </div>
+                            </div>
+                            <div className="row px-1 pt-1">
+                                <label className="col-sm-3">Seller Email:</label>
+                                <div className="col-sm-9">
+                                    <label>{product.sellerEmail}</label>     
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ))

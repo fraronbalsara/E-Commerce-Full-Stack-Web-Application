@@ -60,8 +60,8 @@ function ModifyProduct(props){
 
     
     return(
-        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
-            <div id="background-div" className="col-lg-6 text-left border border-primary rounded-4 border-2">
+        <div className="d-md-flex flex-column align-items-center justify-content-center min-vh-100 my-2">
+            <div id="background-div" className="col-lg-6 border border-primary rounded-4 border-2">
                 <div className="text-center">
                     <img className="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo" />
                 </div>
@@ -69,13 +69,13 @@ function ModifyProduct(props){
                 <form onSubmit={modifyProduct}>
                     <div className="form-group row mt-2 px-5 py-2">
                         <label for="productName" className="col-sm-3 col-form-label">Product Name</label>
-                        <div className="col-sm-9">
+                        <div className="col-sm-9 py-md-2">
                             <input type="text" className="form-control" id="productName" pattern="[a-zA-Z][a-zA-Z ]+[a-zA-Z]$" title="No numbers or special characters allowed." required defaultValue={product.name} onChange={(e) => name = e.target.value}></input>
                         </div>
                     </div>
-                    <div className="form-group row px-5 py-2">
+                    <div className="form-group row px-5 py-2 py-md-0">
                         <label for="shortSummary" className="col-sm-3 col-form-label">Short Summary</label>
-                        <div className="col-sm-9">
+                        <div className="col-sm-9 py-md-2">
                             <input type="text" className="form-control" id="shortSummary" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.short_summary} onChange={(e) => short_summary = e.target.value}></input>
                         </div>
                     </div>
@@ -127,9 +127,9 @@ function ModifyProduct(props){
                             </select>
                         </div>
                     </div>
-                    <div className="form-group row px-5 py-2">
+                    <div className="form-group row px-5 py-2 py-md-0">
                         <label for="subCategory" className="col-sm-3 col-form-label">Sub-Category</label>
-                        <div className="col-sm-9">
+                        <div className="col-sm-9 py-md-2">
                             <select className="form-select" id="subCategory" disabled value={product.subcategory}>
                                 <option>Mobile</option>
                                 <option>Laptop</option>
@@ -146,9 +146,9 @@ function ModifyProduct(props){
                             </select>
                         </div>
                     </div>
-                    <div className="form-group row px-5 py-2">
+                    <div className="form-group row px-5 py-2 py-md-0">
                         <label for="imageFile" className="col-sm-3 col-form-label">Product Image</label>
-                        <div className="col-sm-9">
+                        <div className="col-sm-9 py-md-2">
                             <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg"></input>
                         </div>
                     </div>

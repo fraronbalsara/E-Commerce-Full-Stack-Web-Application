@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const MyOrders = (props) => {
+const OrderConfirmed = (props) => {
 
     const[orders, setOrders] = useState([]);
 
@@ -13,11 +13,10 @@ const MyOrders = (props) => {
                 console.log(err);
             })
     },[])
-    console.log(orders)
 
-    return (
+    return(
         <div>
-            <nav className="navbar navbar-expand-md justify-content-center mb-4 border rounded-5">
+            <nav className="navbar navbar-expand-md justify-content-center mb-2 border rounded-5">
                 <div className="container">
                     <button
                         className="navbar-toggler"
@@ -34,17 +33,20 @@ const MyOrders = (props) => {
                             </Link>
                         </ul>
                     </div>
-                    <div className="collapse navbar-collapse col" id="navbarNav">
-                        <ul className="navbar-nav me-md-5 pe-md-4">
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav me-md-5 pe-md-5">
                             <h1 style={{color: "white"}}>
-                                My Orders
+                                Order Details
                             </h1>
                         </ul>
                     </div>
                 </div>
             </nav>
+            <div className='text-center mb-2'>
+                <img className='img-fluid' src="/order-confirmed.jpg" alt='order confirmed' style={{width: "275px", height: "125px"}}></img>
+            </div>
             {
-                orders.toReversed().map(order=>(
+                orders.toReversed().slice(0,1).map(order=>(
                     <div className='container py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#F6EEE3", color: "black"}}>
                         <div className='mt-1 ms-3'>
 			                <div className="row px-1 pt-1">
@@ -167,4 +169,4 @@ const MyOrders = (props) => {
         </div>
     );
 }
-export default MyOrders;
+export default OrderConfirmed;

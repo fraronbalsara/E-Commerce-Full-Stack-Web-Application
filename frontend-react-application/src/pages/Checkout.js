@@ -40,22 +40,23 @@ const Checkout = (props) => {
             .then((result)=>{setCart(result);})
             .catch((err)=>{
                 console.log(err);
-            })
+            });
         fetch("http://localhost:8080/customer/list-customer-by-email/" + sessionStorage.getItem("email"))
             .then(res=>res.json())
             .then((result)=>{setCustomer(result);})
             .catch((err)=>{
                 console.log(err);
-            })
+            });
         setAddress(customer.address);
         
         {/* Added this conditon to redirect the user to the homepage if the user directly tries to access 
-            checkout page without having any products in their cart 
-        if(customer !== ''){
-            if(totalCost<=0){
-                window.location.replace("/");
+        checkout page without having any products in their cart 
+        if(customer !== '' || sessionStorage.getItem('email') === null){
+            if(orderTotal<=0){
+                console.log("YES");
             }
-        }*/}  
+        }
+        */}   
     },[customer])
 
     function placeOrder(){
@@ -89,7 +90,7 @@ const Checkout = (props) => {
                     "currency": "INR",
                     "name": "E-Mart",
                     "description": "E-Mart Transaction",
-                    "image": "/emart-logo.png",
+                    "image": "/emart-logo-for-razorpay.jpg",
                     "order_id": razorpayTransaction.orderId,
                     "handler": function (response){
                         transaction_id = response.razorpay_payment_id;
@@ -123,8 +124,8 @@ const Checkout = (props) => {
                         })
                         .then((response)=>{
                             if(response.status===200){
-                                alert("Order placed successfully. Check 'My Orders' for order details");
-                                window.location.replace("/");
+                                alert("Order placed successfully. Check 'My Orders' for order details.");
+                                window.location.replace("/Customer/Checkout/OrderConfirmed");
                             }
                             else{
                                 alert("Error Occured! Failed to place order. Please check logs.")
@@ -143,8 +144,8 @@ const Checkout = (props) => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg justify-content-center mb-3 border rounded-5">
-                <div className="container row">
+            <nav className="navbar navbar-expand-md justify-content-center mb-3 border rounded-5">
+                <div className="container">
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -153,15 +154,15 @@ const Checkout = (props) => {
                     >
                         <span className="navbar-toggler-icon" />
                     </button>
-                    <div className="collapse navbar-collapse col-5" id="navbarNav">
-                        <ul className="navbar-nav ms-4">
-                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px"}}>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav my-2 ms-md-2">
+                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px", width: "100px"}}>
                                 Home
                             </Link>
                         </ul>
                     </div>
-                    <div className="collapse navbar-collapse col" id="navbarNav">
-                        <ul className="navbar-nav">
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav me-md-5 pe-md-5">
                             <h1 style={{color: "white"}}>
                                 Checkout
                             </h1>
@@ -169,8 +170,8 @@ const Checkout = (props) => {
                     </div>
                 </div>
             </nav>
-            <div className="d-flex flex-column align-items-center ms-3">
-                <div id="background-div" className="col-lg-6 text-left border border-primary rounded-4 border-2">
+            <div className="d-flex flex-column align-items-center">
+                <div id="background-div" className="col-lg-6 ms-md-3 text-left border border-primary rounded-4 border-2">
                     <div className="text-center">
                         <img className="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo" />
                     </div>
@@ -184,11 +185,13 @@ const Checkout = (props) => {
                         </div>
                         <div className="form-group row px-5 py-2">
                             <label className="col-sm-3 col-form-label">Payment Mode</label>
-                            <div className="from-check col-sm-9 pt-1">
+                            <div className="from-check col-sm-6 col-lg-5 pt-md-2">
                                 <input type='radio' className='form-check-input' id='cod' name='paymentMode' value={"CashOnDelivery"} onChange={(e)=>setPaymentMode(e.target.value)}></input>
-                                <label className="form-check-label" htmlFor="cod">Cash On Delivery</label>&nbsp;&nbsp;
+                                <label className="form-check-label ms-2" htmlFor="cod">Cash On Delivery</label>
+                            </div>
+			                <div className="from-check col-sm-3 col-lg-3 pt-md-2">
                                 <input type='radio' className='form-check-input' id='online' name='paymentMode' value={"Online"} onChange={(e)=>setPaymentMode(e.target.value)}></input>
-                                <label className="form-check-label" htmlFor="online">Online</label>
+                                <label className="form-check-label ms-2" htmlFor="online">Online</label>
                             </div>
                         </div>
                         <div className="text-center px-5 pt-2 pb-4">

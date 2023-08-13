@@ -50,7 +50,7 @@ function SellerSignup(){
     }
 
     return(
-        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
+        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 my-2">
             <div id="background-div" className="col-lg-6 text-left border border-primary rounded-4 border-2">
                 <div className="text-center">
                     <img className="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo"/>
@@ -77,11 +77,11 @@ function SellerSignup(){
                     </div>
                     <div className="form-group row px-5 py-2">
                         <label for="confirmPassword" className="col-sm-3 col-form-label">Confirm Password</label>
-                        <div className="col-sm-9">
+                        <div className="col-sm-9 py-md-2">
                         <input type="password" className="form-control" id="confirmPassword" minLength="8" maxLength="20" value={password2} onChange={(e)=>setPassword2(e.target.value)} required></input>
                         </div>
                     </div>
-                    <div className="form-group row px-5 py-2">
+                    <div className="form-group row px-5 py-2 py-md-0">
                         <label for="mobile" className="col-sm-3 col-form-label">Mobile</label>
                         <div className="col-sm-9">
                         <input type="tel" className="form-control" id="mobile" minLength="10" maxLength="10" pattern="^[7-9][0-9]{9}$" title="Enter a vlaid mobile number." value={mobile} onChange={(e)=>setMobile(e.target.value)} required></input>
