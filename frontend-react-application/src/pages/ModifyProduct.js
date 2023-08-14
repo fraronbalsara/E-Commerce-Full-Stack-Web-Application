@@ -3,24 +3,39 @@ import { useLocation } from "react-router-dom";
 import '../App.css'
 
 function ModifyProduct(props){
-    {/*extracting product_id from path*/}
+
+    // Checking if user has access
+    if(sessionStorage.getItem("email") === null || sessionStorage.getItem("type") !== "seller"){
+        window.location.replace("/AccessDenied");
+    }
+
+    // Extracting product_id from path
     let id = useLocation().pathname;
     id = id.split("/")[4]
     const product_id = parseInt(id);
 
+    // Declaring variable for product
     const [product, setProduct] = useState('');
 
+    // useEffect to fetch product details for particular product
     useEffect(()=>{
         let url = "http://localhost:8080/product/list-product/" + id;
         fetch(url)
             .then(res=>res.json())
-            .then((result)=>{setProduct(result);})
+            .then((result)=>{
+                setProduct(result);
+                /* Checking if seller is trying to update their own product or a product 
+                    belonging to another seller */
+                if(result.sellerEmail !== sessionStorage.getItem("email")){
+                    window.location.replace("/AccessDenied");
+                }
+            })
             .catch((err)=>{
                 console.log(err);
-                alert("Failed to load. Check console for logs.");
             })
     },[])
 
+    // Initializing variables with original product information
     let name = product.name;
     let short_summary = product.short_summary;
     let description = product.description;
@@ -36,6 +51,7 @@ function ModifyProduct(props){
     const date_created = product.date_created;
     const date_modified = product.date_modified;
 
+    // On-click function for 'Modify' button
     const modifyProduct = async (event) => {
         event.preventDefault();
         const reqBody = {product_id, name, short_summary, description, price, stock, weight, dimensions, variant, category, subcategory, sellerEmail, date_created, date_modified, imageFilePath};
@@ -46,6 +62,7 @@ function ModifyProduct(props){
             body:JSON.stringify(reqBody)
             }).then((response)=>{
                 if(response.status===200){
+                    // On success redirecting to "My Products" page
                     alert("Product modified successfully");
                     window.location.replace("/Seller/MyProducts");
                 }

@@ -3,27 +3,36 @@ import { Link } from 'react-router-dom';
 
 const Cart = (props) => {
 
-    const[cart, setCart] = useState([]);
+    // Checking if user has access
+    if(sessionStorage.getItem("email") === null || sessionStorage.getItem("type") !== "customer"){
+        window.location.replace("/AccessDenied");
+    }
 
+    // Variable declarations and initializations
+    const[cart, setCart] = useState([]);
     let total = 0;
     let orderTotal = 0;
     let deliveryCharge = 0;
-    cart.forEach(cartItem => {
-        orderTotal = orderTotal + cartItem.subTotal;
-    });
-    if(orderTotal < 500){
-        deliveryCharge = 100;
-    }
-    total = orderTotal + deliveryCharge;
-    console.log(deliveryCharge);
-    console.log(total);
 
+    // useEffect to fetch and set cart items
     useEffect(()=>{
         fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
             .then(res=>res.json())
             .then((result)=>{setCart(result);})
     },[])
 
+    // Traversing each cart item and adding the item cost
+    cart.forEach(cartItem => {
+        orderTotal = orderTotal + cartItem.subTotal;
+    });
+    // Setting delivery cost based on order total
+    if(orderTotal < 500){
+        deliveryCharge = 100;
+    }
+    // Final total = Order Total + Delivery Cost
+    total = orderTotal + deliveryCharge;
+
+    // On-click function for 'Remove' button; to remove product from cart
     function remove(id){
         if(window.confirm("Are you sure you want to remove this from your cart?")){
             let url = "http://localhost:8080/cartItem/delete-cartItem/" + id;
@@ -38,8 +47,11 @@ const Cart = (props) => {
         }
     }
 
+    // On-click function for 'Modify' button; to modify product quantity in cart
     function update(cartItem_id, email, product, price){
+        // Prompt to get quantity from user
         let quantity = prompt("Enter quantity (Min: 1; Max: 5):");
+        // Checking to see if quantity is between 1 and 5
         if(quantity >= 1 && quantity <=5){
             let subTotal = price * quantity;
             const reqBody = {cartItem_id, email, quantity, subTotal, product};
@@ -48,7 +60,8 @@ const Cart = (props) => {
                 method:"PUT",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(reqBody)
-                }).then((response)=>{
+                })
+                .then((response)=>{
                     if(response.status===200){
                         window.location.reload();
                     }
@@ -58,21 +71,25 @@ const Cart = (props) => {
                     }
                 }).catch((err)=>{
                     console.log(err);
-                })
+                });
         }
         else if(quantity === null){
             ;
         }
+        // Alert is displayed if quantity is not between 1 and 5
         else{
             alert("Min Quantity: 1; Max Quantity: 5")
             console.log(quantity);
         }
     }
 
+    // On-click function for 'Proceed with checkout' button
     function checkout(){
+        // Checking if cart is not empty
         if(orderTotal>0){
             window.location.assign("/Customer/Checkout");
         }
+        // Alert is displayed if cart is empty
         else{
             alert("Cart is empty.")
         }
@@ -80,6 +97,7 @@ const Cart = (props) => {
 
     return (
         <div>
+            {/* Navbar Start */}
             <nav className="navbar navbar-expand-md justify-content-center mb-3 border rounded-5">
                 <div className="container">
                     <button
@@ -106,9 +124,12 @@ const Cart = (props) => {
                     </div>
                 </div>
             </nav>
+            {/* Navbar End */}
+
+            {/* Cart Items Display Start */}
             <div className='d-flex flex-column align-items-center'>
                 <div className='container' style={{overflowX: "auto"}}>
-                    <table>
+                    <table className="table table-responsive">
                         <thead>
                             <tr>
                                 <th className='px-4 border text-center'>Item Number</th>
@@ -143,8 +164,8 @@ const Cart = (props) => {
                                 <td className='px-4 py-2 border text-center' colSpan={1}></td>
                             </tr>
                             <tr>  
-                                <td className='px-4 py-2 border text-center' colSpan={5}>Total</td>
-                                <td className='px-4 py-2 border text-end' colSpan={1}>&#8377;{total}</td>
+                                <td className='px-4 py-2 border text-center fw-bold' colSpan={5}>Total</td>
+                                <td className='px-4 py-2 border text-end fw-bold' colSpan={1}>&#8377;{total}</td>
                                 <td className='px-4 py-2 border text-center' colSpan={1}></td>
                             </tr>
                         </tbody>
@@ -154,6 +175,7 @@ const Cart = (props) => {
                     <button className='btn mt-3' onClick={checkout}>Proceed with checkout</button>
                 </div>
             </div>
+            {/* Cart Items Display End */}
         </div>
     );
 }

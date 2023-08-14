@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import '../App.css'
 
 function AddProduct(){
+
+    // Checking if user has access
+    if(sessionStorage.getItem("email") === null || sessionStorage.getItem("type") !== "seller"){
+        window.location.replace("/AccessDenied");
+    }
+
+    // Variable declarations and initializations
     const [name, setName] = useState('');
     const [short_summary, setShort_summary] = useState('');
     const [description, setDescription] = useState('');
@@ -13,7 +20,7 @@ function AddProduct(){
     const [imageFilePath, setImageFilePath] = useState('/ProductImages/defaultProductImage.jpg');
     const [category, setCategory] = useState('Electronics');
     const [subcategory, setSubcategory] = useState('Mobile');
-    const [sellerEmail, setSellerEmail] =useState(sessionStorage.getItem('email'));
+    const [sellerEmail, setSellerEmail] = useState(sessionStorage.getItem('email'));
 
     let options = null;
     let categorySelected = null;
@@ -24,6 +31,7 @@ function AddProduct(){
     const stationary = ["Books", "Paper", "Ink"];
     const other = ["Other"];
 
+    // On-click function for 'Add Product' button
     const addProduct = async (event) => {
         event.preventDefault();
         console.log(imageFilePath);
@@ -53,6 +61,7 @@ function AddProduct(){
         }
     }
 
+    // Event handler for setting initial value of Subcategory for each Category
     const handleChange = (event) => {
         setCategory(event.target.value);
         if (event.target.value==="Electronics"){
@@ -72,6 +81,7 @@ function AddProduct(){
         }
     }
 
+    // Setting Subcategory list based on Category selected
     if (category==="Electronics"){
         categorySelected = electronics;
     }
@@ -88,6 +98,7 @@ function AddProduct(){
         categorySelected = other;
     }
 
+    // Populating the list set from above to the dropdown
     if (categorySelected){
         options = categorySelected.map((e1)=><option key={e1}>{e1}</option>)
     }

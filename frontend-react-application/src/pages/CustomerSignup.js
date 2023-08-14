@@ -3,6 +3,8 @@ import '../App.css'
 import { useState } from "react";
 
 function CustomerSignup(){
+
+    // Variable declarations and initializations
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -10,10 +12,13 @@ function CustomerSignup(){
     const [mobile,setMobile] = useState('');
     const [address, setAddress] = useState('');
     
+    // On-click function for 'Register' button
     const addUser = async (event) => {
         event.preventDefault();
+        // Checking if password matches confirm password
         if(password === password2){
             const reqBody = {name, address, email, mobile}
+            // Sending customer details to the backend server
             fetch("http://localhost:8080/customer/add-customer",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -22,12 +27,15 @@ function CustomerSignup(){
             .then((response)=>{
                 if(response.status===200){
                     const reqBody = {email, password}
+                    /* Sending and setting password sepeartely to the backend server (Doing this so that 
+                        when admin fetches customer and seller details, password is not retreived) */
                     fetch("http://localhost:8080/customer_credentials/add-customer-credentials",{
                     method:"POST",
                     headers:{"Content-Type":"application/json"},
                     body:JSON.stringify(reqBody)
                     })
                     .then((response2)=>{
+                        // On success redirecting to login page
                         if(response2.status===200){
                             alert("Customer signup successful.");
                             window.location.replace("/CustomerLogin");

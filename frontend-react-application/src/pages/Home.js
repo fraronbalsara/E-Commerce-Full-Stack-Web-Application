@@ -3,18 +3,13 @@ import { Link } from 'react-router-dom';
 
 const Home = (props) => {
 
+    // Variable declarations and initializations
     const[products, setProducts] = useState([]);
     const[value, setValue] = useState();
     const cats = ["Electronics", "Clothing", "Health", "Stationary", "Other"];
-
     const [cart, setCart] = useState([]);
 
-    function logout(){
-        sessionStorage.removeItem("email");
-        sessionStorage.removeItem("type");
-        window.location.replace("/");
-    }
-
+    // Function to fetch products from selected category only and set to products variable
     function categoryfunc(category){
         setValue(category)
         let url = "http://localhost:8080/product/list-products-by-category/" + category;
@@ -26,6 +21,7 @@ const Home = (props) => {
             })
     }
 
+    // Function to fetch products from selected sub-category only and set to products variable
     function subCategoryfunc(subCategory){
         setValue(subCategory)
         let url = "http://localhost:8080/product/list-products-by-subcategory/" + subCategory;
@@ -37,6 +33,7 @@ const Home = (props) => {
                 })
     }
 
+    // Function to fetch all products and set to products variable
     function displayAll(all){
         setValue(all)
         fetch("http://localhost:8080/product/list-products")
@@ -47,8 +44,18 @@ const Home = (props) => {
                 })
     }
 
+    // On-click function for user logout
+    function logout(){
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("type");
+        window.location.replace("/");
+    }
+
+    // On-click function for 'Add' button; to add product to cart
     function add(product){
+        // Prompt to get quantity from user
         let quantity = prompt("Enter quantity (Min: 1; Max: 5):");
+        // Checking to see if quantity is between 1 and 5
         if(quantity >= 1 && quantity <=5){
             let subTotal = product.price * quantity;
             let email = sessionStorage.getItem("email");
@@ -59,7 +66,8 @@ const Home = (props) => {
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(reqBody)
-                }).then((response)=>{
+                })
+                .then((response)=>{
                     if(response.status===200){
 			            fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
                             .then(res=>res.json())
@@ -75,17 +83,19 @@ const Home = (props) => {
                     }
                 }).catch((err)=>{
                     console.log(err);
-                })
+                });
         }
         else if(quantity === null){
             ;
         }
+        // Alert is displayed if quantity is not between 1 and 5
         else{
             alert("Min Quantity: 1; Max Quantity: 5")
             console.log(quantity);
         }
     }
 
+    // On-click function for 'Remove' button; to remove product from cart
     function remove(product){
         if(window.confirm("Are you sure you want to remove this from your cart?")){
             cart.forEach(function(cartItem){
@@ -109,14 +119,17 @@ const Home = (props) => {
                         .catch((err)=>{
                             alert("Error! Failed to remove.");
                             console.log(err);
-                        })
+                        });
                 }
             })
         }
     }
 
+    // On-click function for 'Modify' button; to modify product quantity in cart
     function modify(product){
+        // Prompt to get quantity from user
         let quantity = prompt("Enter quantity (Min: 1; Max: 5):");
+        // Checking to see if quantity is between 1 and 5
         if(quantity >= 1 && quantity <=5){
             cart.forEach(function(cartItem){
                 if(cartItem.product.product_id === product.product_id){
@@ -129,7 +142,8 @@ const Home = (props) => {
                         method:"PUT",
                         headers:{"Content-Type":"application/json"},
                         body:JSON.stringify(reqBody)
-                        }).then((response)=>{
+                        })
+                        .then((response)=>{
                             if(response.status===200){
 				                fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
                 			    .then(res=>res.json())
@@ -143,14 +157,24 @@ const Home = (props) => {
                                 console.log(response);
                                 alert("Failed to update cart item.");
                             }
-                        }).catch((err)=>{
-                            console.log(err);
                         })
+                        .catch((err)=>{
+                            console.log(err);
+                        });
                 }
             })
         }
+        else if(quantity === null){
+            ;
+        }
+        // Alert is displayed if quantity is not between 1 and 5
+        else{
+            alert("Min Quantity: 1; Max Quantity: 5")
+            console.log(quantity);
+        }
     }
 
+    // Change navbar drop-down and buttons for user based on user role
     useLayoutEffect(()=>{
         if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "admin"){
             document.getElementById("listUsersListItem").style.display = "block";
@@ -178,29 +202,34 @@ const Home = (props) => {
             document.getElementById("customerLogoutListItem").style.display = "block";
             document.getElementById("customerMyOrdersItem").style.display = "block";
             document.getElementById("cartButton").style.display = "block";
+
+            /* Used to display Add, Modify and Remove buttons on products based on whether they are 
+                in the customer's cart or not */
             products.forEach(function(product){
-		let flag = false;
-		cart.forEach(function(cartItem){
-			if(product.product_id === cartItem.product.product_id){
-				flag = true;
-			}
-		})
-		if(!flag){
-            document.getElementById("add_" + product.product_id).style.display = "inline";
-			document.getElementById("remove_" + product.product_id).style.display = "none";
-			document.getElementById("modify_" + product.product_id).style.display = "none";
-		}
-		else{
-			document.getElementById("add_" + product.product_id).style.display = "none";
-            document.getElementById("remove_" + product.product_id).style.display = "inline";
-			document.getElementById("modify_" + product.product_id).style.display = "inline";
-		}
+                let flag = false;
+                cart.forEach(function(cartItem){
+                    if(product.product_id === cartItem.product.product_id){
+                        flag = true;
+                    }
+                })
+                if(!flag){
+                    document.getElementById("add_" + product.product_id).style.display = "inline";
+                    document.getElementById("remove_" + product.product_id).style.display = "none";
+                    document.getElementById("modify_" + product.product_id).style.display = "none";
+                }
+                else{
+                    document.getElementById("add_" + product.product_id).style.display = "none";
+                    document.getElementById("remove_" + product.product_id).style.display = "inline";
+                    document.getElementById("modify_" + product.product_id).style.display = "inline";
+                }
             })
         }
     },[products, cart])
 
+    // useEffect to fetch various things on initial render
     useEffect(()=>{
         if(sessionStorage.getItem("email") != null && sessionStorage.getItem("type") === "customer"){
+            // If customer is logged in, fetching cart items
             fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
                 .then(res=>res.json())
                 .then((result)=>{setCart(result);})
@@ -208,9 +237,9 @@ const Home = (props) => {
                     console.log(err);
                 })
         }
-        console.log(cart);
 
-	if(value===undefined || value==="All"){
+        // Initially fetching and setting all products for display
+	    if(value===undefined || value==="All"){
             fetch("http://localhost:8080/product/list-products")
                 .then(res=>res.json())
                 .then((result)=>{setProducts(result);})
@@ -218,6 +247,7 @@ const Home = (props) => {
                     console.log(err);
                 })
         }
+        // Fetching products based on category selected
         else if(cats.includes(value)){
             let url = "http://localhost:8080/product/list-products-by-category/" + value
             fetch(url)
@@ -227,6 +257,7 @@ const Home = (props) => {
                     console.log(err);
                 })
         }
+        // Fetching products based on sub-category selected
         else{
             let url = "http://localhost:8080/product/list-products-by-subcategory/" + value
             fetch(url)
@@ -240,6 +271,7 @@ const Home = (props) => {
 
     return (
         <div>
+            {/* Navbar Start */}
             <nav className="navbar navbar-expand-xl justify-content-center mb-4 border rounded-5">
                 <div className="container">
                     <button
@@ -419,7 +451,9 @@ const Home = (props) => {
                     </div>
                 </div>
             </nav>
+            {/* Navbar End */}
 
+            {/* Products Display Start */}
             {
                 products.map(product=>(
                     <div className='container row px-3 pt-4 py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
@@ -502,6 +536,7 @@ const Home = (props) => {
                     </div>
                 ))
             }
+            {/* Products Display End */}
         </div>
     );
 }

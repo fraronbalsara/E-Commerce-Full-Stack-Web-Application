@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 
 const Checkout = (props) => {
 
+    // Checking if user has access
+    if(sessionStorage.getItem("email") === null || sessionStorage.getItem("type") !== "customer"){
+        window.location.replace("/AccessDenied");
+    }
+
+    // Variable declarations and initializations
     const[cart, setCart] = useState([]);
     const[customer, setCustomer] = useState('');
     const[address, setAddress] = useState();
@@ -18,22 +24,8 @@ const Checkout = (props) => {
     let productPrices = []
     let productQuantities = []
     let productSubTotals = []
-    cart.forEach(myIterateFunction)
-    if(orderTotal < 500){
-        deliveryCharge = 100;
-    }
-    totalCost = orderTotal + deliveryCharge;
 
-    function myIterateFunction(cartItem){
-        orderTotal = orderTotal + cartItem.subTotal;
-        productIds.push(cartItem.product.product_id);
-        productNames.push(cartItem.product.name);
-        productImageFilePaths.push(cartItem.product.imageFilePath);
-        productPrices.push(cartItem.product.price);
-        productQuantities.push(cartItem.quantity);
-        productSubTotals.push(cartItem.subTotal);
-    }
-
+    // Fetching cart items and customer details
     useEffect(()=>{
         fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
             .then(res=>res.json())
@@ -47,36 +39,60 @@ const Checkout = (props) => {
             .catch((err)=>{
                 console.log(err);
             });
-        setAddress(customer.address);
-        
-        {/* Added this conditon to redirect the user to the homepage if the user directly tries to access 
-        checkout page without having any products in their cart 
-        if(customer !== '' || sessionStorage.getItem('email') === null){
-            if(orderTotal<=0){
-                console.log("YES");
-            }
-        }
-        */}   
+        setAddress(customer.address)
     },[customer])
+    
+    console.log(address);
 
+    // Function to iterate over cart items to calculate total cost and set product details to variables
+    function myIterateFunction(cartItem){
+        orderTotal = orderTotal + cartItem.subTotal;
+        productIds.push(cartItem.product.product_id);
+        productNames.push(cartItem.product.name);
+        productImageFilePaths.push(cartItem.product.imageFilePath);
+        productPrices.push(cartItem.product.price);
+        productQuantities.push(cartItem.quantity);
+        productSubTotals.push(cartItem.subTotal);
+    }
+
+    // Function call for iterating over cart items
+    cart.forEach(myIterateFunction)
+
+    // Setting delivery charge based on cart value
+    if(orderTotal < 500){
+        deliveryCharge = 100;
+    }
+    totalCost = orderTotal + deliveryCharge;
+
+    // On-click function for 'Place Order' button
     function placeOrder(){
-        if(address === undefined || address.length < 20){
+        // Checking if cart is empty and redirecting to home page if cart is empty
+        if(orderTotal === 0){
+            alert("Cart is empty. Cannot checkout with an empty cart.");
+            window.location.replace("/");
+        }
+        // Checking if a valid delivery address is present
+        else if(address === undefined || address.length < 20){
             alert("Enter a detailed and valid address please.");
         }
+        // Checking if payment mode is selected
+        else if(paymentMode === ""){
+            alert("Please select a payment mode.");
+        }
+        // If cart is not empty, address is valid and payment mode is selected
         else{
             let customerEmail = sessionStorage.getItem("email");
             let orderStatus = "Placed";
             let paymentStatus = "";
             let transaction_id = "";
-            if(paymentMode === ""){
-                alert("Please select a payment mode.");
-                return;
-            }
-            else if(paymentMode === "CashOnDelivery"){              
+            // Executes for Cash On Delivery payment mode
+            if(paymentMode === "CashOnDelivery"){              
                 paymentStatus = "Pending";
                 commonOrderPlacementFunc(customerEmail, orderStatus, paymentStatus, transaction_id);
             }
+            // Executes for online payment mode
             else if(paymentMode === "Online"){
+                // Setting up a razorpay order and retreiving razorpay order id
                 fetch("http://localhost:8080/order/razorpay-transaction/" + totalCost)
                     .then(res=>res.json())
                     .then((result)=>{setRazorpayTransaction(result);})
@@ -84,6 +100,7 @@ const Checkout = (props) => {
                         console.log(err);
                 })
                 paymentStatus = "Completed";
+                // Setting up razorpay details
                 let options = {
                     "key": "rzp_test_ukDELYCqE2Fg1f",
                     "amount": totalCost * 100,
@@ -93,6 +110,7 @@ const Checkout = (props) => {
                     "image": "/emart-logo-for-razorpay.jpg",
                     "order_id": razorpayTransaction.orderId,
                     "handler": function (response){
+                        // On successful payment, places the order in the system
                         transaction_id = response.razorpay_payment_id;
                         commonOrderPlacementFunc(customerEmail, orderStatus, paymentStatus, transaction_id);
                     },
@@ -105,24 +123,28 @@ const Checkout = (props) => {
                         "color": "#3399cc"
                     }
                 };
+                // Initializing and opening razorpay window
                 let rzp1 = new window.Razorpay(options);
                 rzp1.open();
-            }
-            
+            }      
         }
     }
 
+    // Function to place order in the system once detials are confirmed
     function commonOrderPlacementFunc(customerEmail, orderStatus, paymentStatus, transaction_id){
         let reqBody = {customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, deliveryCharge, totalCost};
             console.log(reqBody);
+            // Deleting items from cart
             fetch("http://localhost:8080/cartItem/delete-cartItems/" + customerEmail, {method: 'DELETE'})
                 .then(()=>{
+                    // Sending order details to the backend system
                     fetch("http://localhost:8080/order/add-order",{
                         method:"POST",
                         headers:{"Content-Type":"application/json"},
                         body:JSON.stringify(reqBody)
                         })
                         .then((response)=>{
+                            // On success redirecting to Order Confirmed page
                             if(response.status===200){
                                 alert("Order placed successfully. Check 'My Orders' for order details.");
                                 window.location.replace("/Customer/Checkout/OrderConfirmed");
@@ -144,6 +166,7 @@ const Checkout = (props) => {
 
     return (
         <div>
+            {/* Navbar Start */}
             <nav className="navbar navbar-expand-md justify-content-center mb-3 border rounded-5">
                 <div className="container">
                     <button
@@ -170,6 +193,9 @@ const Checkout = (props) => {
                     </div>
                 </div>
             </nav>
+            {/* Navbar End */}
+
+            {/* Checkout Details Start */}
             <div className="d-flex flex-column align-items-center">
                 <div id="background-div" className="col-lg-6 ms-md-3 text-left border border-primary rounded-4 border-2">
                     <div className="text-center">
@@ -199,7 +225,8 @@ const Checkout = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>    
+            </div>
+            {/* Checkout Details End */}
         </div>
     );
 }

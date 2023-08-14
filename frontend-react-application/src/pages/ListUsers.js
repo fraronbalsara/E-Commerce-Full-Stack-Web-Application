@@ -3,75 +3,98 @@ import { Link } from 'react-router-dom';
 
 const ListUsers = (props) => {
 
+    // Checking if user has access
+    if(sessionStorage.getItem("email") === null || sessionStorage.getItem("type") !== "admin"){
+        window.location.replace("/AccessDenied");
+    }
+
+    // Variable declarations and initializations
     const[sellerDetails, setSellerDetails] = useState([]);
     const[customerDetails, setCustomerDetails] = useState([]);
 
+    // Fetching all customer and seller details (excluding passwords)
     useEffect(()=>{
         let url = "http://localhost:8080/seller/list-sellers";
         fetch(url)
             .then(res=>res.json())
             .then((result)=>{setSellerDetails(result);})
+            .catch((err)=>{
+                console.log(err);
+            });
         let url2 = "http://localhost:8080/customer/list-customers";
         fetch(url2)
             .then(res=>res.json())
             .then((result)=>{setCustomerDetails(result);})
+            .catch((err)=>{
+                console.log(err);
+            });
     },[])
 
+    // On-click function for 'Delete' button for customers
     function deleteCustomerFunc(id, email){
         if(window.confirm("Are you sure you want to delete this customer? You cannot undo this later.")){
             let url = "http://localhost:8080/customer/delete-customer/" + id;
-            console.log(url);
+            // Deleting customer details from backend server
             fetch(url, {method: 'DELETE'})
-            .then(()=>{
-                let url = "http://localhost:8080/customer_credentials/delete-customer_credentials/" + email;
-                console.log(url);
-                fetch(url, {method: 'DELETE'})
                 .then(()=>{
-                    window.location.reload();
+                    let url = "http://localhost:8080/customer_credentials/delete-customer_credentials/" + email;
+                    // Deleting customer credentials from backend server
+                    fetch(url, {method: 'DELETE'})
+                        .then(()=>{
+                            // Deleting customer cart items
+                            fetch("http://localhost:8080/cartItem/delete-cartItems/" + email, {method: 'DELETE'})
+                                .then(()=>{
+                                    window.location.reload();
+                                })
+                                .catch((err)=>{
+                                    console.log(err);
+                                });
+                        })
+                        .catch((err)=>{
+                            console.log(err);
+                        });
                 })
                 .catch((err)=>{
                     console.log(err);
-                })
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
+                });
         }
     }
 
+    // On-click function for 'Delete' button for sellers
     function deleteSellerFunc(id, email){
         if(window.confirm("Are you sure you want to delete this seller? You cannot undo this later.")){
             let url = "http://localhost:8080/seller/delete-seller/" + id;
-            console.log(url);
+            // Deleting seller details from backend server
             fetch(url, {method: 'DELETE'})
-            .then(()=>{
-                let url = "http://localhost:8080/seller_credentials/delete-seller_credentials/" + email;
-                console.log(url);
-                fetch(url, {method: 'DELETE'})
                 .then(()=>{
-                    let url = "http://localhost:8080/product/delete-products/" + email;
-                    console.log(url);
+                    let url = "http://localhost:8080/seller_credentials/delete-seller_credentials/" + email;
+                    // Deleting seller credentials from backend server
                     fetch(url, {method: 'DELETE'})
-                    .then(()=>{
-                        window.location.reload();
-                    })
-                    .catch((err)=>{
-                        console.log(err);
-                        alert("Seller was deleted but due to an internal error, failed to delete the products belonging to the seller.")
-                    })
+                        .then(()=>{
+                            let url = "http://localhost:8080/product/delete-products/" + email;
+                            // Deleting all products belonging to the seller
+                            fetch(url, {method: 'DELETE'})
+                                .then(()=>{
+                                    window.location.reload();
+                                })
+                                .catch((err)=>{
+                                    console.log(err);
+                                    alert("Seller was deleted but due to an internal error, failed to delete the products belonging to the seller.")
+                                });
+                        })
+                        .catch((err)=>{
+                            console.log(err);
+                        });
                 })
                 .catch((err)=>{
                     console.log(err);
-                })
-            })
-            .catch((err)=>{
-                console.log(err);
-            })
+                });
         }
     }
 
     return (
         <div>
+            {/* Navbar Start */}
             <nav className="navbar navbar-expand-md justify-content-center mb-4 border rounded-5">
                 <div className="container">
                     <button
@@ -89,7 +112,7 @@ const ListUsers = (props) => {
                             </Link>
                         </ul>
                     </div>
-		    <div className="collapse navbar-collapse" id="navbarNav">
+		        <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav me-md-5 pe-md-5">
                             <h1 style={{color: "white"}}>
                                 List Users
@@ -98,7 +121,9 @@ const ListUsers = (props) => {
                     </div>
                 </div>
             </nav>
-            
+            {/* Navbar End */}
+
+            {/* List Customers Start */}
             <div className='text-center' style={{overflowX: "auto"}}>
                 <h2 className="text-center ms-md-3">Customers</h2>
                 <table className='table'>
@@ -130,7 +155,9 @@ const ListUsers = (props) => {
                     </tbody>
                 </table>
             </div>
+            {/* List Customers End */}
             
+            {/* List Sellers Start */}
             <div className='text-center' style={{overflowX: "auto"}}>
                 <h2 className="text-center ms-md-3">Sellers</h2>
                 <table className='table'>
@@ -162,6 +189,7 @@ const ListUsers = (props) => {
                     </tbody>
                 </table>
             </div>
+            {/* List Sellers End */}
         </div>
     );
 }

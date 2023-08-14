@@ -3,9 +3,16 @@ import { Link } from 'react-router-dom';
 
 const MyProducts = (props) => {
 
+    // Checking if user has access
+    if(sessionStorage.getItem("email") === null || sessionStorage.getItem("type") !== "seller"){
+        window.location.replace("/AccessDenied");
+    }
+
+    // Variable declarations and initializations
     const[products, setProducts] = useState([]);
     const sellerEmail = sessionStorage.getItem("email");
 
+    // useEffect to fetch all product details pertaining to the seller
     useEffect(()=>{
         let url = "http://localhost:8080/product/list-products-by-sellerEmail/" + sellerEmail;
         fetch(url)
@@ -14,6 +21,7 @@ const MyProducts = (props) => {
             .catch((err)=>{console.log(err);})
     },[])
 
+    // On-click function for 'Delete' button
     function deleteFunc(product_id){
         if(window.confirm("Are you sure you want to delete this product? You cannot undo this later.")){
             let url = "http://localhost:8080/product/delete-product/" + product_id;
@@ -31,6 +39,7 @@ const MyProducts = (props) => {
 
     return (
         <div>
+            {/* Navbar Start */}
             <nav className="navbar navbar-expand-md justify-content-center mb-4 border rounded-5">
                 <div className="container">
                     <button
@@ -57,6 +66,9 @@ const MyProducts = (props) => {
                     </div>
                 </div>
             </nav>
+            {/* Navbar End */}
+
+            {/* My Products Display Start */}
             {
                 products.map(product=>(
                     <div className='container row py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
@@ -144,6 +156,7 @@ const MyProducts = (props) => {
                     </div>
                 ))
             }
+            {/* My Products Display End */}
         </div>
     );
 }

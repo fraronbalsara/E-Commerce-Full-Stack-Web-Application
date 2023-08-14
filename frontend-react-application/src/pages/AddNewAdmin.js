@@ -4,9 +4,16 @@ import { useState } from "react";
 
 function AddNewAdmin(){
 
+    // Checking if user has access
+    if(sessionStorage.getItem("email") === null || sessionStorage.getItem("type") !== "admin"){
+        window.location.replace("/AccessDenied");
+    }
+
+    // Variable declarations and initializations
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     
+    // On-click function for 'Add' admin button
     const addNewAdminFunction = async (event) => {
         event.preventDefault();
         const reqBody = {email, password};
