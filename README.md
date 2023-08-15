@@ -1,4 +1,5 @@
 # E-Commerce-Full-Stack-Web-Application
+Developed by Fraron Balsara
 
 # Version Information
 
@@ -15,9 +16,6 @@ react-router-dom 6.14.1
 
 ### `create database emart_database;`
 Ensure MySQL is running on default port 3306. Run the above command in MySQL to create a local database for our application. Spring Boot Models will later setup the tables for us on running the application.
-OR
-### `C:\ProgramData\MySQL\MySQL Server 8.0\Data`
-Place the emart_database folder provided in the repository in the location mentioned above. Replace `MySQL Server 8.0` with your version of MySQL. Also Keep in mind `ProgramData` is a hidden file and you will need to make hidden files visible. Check out the section on how to view [hidden files](https://www.wired.com/story/how-to-find-hidden-files-windows-macos-android-ios/).
 
 ### `spring.datasource.password=root`
 Replace `root` in the above line with your database password for the root user in `C:\Users\bfrar\OneDrive\Desktop\E-Commerce Full Stack Web Application\backend-spring-boot-application\src\main\resources\application.properties`.
