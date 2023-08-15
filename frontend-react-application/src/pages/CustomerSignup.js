@@ -1,6 +1,7 @@
 import React from "react";
 import '../App.css'
 import { useState } from "react";
+import ButtonSpinner from "../hooks/ButtonSpinner";
 
 function CustomerSignup(){
 
@@ -11,12 +12,14 @@ function CustomerSignup(){
     const [password2, setPassword2] = useState('');
     const [mobile,setMobile] = useState('');
     const [address, setAddress] = useState('');
+    const [registerButtonLoading, setRegisterButtonLoading] = ButtonSpinner("Register", "Registering...");
     
     // On-click function for 'Register' button
     const addUser = async (event) => {
         event.preventDefault();
         // Checking if password matches confirm password
         if(password === password2){
+            setRegisterButtonLoading(true);
             const reqBody = {name, address, email, mobile}
             // Sending customer details to the backend server
             fetch("http://localhost:8080/customer/add-customer",{
@@ -41,13 +44,20 @@ function CustomerSignup(){
                             window.location.replace("/CustomerLogin");
                         }
                         else{
-                            alert("Fatal error occured.")
+                            alert("Fatal error occured.");
+                            setRegisterButtonLoading(false);
                         }
                     })
                 }
                 else if(response.status===500){
                     console.log(response);
                     alert("Customer signup unsucessful.");
+		            setRegisterButtonLoading(false);
+                }
+                else{
+                    console.log(response);
+                    alert("Error occured.")
+                    setRegisterButtonLoading(false);
                 }
             });
         }
@@ -58,7 +68,7 @@ function CustomerSignup(){
 
     return(
         <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 my-2">
-            <div id="background-div" className="col-lg-6 text-left border border-primary rounded-4 border-2">
+            <div id="background-div" className="col-lg-6 text-left border border-primary rounded-4 border-3" style={{backgroundColor: "#A1E5FF"}}>
                 <div className="text-center">
                     <img className="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo"/>
                 </div>
@@ -97,10 +107,10 @@ function CustomerSignup(){
                     <div className="form-group row px-5 py-2">
                         <label for="address" className="col-sm-3 col-form-label">Address</label>
                         <div className="col-sm-9">
-                        <textarea type="text" className="form-control" id="address" maxLength="200" value={address} onChange={(e)=>setAddress(e.target.value)} required></textarea>
+                        <textarea type="text" className="form-control" id="address" minLength="20" maxLength="150" value={address} onChange={(e)=>setAddress(e.target.value)} required></textarea>
                         </div>
                     </div>
-                    <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit">Register</button></div>
+                    <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit" ref={registerButtonLoading}>Register</button></div>
                 </form>
             </div>
         </div>

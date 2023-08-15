@@ -1,5 +1,9 @@
 .App {
-  
+  background-image: url("background-2.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
 }
 
 #emart-logo {
@@ -8,6 +12,11 @@
 }
 
 .btn {
+  background-color: #046380;
+  color: white;
+}
+
+.btn:disabled {
   background-color: #046380;
   color: white;
 }

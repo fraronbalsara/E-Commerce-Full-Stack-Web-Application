@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ButtonSpinner from "../hooks/ButtonSpinner";
 
 const Home = (props) => {
 
@@ -8,6 +9,7 @@ const Home = (props) => {
     const[value, setValue] = useState();
     const cats = ["Electronics", "Clothing", "Health", "Stationary", "Other"];
     const [cart, setCart] = useState([]);
+
 
     // Function to fetch products from selected category only and set to products variable
     function categoryfunc(category){
@@ -81,7 +83,8 @@ const Home = (props) => {
                         console.log(response);
                         alert("Failed to update cart item.");
                     }
-                }).catch((err)=>{
+                })
+                .catch((err)=>{
                     console.log(err);
                 });
         }
@@ -105,11 +108,11 @@ const Home = (props) => {
                         .then((response)=>{
                             if(response.status===200){
                                 fetch("http://localhost:8080/cartItem/get-cartItems/" + sessionStorage.getItem("email"))
-                                        .then(res=>res.json())
-                                        .then((result)=>{setCart(result);})
-                                        .catch((err)=>{
-                                                console.log(err);
-                                        })
+                                    .then(res=>res.json())
+                                    .then((result)=>{setCart(result);})
+                                    .catch((err)=>{
+                                            console.log(err);
+                                    })
                                     alert("Product was removed from cart.");
                             }
                             else{
@@ -121,7 +124,7 @@ const Home = (props) => {
                             console.log(err);
                         });
                 }
-            })
+            });
         }
     }
 
@@ -162,7 +165,7 @@ const Home = (props) => {
                             console.log(err);
                         });
                 }
-            })
+            });
         }
         else if(quantity === null){
             ;
@@ -456,13 +459,13 @@ const Home = (props) => {
             {/* Products Display Start */}
             {
                 products.map(product=>(
-                    <div className='container row px-3 pt-4 py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#046380", color: "white"}}>
+                    <div className='container row px-3 pt-4 py-4 mb-4 mx-1 border border-3 rounded-5' style={{backgroundColor: "#A1E5FF", color: "black"}}>
                         <div className='col-lg-4 text-center'>
-                            <img className='img-fluid border rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
+                            <img className='img-fluid border border-3 rounded-5' src={product.imageFilePath} style={{width: "300px", height: "300px", borderStyle: "solid", borderColor: "black", backgroundColor: "white"}}></img>
                             <div>
-                                <button className='btn mt-3 mx-3' id={'add_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} onClick={()=>add(product)} >Add to Cart</button>
-                                <button className='btn mt-3 mx-3' id={'modify_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}} onClick={()=>modify(product)} >Modify</button>
-				                <button className='btn mt-3 mx-3' id={'remove_' + product.product_id} style={{color: "#046380", backgroundColor: "white", display: "none"}}  onClick={()=>remove(product)} >Remove</button>
+                                <button className='btn mt-3 mx-3' id={'add_' + product.product_id} style={{color: "white", backgroundColor: "#046380", display: "none"}} onClick={()=>add(product)}>Add to Cart</button>
+                                <button className='btn mt-3 mx-3' id={'modify_' + product.product_id} style={{color: "white", backgroundColor: "#046380", display: "none"}} onClick={()=>modify(product)}>Modify</button>
+				                <button className='btn mt-3 mx-3' id={'remove_' + product.product_id} style={{color: "white", backgroundColor: "#046380", display: "none"}}  onClick={()=>remove(product)}>Remove</button>
                             </div>               
                         </div>
                         <div className='col mt-1'>

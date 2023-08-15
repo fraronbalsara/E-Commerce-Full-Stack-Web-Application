@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import ButtonSpinner from "../hooks/ButtonSpinner";
 
 const Checkout = (props) => {
 
@@ -14,6 +15,7 @@ const Checkout = (props) => {
     const[address, setAddress] = useState();
     const[paymentMode, setPaymentMode] = useState("");
     const[razorpayTransaction, setRazorpayTransaction] = useState('');
+    const [buttonLoading, setButtonLoading] = ButtonSpinner("Place Order", "Placing Order...");
 
     let totalCost = 0
     let orderTotal = 0;
@@ -35,14 +37,11 @@ const Checkout = (props) => {
             });
         fetch("http://localhost:8080/customer/list-customer-by-email/" + sessionStorage.getItem("email"))
             .then(res=>res.json())
-            .then((result)=>{setCustomer(result);})
+            .then((result)=>{setCustomer(result); setAddress(result.address)})
             .catch((err)=>{
                 console.log(err);
             });
-        setAddress(customer.address)
-    },[customer])
-    
-    console.log(address);
+    },[])
 
     // Function to iterate over cart items to calculate total cost and set product details to variables
     function myIterateFunction(cartItem){
@@ -81,6 +80,7 @@ const Checkout = (props) => {
         }
         // If cart is not empty, address is valid and payment mode is selected
         else{
+            setButtonLoading(true);
             let customerEmail = sessionStorage.getItem("email");
             let orderStatus = "Placed";
             let paymentStatus = "";
@@ -114,6 +114,11 @@ const Checkout = (props) => {
                         transaction_id = response.razorpay_payment_id;
                         commonOrderPlacementFunc(customerEmail, orderStatus, paymentStatus, transaction_id);
                     },
+		    "modal": {
+			"ondismiss": function(){
+			    setButtonLoading(false);
+		 	}
+		     },
                     "prefill": { //Prefilling Customer Details
                         "name": customer.name,
                         "email": customer.email,
@@ -132,11 +137,13 @@ const Checkout = (props) => {
 
     // Function to place order in the system once detials are confirmed
     function commonOrderPlacementFunc(customerEmail, orderStatus, paymentStatus, transaction_id){
-        let reqBody = {customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, productIds, productNames, productImageFilePaths, productPrices, productQuantities, productSubTotals, deliveryCharge, totalCost};
-            console.log(reqBody);
-            // Deleting items from cart
-            fetch("http://localhost:8080/cartItem/delete-cartItems/" + customerEmail, {method: 'DELETE'})
-                .then(()=>{
+        let reqBody = {customerEmail, address, orderStatus, paymentStatus, paymentMode, transaction_id, 
+            productIds, productNames, productImageFilePaths, productPrices, productQuantities, 
+            productSubTotals, deliveryCharge, totalCost};
+        // Deleting items from cart
+        fetch("http://localhost:8080/cartItem/delete-cartItems/" + customerEmail, {method: 'DELETE'})
+            .then((response)=>{
+                if(response.status===200){
                     // Sending order details to the backend system
                     fetch("http://localhost:8080/order/add-order",{
                         method:"POST",
@@ -152,52 +159,31 @@ const Checkout = (props) => {
                             else{
                                 alert("Error Occured! Failed to place order. Please check logs.")
                                 console.log(response);
+                                setButtonLoading(false);
                             }
                         })
                         .catch((err)=>{
                             console.log(err);
                         })
-                })
-                .catch((err)=>{
+                }
+                else{
                     alert("Error Occured! Failed to place order. Please check logs.")
-                    console.log(err);
-                })
+                    console.log(response);
+                    setButtonLoading(false);
+                }
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
     }
 
     return (
         <div>
-            {/* Navbar Start */}
-            <nav className="navbar navbar-expand-md justify-content-center mb-3 border rounded-5">
-                <div className="container">
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                    >
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav my-2 ms-md-2">
-                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px", width: "100px"}}>
-                                Home
-                            </Link>
-                        </ul>
-                    </div>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav me-md-5 pe-md-5">
-                            <h1 style={{color: "white"}}>
-                                Checkout
-                            </h1>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            {/* Navbar End */}
+            <Navbar header="Checkout"/>
 
             {/* Checkout Details Start */}
             <div className="d-flex flex-column align-items-center">
-                <div id="background-div" className="col-lg-6 ms-md-3 text-left border border-primary rounded-4 border-2">
+                <div id="background-div" className="col-lg-6 ms-md-4 text-left border border-primary rounded-4 border-3" style={{backgroundColor: "#A1E5FF"}}>
                     <div className="text-center">
                         <img className="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo" />
                     </div>
@@ -221,7 +207,7 @@ const Checkout = (props) => {
                             </div>
                         </div>
                         <div className="text-center px-5 pt-2 pb-4">
-                            <button className="btn" onClick={placeOrder}>Place Order</button>
+                            <button className="btn" onClick={placeOrder} ref={buttonLoading}>Place Order</button>
                         </div>
                     </div>
                 </div>

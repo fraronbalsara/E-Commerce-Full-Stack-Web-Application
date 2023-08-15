@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const Cart = (props) => {
 
@@ -97,39 +97,11 @@ const Cart = (props) => {
 
     return (
         <div>
-            {/* Navbar Start */}
-            <nav className="navbar navbar-expand-md justify-content-center mb-3 border rounded-5">
-                <div className="container">
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                    >
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav my-2 ms-md-2">
-                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px", width: "100px"}}>
-                                Home
-                            </Link>
-                        </ul>
-                    </div>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav me-md-5 pe-md-5">
-                            <h1 style={{color: "white"}}>
-                                My Cart
-                            </h1>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            {/* Navbar End */}
-
+            <Navbar header="Cart"/>
             {/* Cart Items Display Start */}
-            <div className='d-flex flex-column align-items-center'>
+            <div className='d-flex flex-column align-items-center border border-3 rounded-5' style={{backgroundColor: "#A1E5FF"}}>
                 <div className='container' style={{overflowX: "auto"}}>
-                    <table className="table table-responsive">
+                    <table className="table table-responsive mt-4">
                         <thead>
                             <tr>
                                 <th className='px-4 border text-center'>Item Number</th>
@@ -172,7 +144,7 @@ const Cart = (props) => {
                     </table>
                 </div>
                 <div>
-                    <button className='btn mt-3' onClick={checkout}>Proceed with checkout</button>
+                    <button className='btn mt-2 mb-4' onClick={checkout}>Proceed with checkout</button>
                 </div>
             </div>
             {/* Cart Items Display End */}

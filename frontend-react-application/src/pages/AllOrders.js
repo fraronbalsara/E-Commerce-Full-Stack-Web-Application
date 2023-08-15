@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const AllOrders = (props) => {
 
@@ -37,7 +37,8 @@ const AllOrders = (props) => {
                 method:"PUT",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(reqBody)
-                }).then((response)=>{
+                })
+                .then((response)=>{
                     if(response.status===200){
                         alert("Order updated successfully.");
                     }
@@ -45,10 +46,11 @@ const AllOrders = (props) => {
                         console.log(response);
                         alert("Failed to update order.");
                     }
-                }).catch((err)=>{
+                    setOrderDispatch();
+                })
+                .catch((err)=>{
                     console.log(err);
                 })
-            setOrderDispatch();
         }
     },[orderDispatch])
 
@@ -76,7 +78,8 @@ const AllOrders = (props) => {
                 method:"PUT",
                 headers:{"Content-Type":"application/json"},
                 body:JSON.stringify(reqBody)
-                }).then((response)=>{
+                })
+                .then((response)=>{
                     if(response.status===200){
                         alert("Order updated successfully.");
                     }
@@ -84,10 +87,11 @@ const AllOrders = (props) => {
                         console.log(response);
                         alert("Failed to update order.");
                     }
-                }).catch((err)=>{
-                    console.log(err);
+                    setOrderDelivered();
                 })
-            setOrderDelivered();
+                .catch((err)=>{
+                    console.log(err);
+                });
         }
     },[orderDelivered])
 
@@ -129,39 +133,12 @@ const AllOrders = (props) => {
 
     return (
         <div>
-            {/* Navbar Start */}
-            <nav className="navbar navbar-expand-md justify-content-center mb-4 border rounded-5">
-                <div className="container">
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                    >
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav my-2 ms-md-2">
-                            <Link className="btn btn-lg" role="button" to={"/"} style={{color: "#046380", backgroundColor: "white", fontSize: "15px", width: "100px"}}>
-                                Home
-                            </Link>
-                        </ul>
-                    </div>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav me-md-5 pe-md-4">
-                            <h1 style={{color: "white"}}>
-                                All Orders
-                            </h1>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            {/* Navbar End */}
+            <Navbar header="All Orders"/>
 
             {/* Order Display Start */}
             {
                 orders.toReversed().map(order=>(
-                    <div className='container py-4 mb-2 mx-1 border border-2 rounded-5' style={{backgroundColor: "#F6EEE3", color: "black"}}>
+                    <div className='container py-4 mb-4 mx-1 border border-3 rounded-5' style={{backgroundColor: "#A1E5FF", color: "black"}}>
                         <div className='mt-1 ms-3'>
 			                <div className="row px-1 pt-1">
                                 <label className="col-sm-3 col-lg-2">Order ID:</label>

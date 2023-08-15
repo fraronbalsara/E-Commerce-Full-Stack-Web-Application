@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import '../App.css'
+import ButtonSpinner from "../hooks/ButtonSpinner";
 
 function ModifyProduct(props){
 
@@ -16,6 +17,7 @@ function ModifyProduct(props){
 
     // Declaring variable for product
     const [product, setProduct] = useState('');
+    const [modifyButtonLoading, setModifyButtonLoading] = ButtonSpinner("Modify Product", "Modifying Product...");
 
     // useEffect to fetch product details for particular product
     useEffect(()=>{
@@ -54,13 +56,15 @@ function ModifyProduct(props){
     // On-click function for 'Modify' button
     const modifyProduct = async (event) => {
         event.preventDefault();
+        setModifyButtonLoading(true);
         const reqBody = {product_id, name, short_summary, description, price, stock, weight, dimensions, variant, category, subcategory, sellerEmail, date_created, date_modified, imageFilePath};
         let url = "http://localhost:8080/product/update-product/" + id;
         fetch(url,{
             method:"PUT",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify(reqBody)
-            }).then((response)=>{
+            })
+            .then((response)=>{
                 if(response.status===200){
                     // On success redirecting to "My Products" page
                     alert("Product modified successfully");
@@ -69,16 +73,18 @@ function ModifyProduct(props){
                 else{
                     console.log(response);
                     alert("Failed to modify product.");
+                    setModifyButtonLoading(false);
                 }
-            }).catch((err)=>{
-                console.log(err);
             })
+            .catch((err)=>{
+                console.log(err);
+            });
     }
 
     
     return(
         <div className="d-md-flex flex-column align-items-center justify-content-center min-vh-100 my-2">
-            <div id="background-div" className="col-lg-6 border border-primary rounded-4 border-2">
+            <div id="background-div" className="col-lg-6 border border-primary rounded-4 border-3" style={{backgroundColor: "#A1E5FF"}}>
                 <div className="text-center">
                     <img className="img-fluid mt-4 mb-2" id="emart-logo" src="/emart-logo.png" alt="E-Mart logo" />
                 </div>
@@ -169,7 +175,7 @@ function ModifyProduct(props){
                             <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg"></input>
                         </div>
                     </div>
-                    <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit">Submit</button></div>
+                    <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit" ref={modifyButtonLoading}>Modify Product</button></div>
                 </form>
             </div>
         </div>
