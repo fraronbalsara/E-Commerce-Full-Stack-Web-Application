@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 
@@ -132,7 +134,7 @@ const AllOrders = (props) => {
     }
 
     return (
-        <div>
+        <div className='min-vh-100'>
             <Navbar header="All Orders"/>
 
             {/* Order Display Start */}

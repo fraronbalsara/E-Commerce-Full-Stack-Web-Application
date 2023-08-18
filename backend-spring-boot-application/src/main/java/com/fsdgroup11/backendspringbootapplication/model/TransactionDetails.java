@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 package com.fsdgroup11.backendspringbootapplication.model;
 
 public class TransactionDetails {

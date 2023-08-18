@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 
@@ -27,7 +29,7 @@ const OrderConfirmed = (props) => {
     },[])
     
     return(
-        <div>
+        <div className='min-vh-100'>
             <Navbar header="Order Confirmed"/>
 
             <div className="border border-3 rounded-5 pb-2 pt-3" style={{backgroundColor: "#A1E5FF"}}> 

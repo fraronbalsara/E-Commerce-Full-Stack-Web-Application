@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 package com.fsdgroup11.backendspringbootapplication.controller;
 
 import com.fsdgroup11.backendspringbootapplication.model.SellerCredentials;
@@ -32,18 +34,24 @@ public class SellerCredentialsController {
         return sellerCredentialsService.getByEmail(email);
     }
 
+    // Request to validate login
     @PostMapping("/seller-login")
     public ResponseEntity sellerLogin(@RequestBody SellerCredentials sellerCredentials) {
         SellerCredentials databaseSellerCredentials = sellerCredentialsService.getByEmail(sellerCredentials.getEmail());
+        // If email exists in database
         if(databaseSellerCredentials != null) {
             String database_password = databaseSellerCredentials.getPassword();
             String password = sellerCredentials.getPassword();
+            // Returns 200 if credentials match
             if (password.equals(database_password)) {
                 return new ResponseEntity<>(HttpStatus.OK);
-            } else {
+            }
+            // Returns 406 if credentials do not match
+            else {
                 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
         }
+        // Returns 406 if email does not exist
         else{
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }

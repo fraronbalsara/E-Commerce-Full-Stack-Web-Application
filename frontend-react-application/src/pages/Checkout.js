@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import ButtonSpinner from "../hooks/ButtonSpinner";
@@ -178,7 +180,7 @@ const Checkout = (props) => {
     }
 
     return (
-        <div>
+        <div className='min-vh-100'>
             <Navbar header="Checkout"/>
 
             {/* Checkout Details Start */}

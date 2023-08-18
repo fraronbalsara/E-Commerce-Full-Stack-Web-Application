@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 package com.fsdgroup11.backendspringbootapplication.model;
 
 import jakarta.persistence.*;
@@ -11,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="Sellers")
+@Table(name="sellers")
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +37,16 @@ public class Seller {
     private String mobile;
 
     public Seller() {
+    }
+
+    public Seller(int seller_id, String name, String address, String email, Timestamp date_created, Timestamp date_modified, String mobile) {
+        this.seller_id = seller_id;
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.date_created = date_created;
+        this.date_modified = date_modified;
+        this.mobile = mobile;
     }
 
     public int getSeller_id() {

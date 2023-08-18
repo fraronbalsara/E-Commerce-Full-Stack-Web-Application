@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 
@@ -96,34 +98,34 @@ const Cart = (props) => {
     }
 
     return (
-        <div>
+        <div className='min-vh-100'>
             <Navbar header="Cart"/>
             {/* Cart Items Display Start */}
             <div className='d-flex flex-column align-items-center border border-3 rounded-5' style={{backgroundColor: "#A1E5FF"}}>
-                <div className='container' style={{overflowX: "auto"}}>
+                <div className="container px-4" style={{overflowX: "auto"}}>
                     <table className="table table-responsive mt-4">
                         <thead>
                             <tr>
-                                <th className='px-4 border text-center'>Item Number</th>
-                                <th className='px-4 border text-center'>Product ID</th>
-                                <th className='px-4 border text-center'>Product Name</th>
-                                <th className='px-4 border text-center'>Quantity</th>
-                                <th className='px-4 border text-center'>Unit Price</th>
-                                <th className='px-4 border text-center'>Sub-total</th>
-                                <th className='px-4 border text-center'>Action</th>
+                                <th className='px-2 border text-center'>Item Number</th>
+                                <th className='px-2 border text-center'>Product ID</th>
+                                <th className='px-2 border text-center'>Product Name</th>
+                                <th className='px-2 border text-center'>Quantity</th>
+                                <th className='px-2 border text-center'>Unit Price</th>
+                                <th className='px-2 border text-center'>Sub-total</th>
+                                <th className='px-2 border text-center'>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                         {
                             cart.map((cartItem, index)=>(  
                                 <tr>
-                                    <td className='px-4 border text-end'>{index + 1}</td>
-                                    <td className='px-4 border text-end'>{cartItem.product.product_id}</td>
-                                    <td className='px-4 border'>{cartItem.product.name}</td>
-                                    <td className='px-4 border text-end'>{cartItem.quantity}</td>
-                                    <td className='px-4 border text-end'>&#8377;{cartItem.product.price}</td>
-                                    <td className='px-4 border text-end'>&#8377;{cartItem.subTotal}</td>
-                                    <td className='px-4 py-2 border text-center'>
+                                    <td className='px-2 border text-center'>{index + 1}</td>
+                                    <td className='px-2 border text-center'>{cartItem.product.product_id}</td>
+                                    <td className='px-2 border text-center'>{cartItem.product.name}</td>
+                                    <td className='px-2 border text-end'>{cartItem.quantity}</td>
+                                    <td className='px-2 border text-end'>&#8377;{cartItem.product.price}</td>
+                                    <td className='px-2 border text-end'>&#8377;{cartItem.subTotal}</td>
+                                    <td className='px-2 py-2 border text-center'>
                                         <button className='btn mx-2 my-1' onClick={()=>update(cartItem.cartItem_id, cartItem.email, cartItem.product, cartItem.product.price)}>Update</button>
                                         <button className='btn mx-2 my-1' onClick={()=>remove(cartItem.cartItem_id)}>Remove</button>
                                     </td>
@@ -131,14 +133,14 @@ const Cart = (props) => {
                             )) 
                         }
                             <tr>
-                                <td className='px-4 py-2 border text-center' colSpan={5}>Delivery Charge (Free Delivery for orders above &#8377;499 )</td>
-                                <td className='px-4 py-2 border text-end' colSpan={1}>&#8377;{deliveryCharge}</td>
-                                <td className='px-4 py-2 border text-center' colSpan={1}></td>
+                                <td className='px-2 py-2 border text-center' colSpan={5}>Delivery Charge (Free Delivery for orders above &#8377;499 )</td>
+                                <td className='px-2 py-2 border text-end' colSpan={1}>&#8377;{deliveryCharge}</td>
+                                <td className='px-2 py-2 border text-center' colSpan={1}></td>
                             </tr>
                             <tr>  
-                                <td className='px-4 py-2 border text-center fw-bold' colSpan={5}>Total</td>
-                                <td className='px-4 py-2 border text-end fw-bold' colSpan={1}>&#8377;{total}</td>
-                                <td className='px-4 py-2 border text-center' colSpan={1}></td>
+                                <td className='px-2 py-2 border text-center fw-bold' colSpan={5}>Total</td>
+                                <td className='px-2 py-2 border text-end fw-bold' colSpan={1}>&#8377;{total}</td>
+                                <td className='px-2 py-2 border text-center' colSpan={1}></td>
                             </tr>
                         </tbody>
                     </table>

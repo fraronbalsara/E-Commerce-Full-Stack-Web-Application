@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar';
 
@@ -105,7 +107,7 @@ const ListUsers = (props) => {
     }
 
     return (
-        <div>
+        <div className='min-vh-100'>
             <Navbar header="List Users"/>
 
             <div className="border border-3 rounded-5 pb-4" style={{backgroundColor: "#A1E5FF"}}>

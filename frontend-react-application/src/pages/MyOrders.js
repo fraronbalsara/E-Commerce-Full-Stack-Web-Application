@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 
@@ -23,7 +25,7 @@ const MyOrders = (props) => {
     console.log(orders)
 
     return (
-        <div>
+        <div className='min-vh-100'>
             <Navbar header="My Orders"/>
 
             {/* My Orders Display Start */}

@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 package com.fsdgroup11.backendspringbootapplication.model;
 
 import jakarta.persistence.*;
@@ -8,7 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="Products")
+@Table(name="products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +47,24 @@ public class Product {
     public enum SubCategory{Mobile, Laptop, Earphones, Shirts, Trousers, Sunglasses, Probiotics, Cosmetics, Books, Paper, Ink, Other}
 
     public Product() {
+    }
+
+    public Product(int product_id, String name, String short_summary, String description, float price, Timestamp date_created, Timestamp date_modified, int stock, String weight, String dimensions, Category category, SubCategory subcategory, String variant, String imageFilePath, String sellerEmail) {
+        this.product_id = product_id;
+        this.name = name;
+        this.short_summary = short_summary;
+        this.description = description;
+        this.price = price;
+        this.date_created = date_created;
+        this.date_modified = date_modified;
+        this.stock = stock;
+        this.weight = weight;
+        this.dimensions = dimensions;
+        this.category = category;
+        this.subcategory = subcategory;
+        this.variant = variant;
+        this.imageFilePath = imageFilePath;
+        this.sellerEmail = sellerEmail;
     }
 
     public int getProduct_id() {

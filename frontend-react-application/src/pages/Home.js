@@ -1,6 +1,7 @@
+// Fraron Balsara
+
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ButtonSpinner from "../hooks/ButtonSpinner";
 
 const Home = (props) => {
 
@@ -154,7 +155,7 @@ const Home = (props) => {
                                 .catch((err)=>{
                                         console.log(err);
                                 })
-                                alert("Product was updated in cart.");
+                                alert("Product was updated in your cart.");
                             }
                             else{
                                 console.log(response);
@@ -273,7 +274,7 @@ const Home = (props) => {
     },[])
 
     return (
-        <div>
+        <div className='min-vh-100'>
             {/* Navbar Start */}
             <nav className="navbar navbar-expand-xl justify-content-center mb-4 border rounded-5">
                 <div className="container">

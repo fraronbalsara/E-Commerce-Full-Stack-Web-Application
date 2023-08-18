@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -43,7 +45,7 @@ const MyProducts = (props) => {
     }
 
     return (
-        <div>
+        <div className='min-vh-100'>
             <Navbar header="My Products"/>
 
             {/* My Products Display Start */}

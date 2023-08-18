@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 package com.fsdgroup11.backendspringbootapplication.model;
 
 import jakarta.persistence.*;
@@ -7,7 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Entity
-@Table(name="AdminCredentials")
+@Table(name="admin_credentials")
 public class AdminCredentials {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +21,16 @@ public class AdminCredentials {
     private String password;
 
     public AdminCredentials() {
+    }
+
+    public AdminCredentials(int admin_credentials_id, String email, String password) throws NoSuchAlgorithmException {
+        this.admin_credentials_id = admin_credentials_id;
+        this.email = email;
+        // Encoding password using SHA-256 Algorithm before saving in the database
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        messageDigest.update(password.getBytes());
+        String hashed_password = new String(messageDigest.digest());
+        this.password = hashed_password;
     }
 
     public String getEmail() {
@@ -34,6 +46,7 @@ public class AdminCredentials {
     }
 
     public void setPassword(String password) throws NoSuchAlgorithmException {
+        // Encoding password using SHA-256 Algorithm before saving in the database
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
         messageDigest.update(password.getBytes());
         String hashed_password = new String(messageDigest.digest());

@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 package com.fsdgroup11.backendspringbootapplication.model;
 
 import jakarta.persistence.*;
@@ -9,7 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="Customers")
+@Table(name="customers")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +34,16 @@ public class Customer {
     private String mobile;
 
     public Customer() {
+    }
+
+    public Customer(int customer_id, String name, String address, String email, Timestamp date_created, Timestamp date_modified, String mobile) {
+        this.customer_id = customer_id;
+        this.name = name;
+        this.address = address;
+        this.email = email;
+        this.date_created = date_created;
+        this.date_modified = date_modified;
+        this.mobile = mobile;
     }
 
     public int getCustomer_id() {
