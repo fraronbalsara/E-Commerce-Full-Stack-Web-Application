@@ -27,7 +27,7 @@ Swagger Documentation for database schema, table layouts and all API calls is av
 Default users and products are automatically added to the database on running the Spring Boot application.  
 `Customer Credentials`  
 Email: default.customer@email.com  
-Password: DefaultPassword@1  
+Password: DefaultCustomer@1  
 `Seller Credentials`  
 Email: default.seller@email.com  
 Password: DefaultSeller@1  
