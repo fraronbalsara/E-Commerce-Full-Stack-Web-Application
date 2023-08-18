@@ -8,6 +8,7 @@ JDK 17.0.7
 Spring 3.1.1  
 Apache Maven 3.9.2  
 Openapi 2.0.2  
+Razorpay 1.4.3  
 Node 18.16.0  
 React 18.2.0  
 react-router-dom 6.14.1  
