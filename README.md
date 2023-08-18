@@ -23,6 +23,16 @@ Replace `root` in the above line with your database password for the root user i
 ### `mvn spring-boot:run`
 Navigate to `E-Commerce Full Stack Web Application\backend-spring-boot-application` and run the above command to start Spring Boot application at [http://localhost:8080]
 Swagger Documentation for database schema, table layouts and all API calls is available at [http://localhost:8080/swagger-ui/index.html] after running the SpringBoot application.
+Default users and products are automatically added to the database on running the Spring Boot application.
+`Customer Credentials
+Email: default.customer@email.com
+Password: DefaultPassword@1`
+`Seller Credentials
+Email: default.seller@email.com
+Password: DefaultSeller@1`
+`Admin Credentials
+Email: default.admin@email.com
+Password: DefaultAdmin@1`
 
 ### `npm start`
 Navigate to `E-Commerce Full Stack Web Application\frontend-react-application` and run the above command to start the react app in development mode at [http://localhost:3000]. If it does not launch automatically in a new browser window, you can open a new browser window and access it at [http://localhost:3000].
