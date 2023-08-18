@@ -101,13 +101,13 @@ function ModifyProduct(props){
                     <div className="form-group row px-5 py-2 py-md-0">
                         <label for="shortSummary" className="col-sm-3 col-form-label">Short Summary</label>
                         <div className="col-sm-9 py-md-2">
-                            <input type="text" className="form-control" id="shortSummary" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.short_summary} onChange={(e) => short_summary = e.target.value}></input>
+                            <input type="text" className="form-control" id="shortSummary" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." required defaultValue={product.short_summary} onChange={(e) => short_summary = e.target.value}></input>
                         </div>
                     </div>
                     <div className="form-group row px-5 py-2">
                         <label for="description" className="col-sm-3 col-form-label">Description</label>
                         <div className="col-sm-9">
-                            <textarea type="text" className="form-control" id="description" defaultValue={product.description} onChange={(e) => description = e.target.value}></textarea>
+                            <textarea type="text" className="form-control" id="description" required defaultValue={product.description} onChange={(e) => description = e.target.value}></textarea>
                         </div>
                     </div>
                     <div className="form-group row px-5 py-2">
@@ -131,7 +131,7 @@ function ModifyProduct(props){
                     <div className="form-group row px-5 py-2">
                         <label for="dimensions" className="col-sm-3 col-form-label">Dimensions</label>
                         <div className="col-sm-9">
-                            <input type="text" className="form-control" id="dimensions" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." defaultValue={product.dimensions} onChange={(e) => dimensions = e.target.value}></input>
+                            <input type="text" className="form-control" id="dimensions" pattern="[a-zA-Z0-9.\s]*$" title="No special characters allowed." defaultValue={product.dimensions} onChange={(e) => dimensions = e.target.value}></input>
                         </div>
                     </div>
                     <div className="form-group row px-5 py-2">

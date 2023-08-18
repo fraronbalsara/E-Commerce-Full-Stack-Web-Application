@@ -129,13 +129,13 @@ function AddProduct(){
                     <div className="form-group row px-5 py-2 py-md-0">
                         <label for="shortSummary" className="col-sm-3 col-form-label">Short Summary</label>
                         <div className="col-sm-9  py-md-2">
-                            <input type="text" className="form-control" id="shortSummary" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." value={short_summary} onChange={(e) => setShort_summary(e.target.value)}></input>
+                            <input type="text" className="form-control" id="shortSummary" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." value={short_summary} required onChange={(e) => setShort_summary(e.target.value)}></input>
                         </div>
                     </div>
                     <div className="form-group row px-5 py-2">
                         <label for="description" className="col-sm-3 col-form-label">Description</label>
                         <div className="col-sm-9">
-                            <textarea type="text" className="form-control" id="description" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                            <textarea type="text" className="form-control" id="description" value={description} required onChange={(e) => setDescription(e.target.value)}></textarea>
                         </div>
                     </div>
                     <div className="form-group row px-5 py-2">
@@ -159,7 +159,7 @@ function AddProduct(){
                     <div className="form-group row px-5 py-2">
                         <label for="dimensions" className="col-sm-3 col-form-label">Dimensions</label>
                         <div className="col-sm-9">
-                            <input type="text" className="form-control" id="dimensions" pattern="[a-zA-Z0-9\s]*$" title="No special characters allowed." value={dimensions} onChange={(e) => setDimensions(e.target.value)}></input>
+                            <input type="text" className="form-control" id="dimensions" pattern="[a-zA-Z0-9.\s]*$" title="No special characters allowed." value={dimensions} onChange={(e) => setDimensions(e.target.value)}></input>
                         </div>
                     </div>
                     <div className="form-group row px-5 py-2">
