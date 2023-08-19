@@ -1,3 +1,5 @@
+// Fraron Balsara
+
 package com.fsdgroup11.backendspringbootapplication.helper;
 
 import org.springframework.stereotype.Component;
@@ -11,11 +13,13 @@ import java.io.OutputStream;
 @Component
 public class FileUploadHelper {
 
+    // React PUBLIC folder url where product images are stored
     public final String UPLOAD_DIR="..\\frontend-react-application\\public\\ProductImages";
 
     public boolean uploadFile(MultipartFile multipartFile){
         boolean f = false;
         System.out.println(UPLOAD_DIR);
+        // reading and writing file to required location
         try{
             InputStream is = multipartFile.getInputStream();
             byte data[] = new byte[is.available()];
