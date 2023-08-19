@@ -44,6 +44,7 @@ function SellerLogin(){
             })
             .catch((err)=>{
                 console.log(err);
+                setLoginButtonLoading(false);
             });
         
     }

@@ -44,6 +44,7 @@ function CustomerLogin(){
             })
             .catch((err)=>{
                 console.log(err);
+                setLoginButtonLoading(false);
             });
     }
 

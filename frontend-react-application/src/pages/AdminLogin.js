@@ -43,6 +43,7 @@ function AdminLogin(){
             })
             .catch((err)=>{
                 console.log(err);
+                setLoginButtonLoading(false);
             });
         
     }

@@ -49,16 +49,14 @@ function ModifyProduct(props){
     let dimensions = product.dimensions;
     let variant = product.variant;
     let imageFilePath = product.imageFilePath;
+    const [imageFile, setImageFile] = useState();
     const category = product.category;
     const subcategory = product.subcategory;
     const sellerEmail = product.sellerEmail;
     const date_created = product.date_created;
     const date_modified = product.date_modified;
 
-    // On-click function for 'Modify' button
-    const modifyProduct = async (event) => {
-        event.preventDefault();
-        setModifyButtonLoading(true);
+    function updateProduct(){
         const reqBody = {product_id, name, short_summary, description, price, stock, weight, dimensions, variant, category, subcategory, sellerEmail, date_created, date_modified, imageFilePath};
         let url = "http://localhost:8080/product/update-product/" + id;
         fetch(url,{
@@ -80,9 +78,51 @@ function ModifyProduct(props){
             })
             .catch((err)=>{
                 console.log(err);
+                setModifyButtonLoading(false);
             });
     }
 
+    // On-click function for 'Modify' button
+    const modifyProduct = async (event) => {
+        event.preventDefault();
+        setModifyButtonLoading(true);
+        // If image file is attached
+        if(imageFile){
+            const formData = new FormData();
+            formData.append('myFile', imageFile);
+            fetch("http://localhost:8080/upload-file",{
+            method:"POST",
+            body:formData
+            })
+            .then((response)=>{
+                imageFilePath = '/ProductImages/' + imageFile.name;
+                if(response.status===200){
+                    // Calling updateProduct function after uploading image
+                    updateProduct();
+                }
+                else if(response.status===400){
+                    console.log(response);
+                    alert("Failed to modify product. Please upload an image file of type .jpeg, .jpg or .png");
+                    setModifyButtonLoading(false);
+                }
+		        else{
+                    console.log(response);
+			        alert("Failed to modify product. Internal server error, please try again.");
+                    setModifyButtonLoading(false);
+		        }
+            })
+            .catch((err)=>{
+                console.log(err);
+                setModifyButtonLoading(false);
+            });
+
+        }
+        // If image file is not attached
+        else{
+            // Calling updateProduct function
+            updateProduct();
+        }
+    }
     
     return(
         <div className="d-md-flex flex-column align-items-center justify-content-center min-vh-100 my-2">
@@ -174,7 +214,7 @@ function ModifyProduct(props){
                     <div className="form-group row px-5 py-2 py-md-0">
                         <label for="imageFile" className="col-sm-3 col-form-label">Product Image</label>
                         <div className="col-sm-9 py-md-2">
-                            <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg"></input>
+                            <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg" onChange={(e) => setImageFile(e.target.files[0])}></input>
                         </div>
                     </div>
                     <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit" ref={modifyButtonLoading}>Modify Product</button></div>

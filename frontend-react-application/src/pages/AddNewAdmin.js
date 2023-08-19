@@ -40,6 +40,7 @@ function AddNewAdmin(){
             })
             .catch((err)=>{
                 console.log(err);
+                setAddButtonLoading(false);
             })
     }
 

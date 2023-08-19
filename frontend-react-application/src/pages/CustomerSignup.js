@@ -50,6 +50,11 @@ function CustomerSignup(){
                             setRegisterButtonLoading(false);
                         }
                     })
+                    .catch((err)=>{
+                        console.log(err);
+                        alert("Error occured.");
+                        setRegisterButtonLoading(false);
+                    });
                 }
                 else if(response.status===500){
                     console.log(response);
@@ -58,13 +63,19 @@ function CustomerSignup(){
                 }
                 else{
                     console.log(response);
-                    alert("Error occured.")
+                    alert("Error occured.");
                     setRegisterButtonLoading(false);
                 }
+            })
+            .catch((err)=>{
+                console.log(err);
+                alert("Error occured.");
+                setRegisterButtonLoading(false);
             });
         }
         else{
             alert("Password does not match.")
+            setRegisterButtonLoading(false);
         }
     }
 

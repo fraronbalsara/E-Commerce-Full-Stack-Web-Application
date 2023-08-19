@@ -20,11 +20,12 @@ function AddProduct(){
     const [weight, setWeight] = useState('');
     const [dimensions, setDimensions] = useState('');
     const [variant, setVariant] = useState('');
-    const [imageFilePath, setImageFilePath] = useState('/ProductImages/defaultProductImage.jpg');
+    const [imageFile, setImageFile] = useState();
     const [category, setCategory] = useState('Electronics');
     const [subcategory, setSubcategory] = useState('Mobile');
     const sellerEmail = sessionStorage.getItem('email');
     const [addButtonLoading, setAddButtonLoading] = ButtonSpinner("Add Product", "Adding Product...");
+    let imageFilePath = '/ProductImages/defaultProductImage.jpg';
 
     let options = null;
     let categorySelected = null;
@@ -35,12 +36,9 @@ function AddProduct(){
     const stationary = ["Books", "Paper", "Ink"];
     const other = ["Other"];
 
-    // On-click function for 'Add Product' button
-    const addProduct = async (event) => {
-        event.preventDefault();
-        setAddButtonLoading(true);
+    // Create product function, will be called within addProduct on-click function
+    function createProduct(){
         const reqBody = {name, short_summary, description, price, stock, weight, dimensions, variant, category, subcategory, sellerEmail, imageFilePath};
-        console.log(reqBody);
         fetch("http://localhost:8080/product/add-product",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -59,14 +57,49 @@ function AddProduct(){
             })
             .catch((err)=>{
                 console.log(err);
+                setAddButtonLoading(false);
             });
-        if(imageFilePath.name){
+    }
+
+    // On-click function for 'Add Product' button
+    const addProduct = async (event) => {
+        event.preventDefault();
+        setAddButtonLoading(true);
+
+        // If image file is attached
+        if(imageFile){
             const formData = new FormData();
-            formData.append('myFile', imageFilePath, imageFilePath.name);
-            console.log(imageFilePath);
-            for(let pair of formData.entries()){
-                console.log(pair[0]+ ', ' + pair[1]);
-            }
+            formData.append('myFile', imageFile);
+            fetch("http://localhost:8080/upload-file",{
+            method:"POST",
+            body:formData
+            })
+            .then((response)=>{
+                imageFilePath = '/ProductImages/' + imageFile.name;
+                if(response.status===200){
+                    // Calling createProduct function after uploading image
+                    createProduct();
+                }
+                else if(response.status===400){
+                    console.log(response);
+                    alert("Failed to add product. Please upload an image file of type .jpeg, .jpg or .png");
+                    setAddButtonLoading(false);
+                }
+		        else{
+                    console.log(response);
+			        alert("Failed to add product. Internal server error, please try again.");
+                    setAddButtonLoading(false);
+		        }
+            })
+            .catch((err)=>{
+                console.log(err);
+                setAddButtonLoading(false);
+            });
+        }
+        // If image file is not attached
+        else{
+            // Calling createProduct function
+            createProduct();
         }
     }
 
@@ -191,7 +224,7 @@ function AddProduct(){
                     <div className="form-group row px-5 py-2 py-md-0">
                         <label for="imageFile" className="col-sm-3 col-form-label">Product Image</label>
                         <div className="col-sm-9 py-md-2">
-                            <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg"></input>
+                            <input type="file" className="form-control-file" id="imageFile" accept="image/png,image/jpeg,image/jpg" onChange={(e) => setImageFile(e.target.files[0])}></input>
                         </div>
                     </div>
                     <div className="text-center px-5 pt-2 pb-4"><button className="btn" type="submit" ref={addButtonLoading}>Add Product</button></div>
