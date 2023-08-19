@@ -1,0 +1,34 @@
+package com.fsdgroup11.backendspringbootapplication.helper;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+@Component
+public class FileUploadHelper {
+
+    public final String UPLOAD_DIR="..\\frontend-react-application\\public\\ProductImages";
+
+    public boolean uploadFile(MultipartFile multipartFile){
+        boolean f = false;
+        System.out.println(UPLOAD_DIR);
+        try{
+            InputStream is = multipartFile.getInputStream();
+            byte data[] = new byte[is.available()];
+            is.read(data);
+            OutputStream os = new FileOutputStream(UPLOAD_DIR + File.separator + multipartFile.getOriginalFilename());
+            os.write(data);
+            os.flush();
+            os.close();
+            f = true;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return f;
+    }
+}
