@@ -18,7 +18,6 @@ public class FileUploadHelper {
 
     public boolean uploadFile(MultipartFile multipartFile){
         boolean f = false;
-        System.out.println(UPLOAD_DIR);
         // reading and writing file to required location
         try{
             InputStream is = multipartFile.getInputStream();
@@ -28,6 +27,7 @@ public class FileUploadHelper {
             os.write(data);
             os.flush();
             os.close();
+            is.close();
             f = true;
         }
         catch(Exception e){
